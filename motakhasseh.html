@@ -24,7 +24,7 @@
 }
 html, body {
 font-family: var(--font);
-background: linear-gradient(145deg, #0f0c29, #1e3a2f, #24243e);
+background: linear-gradient(145deg, #0a1f15, #1e3a2f, #24243e);
 min-height: 100vh;
 color: #fff;
 direction: rtl;
@@ -46,10 +46,7 @@ box-shadow: var(--glass-shadow);
 padding: 18px;
 transition: var(--transition);
 }
-.glass:hover {
-transform: translateY(-3px);
-box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-}
+.glass:hover { transform: translateY(-3px); }
 .btn {
 display: inline-flex;
 align-items: center;
@@ -69,15 +66,13 @@ color: #fff;
 .btn-primary { background: var(--primary-green); }
 .btn-primary:hover { background: #1f5a38; transform: scale(1.02); }
 .btn-orange { background: var(--primary-orange); }
-.btn-orange:hover { background: #ea580c; }
 .btn-danger { background: var(--primary-red); }
-.btn-danger:hover { background: #b02a37; }
+.btn-success { background: var(--primary-green); }
 .btn-outline {
 background: transparent;
 border: 2px solid rgba(255,255,255,0.2);
 color: #fff;
 }
-.btn-outline:hover { background: rgba(255,255,255,0.08); }
 .btn-gold { background: var(--primary-gold); color: #000; }
 .btn-sm { padding: 8px 14px; font-size: 13px; }
 .input-group { margin-bottom: 16px; }
@@ -88,9 +83,7 @@ font-weight: 500;
 color: var(--text-muted);
 margin-bottom: 5px;
 }
-.input-group input,
-.input-group select,
-.input-group textarea {
+.input-group input, .input-group select, .input-group textarea {
 width: 100%;
 padding: 11px 14px;
 border: 1px solid rgba(255,255,255,0.15);
@@ -99,18 +92,13 @@ background: rgba(255,255,255,0.06);
 color: #fff;
 font-family: var(--font);
 font-size: 15px;
-transition: var(--transition);
 outline: none;
 }
-.input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus {
+.input-group input:focus, .input-group select:focus, .input-group textarea:focus {
 border-color: var(--primary-green);
 box-shadow: 0 0 0 3px rgba(43,122,75,0.15);
-background: rgba(255,255,255,0.1);
 }
-.input-group input::placeholder,
-.input-group textarea::placeholder { color: rgba(255,255,255,0.35); }
+.input-group input::placeholder { color: rgba(255,255,255,0.35); }
 .toast-container {
 position: fixed;
 top: 20px;
@@ -128,7 +116,6 @@ pointer-events: none;
 padding: 12px 18px;
 border-radius: 14px;
 color: #fff;
-font-family: var(--font);
 font-size: 14px;
 font-weight: 500;
 backdrop-filter: blur(12px);
@@ -138,19 +125,17 @@ pointer-events: auto;
 display: flex;
 align-items: center;
 gap: 10px;
-border: 1px solid rgba(255,255,255,0.08);
 }
 .toast-success { background: rgba(43,122,75,0.92); }
 .toast-error { background: rgba(220,53,69,0.92); }
 .toast-warning { background: rgba(245,158,11,0.92); }
 .toast-info { background: rgba(59,130,246,0.92); }
 @keyframes slideDown {
-0% { opacity: 0; transform: translateY(-30px) scale(0.96); }
-100% { opacity: 1; transform: translateY(0) scale(1); }
+0% { opacity: 0; transform: translateY(-30px); }
+100% { opacity: 1; transform: translateY(0); }
 }
 .toast.hide { animation: slideUp 0.3s ease forwards; }
 @keyframes slideUp {
-0% { opacity: 1; transform: translateY(0); }
 100% { opacity: 0; transform: translateY(-30px); }
 }
 .modal-overlay {
@@ -167,8 +152,6 @@ padding: 20px;
 .modal-overlay.open { display: flex; }
 .modal-box {
 background: rgba(30,27,75,0.96);
-backdrop-filter: blur(16px);
-border: 1px solid rgba(255,255,255,0.08);
 border-radius: 24px;
 padding: 28px 22px;
 max-width: 400px;
@@ -206,14 +189,12 @@ align-items: center;
 justify-content: center;
 font-weight: 700;
 font-size: 16px;
-color: #fff;
 }
 .section-title {
 color: var(--text-muted);
 font-size: 13px;
 font-weight: 600;
 margin: 22px 0 8px;
-letter-spacing: 0.3px;
 }
 .stats-grid {
 display: grid;
@@ -247,6 +228,7 @@ font-weight: 600;
 .order-card .order-status.pending { background: rgba(245,158,11,0.2); color: var(--primary-gold); }
 .order-card .order-status.confirmed { background: rgba(59,130,246,0.2); color: var(--primary-blue); }
 .order-card .order-status.done { background: rgba(43,122,75,0.2); color: var(--primary-green); }
+.order-card .order-status.cancelled { background: rgba(220,53,69,0.2); color: var(--primary-red); }
 .order-card .order-detail { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
 .order-card .order-actions { display: flex; gap: 8px; margin-top: 10px; }
 .order-card .order-actions .btn { flex: 1; font-size: 13px; padding: 8px; }
@@ -259,12 +241,10 @@ padding: 6px 14px;
 font-family: var(--font);
 font-size: 13px;
 cursor: pointer;
-transition: var(--transition);
 display: inline-flex;
 align-items: center;
 gap: 6px;
 }
-.back-btn:hover { background: rgba(255,255,255,0.12); }
 .page-header-with-back {
 display: flex;
 align-items: center;
@@ -301,7 +281,6 @@ color: rgba(255,255,255,0.35);
 font-family: var(--font);
 font-size: 10px;
 cursor: pointer;
-transition: var(--transition);
 padding: 4px 10px;
 }
 .bottom-nav .nav-item .nav-icon { font-size: 22px; }
@@ -318,7 +297,7 @@ padding: 20px;
 .auth-box .logo { text-align: center; margin-bottom: 28px; }
 .auth-box .logo h1 { font-size: 32px; font-weight: 800; }
 .auth-box .logo h1 span { color: var(--primary-green); }
-.auth-box .logo p { color: var(--text-muted); font-size: 14px; margin-top: 2px; }
+.auth-box .logo p { color: var(--text-muted); font-size: 14px; }
 .auth-tabs {
 display: flex;
 gap: 6px;
@@ -338,7 +317,6 @@ font-family: var(--font);
 font-size: 14px;
 font-weight: 600;
 cursor: pointer;
-transition: var(--transition);
 }
 .auth-tabs button.active { background: rgba(43,122,75,0.25); color: #fff; }
 .auth-form { display: none; }
@@ -349,42 +327,7 @@ margin-top: 16px;
 color: var(--text-muted);
 font-size: 13px;
 }
-.auth-footer a { color: var(--primary-green); cursor: pointer; text-decoration: none; }
-.calendar-grid {
-display: grid;
-grid-template-columns: repeat(7, 1fr);
-gap: 4px;
-margin-top: 10px;
-}
-.calendar-day {
-text-align: center;
-padding: 8px 4px;
-border-radius: 8px;
-font-size: 12px;
-background: rgba(255,255,255,0.04);
-cursor: pointer;
-transition: var(--transition);
-}
-.calendar-day.active { background: var(--primary-green); }
-.calendar-day.busy { background: rgba(220,53,69,0.3); }
-.gallery-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 8px;
-margin-top: 10px;
-}
-.gallery-item {
-aspect-ratio: 1;
-background: rgba(255,255,255,0.05);
-border-radius: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 32px;
-cursor: pointer;
-transition: var(--transition);
-}
-.gallery-item:hover { background: rgba(255,255,255,0.1); }
+.auth-footer a { color: var(--primary-green); cursor: pointer; }
 </style>
 </head>
 <body>
@@ -423,7 +366,7 @@ transition: var(--transition);
 <label>رمز عبور</label>
 <input type="password" id="loginPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
 </div>
-<button type="submit" class="btn btn-primary">ورود</button>
+<button type="submit" class="btn btn-primary">ورود متخصص</button>
 <div class="auth-footer">حساب ندارید؟ <a onclick="switchTab('register')">ثبت‌نام کنید</a></div>
 </form>
 
@@ -467,6 +410,10 @@ transition: var(--transition);
 <label>قیمت خدمات (تومان)</label>
 <input type="number" id="registerPrice" placeholder="مثلاً ۲۵۰۰۰۰" required>
 </div>
+<div class="input-group">
+<label>شهر</label>
+<input type="text" id="registerLocation" placeholder="تهران" required>
+</div>
 <button type="submit" class="btn btn-primary">ثبت‌نام متخصص</button>
 <div class="auth-footer">قبلاً ثبت‌نام کردید؟ <a onclick="switchTab('login')">وارد شوید</a></div>
 </form>
@@ -484,13 +431,16 @@ transition: var(--transition);
 
 <div class="glass" style="margin-bottom:16px;">
 <p style="font-size:14px; opacity:0.8;">👋 خوش آمدید <strong id="welcomeName" style="color:#fff;">متخصص</strong></p>
-<p style="font-size:12px; opacity:0.4; margin-top:4px;">امروز چه کاری داری؟</p>
+<p style="font-size:12px; opacity:0.4; margin-top:4px;" id="welcomeInfo">امروز چه کاری داری؟</p>
 </div>
 
-<div class="section-title">📊 آمار امروز</div>
+<div class="section-title">🔔 اعلان‌ها</div>
+<div id="notificationsList"></div>
+
+<div class="section-title">📊 آمار من</div>
 <div class="stats-grid">
 <div class="stat-card">
-<div class="stat-value" id="statOrders">۰</div>
+<div class="stat-value" id="statPending">۰</div>
 <div class="stat-label">سفارش جدید</div>
 </div>
 <div class="stat-card">
@@ -510,28 +460,11 @@ transition: var(--transition);
 <div class="section-title">📋 سفارش‌های جدید</div>
 <div id="pendingOrders"></div>
 
-<div class="section-title">✅ در حال انجام</div>
+<div class="section-title">🔧 در حال انجام</div>
 <div id="activeOrders"></div>
 
-<div class="section-title">📅 تقویم هفتگی</div>
-<div class="glass">
-<div class="calendar-grid" id="calendarGrid"></div>
-</div>
-
-<div class="section-title">🖼️ گالری نمونه‌کار</div>
-<div class="glass">
-<div class="gallery-grid" id="galleryGrid">
-<div class="gallery-item" onclick="addGalleryItem()">➕</div>
-<div class="gallery-item">📱</div>
-<div class="gallery-item">💻</div>
-</div>
-</div>
-
-<div class="section-title">📢 آگهی‌های من</div>
-<div class="glass">
-<button class="btn btn-orange btn-sm" onclick="createAd()">➕ ایجاد آگهی جدید</button>
-<div id="adsList" style="margin-top:12px;"></div>
-</div>
+<div class="section-title">✅ انجام‌شده</div>
+<div id="doneOrders"></div>
 
 <div style="margin-top:24px;">
 <button class="btn btn-danger" onclick="handleLogout()">🚪 خروج</button>
@@ -552,20 +485,18 @@ transition: var(--transition);
 <button class="nav-item" data-page="income" onclick="navTo('income')">
 <span class="nav-icon">💰</span><span class="nav-label">درآمد</span>
 </button>
-<button class="nav-item" data-page="profile" onclick="navTo('profile')">
-<span class="nav-icon">👤</span><span class="nav-label">پروفایل</span>
-</button>
 <button class="nav-item" data-page="reviews" onclick="navTo('reviews')">
 <span class="nav-icon">⭐</span><span class="nav-label">نظرات</span>
 </button>
+<button class="nav-item" data-page="profile" onclick="navTo('profile')">
+<span class="nav-icon">👤</span><span class="nav-label">پروفایل</span>
+</button>
 </nav>
+<script src="shared.js"></script>
 <script>
-const AD_TYPES = {
-normal: { name: 'عادی', price: 0, color: 'var(--primary-blue)' },
-special: { name: 'ویژه', price: 50000, color: 'var(--primary-green)' },
-urgent: { name: 'فوری', price: 100000, color: 'var(--primary-orange)' },
-banner: { name: 'نمایشی', price: 200000, color: 'var(--primary-gold)' }
-};
+// ================================================================
+// چاره‌ساز | پنل متخصص | متصل به shared.js
+// ================================================================
 
 let modalCallback = null;
 
@@ -607,26 +538,19 @@ document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'
 document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
 }
 
-function getUsers() { return JSON.parse(localStorage.getItem('chare_expert_users') || '[]'); }
-function saveUsers(u) { localStorage.setItem('chare_expert_users', JSON.stringify(u)); }
-function getCurrentUser() { return JSON.parse(localStorage.getItem('chare_expert_current') || 'null'); }
-function setCurrentUser(u) { localStorage.setItem('chare_expert_current', JSON.stringify(u)); }
-function getOrders() { return JSON.parse(localStorage.getItem('chare_customer_orders') || '[]'); }
-function saveOrders(o) { localStorage.setItem('chare_customer_orders', JSON.stringify(o)); }
-function getAds() { return JSON.parse(localStorage.getItem('chare_expert_ads') || '[]'); }
-function saveAds(a) { localStorage.setItem('chare_expert_ads', JSON.stringify(a)); }
-
+// ================================================================
+// احراز هویت
+// ================================================================
 function handleLogin(e) {
 e.preventDefault();
 const phone = document.getElementById('loginPhone').value.trim();
 const pass = document.getElementById('loginPassword').value;
 if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
 if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
-const users = getUsers();
-const user = users.find(u => u.phone === phone && u.password === pass);
-if (!user) { showToast('اطلاعات صحیح نیست', 'error'); return; }
-setCurrentUser(user);
-showToast(`خوش آمدید ${user.name}`, 'success');
+const expert = findExpertByPhone(phone);
+if (!expert || expert.password !== pass) { showToast('اطلاعات صحیح نیست', 'error'); return; }
+setCurrentExpert(expert);
+showToast(`خوش آمدید ${expert.name}`, 'success');
 showDashboard();
 }
 
@@ -639,6 +563,7 @@ const confirm = document.getElementById('registerPasswordConfirm').value;
 const industry = document.getElementById('registerIndustry').value;
 const sub = document.getElementById('registerSub').value.trim();
 const price = parseInt(document.getElementById('registerPrice').value);
+const location = document.getElementById('registerLocation').value.trim();
 
 if (!name || name.length < 3) { showToast('نام کامل الزامی', 'error'); return; }
 if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
@@ -647,29 +572,24 @@ if (pass !== confirm) { showToast('رمز مطابقت ندارد', 'error'); re
 if (!industry) { showToast('صنف را انتخاب کنید', 'error'); return; }
 if (!sub) { showToast('تخصص را وارد کنید', 'error'); return; }
 if (!price || price < 1000) { showToast('قیمت معتبر وارد کنید', 'error'); return; }
+if (!location) { showToast('شهر را وارد کنید', 'error'); return; }
 
-const users = getUsers();
-if (users.find(u => u.phone === phone)) { showToast('این شماره قبلاً ثبت شده', 'error'); return; }
-
-const newUser = {
-id: Date.now().toString(),
+const result = addExpert({
 name, phone, password: pass,
-industry, sub, price,
-rating: 0,
-wallet: 0,
-completedOrders: 0,
-createdAt: new Date().toISOString()
-};
-users.push(newUser);
-saveUsers(users);
-setCurrentUser(newUser);
+industry, sub, price, location,
+image: '🔧', desc: sub, wallet: 0
+});
+
+if (!result.success) { showToast(result.error, 'error'); return; }
+
+setCurrentExpert(result.expert);
 showToast(`ثبت‌نام موفق! خوش آمدید ${name}`, 'success');
 showDashboard();
 }
 
 function handleLogout() {
 openModal('خروج', 'آیا مطمئن هستید؟', function() {
-localStorage.removeItem('chare_expert_current');
+setCurrentExpert(null);
 showToast('خارج شدید', 'info');
 showAuthPage();
 });
@@ -684,7 +604,7 @@ switchTab('login');
 }
 
 function showDashboard() {
-const user = getCurrentUser();
+const user = getCurrentExpert();
 if (!user) { showAuthPage(); return; }
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('dashboardPage').style.display = 'block';
@@ -694,35 +614,57 @@ document.getElementById('appPagesContainer').innerHTML = '';
 document.getElementById('userNameDisplay').textContent = user.name;
 document.getElementById('welcomeName').textContent = user.name;
 document.getElementById('userAvatar').textContent = user.name.charAt(0);
+document.getElementById('welcomeInfo').textContent = `${user.industry} • ${user.sub}`;
 
 renderStats();
+renderNotifications();
 renderOrders();
-renderCalendar();
-renderAds();
 
 document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
 document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
 }
 
+// ================================================================
+// آمار
+// ================================================================
 function renderStats() {
-const user = getCurrentUser();
+const user = getCurrentExpert();
 if (!user) return;
-const orders = getOrders().filter(o => o.expertId === user.id);
+const orders = getOrdersByExpert(user.id);
 const pending = orders.filter(o => o.status === 'pending').length;
 const done = orders.filter(o => o.status === 'done').length;
-const income = orders.filter(o => o.status === 'done').reduce((sum, o) => sum + (o.price || 0), 0);
-document.getElementById('statOrders').textContent = pending;
+const income = orders.filter(o => o.status === 'done').reduce((s, o) => s + (o.price || 0), 0);
+
+document.getElementById('statPending').textContent = pending;
 document.getElementById('statIncome').textContent = income.toLocaleString();
 document.getElementById('statRating').textContent = user.rating || '-';
 document.getElementById('statDone').textContent = done;
 }
 
-function renderOrders() {
-const user = getCurrentUser();
+function renderNotifications() {
+const user = getCurrentExpert();
 if (!user) return;
-const orders = getOrders().filter(o => o.expertId === user.id);
+const notifications = getNotificationsFor(user.id).filter(n => !n.read).slice(0, 3);
+const c = document.getElementById('notificationsList');
+if (!notifications.length) { c.innerHTML = ''; return; }
+c.innerHTML = notifications.map(n => `
+<div class="glass" style="margin-bottom:8px; padding:12px; border-right:3px solid var(--primary-green);">
+<div style="font-size:13px; font-weight:600;">${n.title}</div>
+<div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${n.message}</div>
+</div>
+`).join('');
+}
+
+// ================================================================
+// سفارش‌ها
+// ================================================================
+function renderOrders() {
+const user = getCurrentExpert();
+if (!user) return;
+const orders = getOrdersByExpert(user.id);
 const pending = orders.filter(o => o.status === 'pending');
 const active = orders.filter(o => o.status === 'confirmed');
+const done = orders.filter(o => o.status === 'done');
 
 const pendingC = document.getElementById('pendingOrders');
 if (!pending.length) {
@@ -731,13 +673,14 @@ pendingC.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div
 pendingC.innerHTML = pending.map(o => `
 <div class="order-card">
 <div class="order-header">
-<span style="font-weight:600;">${o.expertName || 'سفارش'}</span>
+<span style="font-weight:600;">👤 ${o.customerName || 'مشتری'}</span>
 <span class="order-status pending">در انتظار</span>
 </div>
 <div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
-<div class="order-detail">📅 ${new Date(o.date).toLocaleDateString('fa-IR')}</div>
+<div class="order-detail">📅 ${formatDate(o.date)}</div>
+<div class="order-detail">🔒 مبلغ در امانت</div>
 <div class="order-actions">
-<button class="btn btn-primary btn-sm" onclick="acceptOrder('${o.id}')">✅ قبول</button>
+<button class="btn btn-success btn-sm" onclick="acceptOrder('${o.id}')">✅ قبول</button>
 <button class="btn btn-danger btn-sm" onclick="rejectOrder('${o.id}')">❌ رد</button>
 </div>
 </div>
@@ -751,7 +694,7 @@ activeC.innerHTML = `<div class="empty-state"><div class="empty-icon">🔧</div>
 activeC.innerHTML = active.map(o => `
 <div class="order-card">
 <div class="order-header">
-<span style="font-weight:600;">${o.expertName || 'سفارش'}</span>
+<span style="font-weight:600;">👤 ${o.customerName || 'مشتری'}</span>
 <span class="order-status confirmed">در حال انجام</span>
 </div>
 <div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
@@ -761,138 +704,64 @@ activeC.innerHTML = active.map(o => `
 </div>
 `).join('');
 }
+
+const doneC = document.getElementById('doneOrders');
+if (!done.length) {
+doneC.innerHTML = `<div class="empty-state"><div class="empty-icon">✅</div><div>سفارش انجام‌شده‌ای نیست</div></div>`;
+} else {
+doneC.innerHTML = done.slice(-5).reverse().map(o => `
+<div class="order-card">
+<div class="order-header">
+<span style="font-weight:600;">👤 ${o.customerName || 'مشتری'}</span>
+<span class="order-status done">${o.escrowReleased ? 'پرداخت شد' : 'در انتظار تأیید مشتری'}</span>
+</div>
+<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
+</div>
+`).join('');
+}
 }
 
+// ================================================================
+// اقدامات متخصص (اتصال به مشتری)
+// ================================================================
 function acceptOrder(id) {
-let orders = getOrders();
-orders = orders.map(o => o.id === id ? { ...o, status: 'confirmed' } : o);
-saveOrders(orders);
+openModal('قبول سفارش', 'آیا سفارش را قبول می‌کنید؟', function() {
+const result = updateOrderStatus(id, 'confirmed');
+if (result.success) {
 showToast('سفارش قبول شد', 'success');
 renderOrders();
 renderStats();
 }
+});
+}
 
 function rejectOrder(id) {
 openModal('رد سفارش', 'آیا مطمئن هستید؟', function() {
-let orders = getOrders();
-orders = orders.map(o => o.id === id ? { ...o, status: 'cancelled' } : o);
-saveOrders(orders);
+const result = updateOrderStatus(id, 'cancelled');
+if (result.success) {
 showToast('سفارش رد شد', 'warning');
 renderOrders();
 renderStats();
+}
 });
 }
 
 function completeOrder(id) {
-openModal('اتمام کار', 'آیا کار تمام شده؟', function() {
-let orders = getOrders();
-orders = orders.map(o => o.id === id ? { ...o, status: 'done' } : o);
-saveOrders(orders);
-showToast('کار تمام شد', 'success');
+openModal('اتمام کار', 'آیا کار تمام شده؟ پس از تأیید مشتری، پول به کیف پول شما واریز می‌شود.', function() {
+const result = updateOrderStatus(id, 'done');
+if (result.success) {
+showToast('کار تمام شد. در انتظار تأیید مشتری', 'success');
 renderOrders();
 renderStats();
+}
 });
 }
 
-function renderCalendar() {
-const days = ['شنبه', 'یک', 'دو', 'سه', 'چهار', 'پنج', 'جمعه'];
-const grid = document.getElementById('calendarGrid');
-grid.innerHTML = days.map((d, i) => `
-<div class="calendar-day ${i === 2 || i === 4 ? 'busy' : ''}" onclick="toggleDay(${i})">${d}</div>
-`).join('');
-}
-
-function toggleDay(i) {
-showToast(`روز ${i} تغییر کرد`, 'info');
-}
-
-function addGalleryItem() {
-const grid = document.getElementById('galleryGrid');
-const icons = ['🖼️', '📸', '🎨', '✨', '🌟'];
-const random = icons[Math.floor(Math.random() * icons.length)];
-const newItem = document.createElement('div');
-newItem.className = 'gallery-item';
-newItem.textContent = random;
-grid.insertBefore(newItem, grid.firstChild);
-showToast('به گالری اضافه شد', 'success');
-}
-
-function createAd() {
-const html = `
-<div class="input-group">
-<label>نوع آگهی</label>
-<select id="adType">
-<option value="normal">عادی (رایگان)</option>
-<option value="special">ویژه (۵۰,۰۰۰ تومان)</option>
-<option value="urgent">فوری (۱۰۰,۰۰۰ تومان)</option>
-<option value="banner">نمایشی (۲۰۰,۰۰۰ تومان)</option>
-</select>
-</div>
-<div class="input-group">
-<label>متن آگهی</label>
-<textarea id="adText" rows="3" placeholder="آگهی خود را بنویسید..."></textarea>
-</div>
-<button class="btn btn-primary" onclick="saveAd()">ثبت آگهی</button>
-`;
-document.getElementById('modalTitle').textContent = '📢 ایجاد آگهی';
-document.getElementById('modalBody').innerHTML = html;
-document.getElementById('modalOverlay').classList.add('open');
-}
-
-function saveAd() {
-const type = document.getElementById('adType').value;
-const text = document.getElementById('adText').value.trim();
-if (!text) { showToast('متن آگهی الزامیست', 'error'); return; }
-const user = getCurrentUser();
-const ads = getAds();
-ads.push({
-id: Date.now().toString(),
-userId: user.id,
-type: type,
-text: text,
-date: new Date().toISOString()
-});
-saveAds(ads);
-closeModal();
-showToast('آگهی ثبت شد', 'success');
-renderAds();
-}
-
-function renderAds() {
-const user = getCurrentUser();
-if (!user) return;
-const ads = getAds().filter(a => a.userId === user.id);
-const container = document.getElementById('adsList');
-if (!ads.length) {
-container.innerHTML = `<div style="font-size:12px; color:var(--text-muted); text-align:center;">هنوز آگهی ندارید</div>`;
-return;
-}
-container.innerHTML = ads.map(a => {
-const typeInfo = AD_TYPES[a.type] || AD_TYPES.normal;
-return `
-<div style="background:rgba(255,255,255,0.04); border-radius:10px; padding:10px; margin-bottom:8px;">
-<div style="display:flex; justify-content:space-between; align-items:center;">
-<span style="font-size:12px; color:${typeInfo.color};">${typeInfo.name}</span>
-<button class="btn btn-danger btn-sm" onclick="deleteAd('${a.id}')">حذف</button>
-</div>
-<div style="font-size:13px; margin-top:6px;">${a.text}</div>
-</div>
-`;
-}).join('');
-}
-
-function deleteAd(id) {
-openModal('حذف آگهی', 'آیا مطمئن هستید؟', function() {
-let ads = getAds();
-ads = ads.filter(a => a.id !== id);
-saveAds(ads);
-showToast('آگهی حذف شد', 'info');
-renderAds();
-});
-}
-
+// ================================================================
+// ناوبری
+// ================================================================
 function navTo(page) {
-const user = getCurrentUser();
+const user = getCurrentExpert();
 if (!user) { showAuthPage(); return; }
 document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
 const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
@@ -900,38 +769,56 @@ if (navBtn) navBtn.classList.add('active');
 
 if (page === 'dashboard') { closeApp(); return; }
 
-const titles = { orders: '📋 سفارش‌ها', income: '💰 درآمد', profile: '👤 پروفایل', reviews: '⭐ نظرات' };
+const titles = { orders: '📋 سفارش‌ها', income: '💰 درآمد', reviews: '⭐ نظرات', profile: '👤 پروفایل' };
 let content = '';
 
 if (page === 'orders') {
-const orders = getOrders().filter(o => o.expertId === user.id);
+const orders = getOrdersByExpert(user.id);
 if (!orders.length) {
 content = `<div class="empty-state"><div class="empty-icon">📭</div><div>سفارشی ندارید</div></div>`;
 } else {
 const statusMap = { pending: 'در انتظار', confirmed: 'در حال انجام', done: 'انجام شده', cancelled: 'لغو شده' };
-const statusClass = { pending: 'pending', confirmed: 'confirmed', done: 'done', cancelled: 'pending' };
+const statusClass = { pending: 'pending', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled' };
 content = orders.map(o => `
 <div class="order-card">
 <div class="order-header">
-<span style="font-weight:600;">${o.expertName}</span>
+<span style="font-weight:600;">${o.customerName}</span>
 <span class="order-status ${statusClass[o.status]}">${statusMap[o.status]}</span>
 </div>
 <div class="order-detail">💰 ${o.price ? o.price.toLocaleString() : 'رایگان'}</div>
+<div class="order-detail">📅 ${formatDate(o.date)}</div>
 </div>
 `).join('');
 }
 } else if (page === 'income') {
-const orders = getOrders().filter(o => o.expertId === user.id && o.status === 'done');
+const orders = getOrdersByExpert(user.id).filter(o => o.status === 'done' && o.escrowReleased);
 const total = orders.reduce((s, o) => s + (o.price || 0), 0);
+const wallet = user.wallet || 0;
 content = `
 <div class="stats-grid">
-<div class="stat-card"><div class="stat-value">${total.toLocaleString()}</div><div class="stat-label">کل درآمد (تومان)</div></div>
-<div class="stat-card"><div class="stat-value">${orders.length}</div><div class="stat-label">سفارش انجام‌شده</div></div>
+<div class="stat-card"><div class="stat-value">${total.toLocaleString()}</div><div class="stat-label">کل درآمد</div></div>
+<div class="stat-card"><div class="stat-value">${wallet.toLocaleString()}</div><div class="stat-label">موجودی کیف پول</div></div>
 </div>
 <div class="glass" style="margin-top:12px;">
 <button class="btn btn-primary" onclick="requestSettlement()">💸 درخواست تسویه</button>
 </div>
 `;
+} else if (page === 'reviews') {
+const reviews = getReviewsByExpert(user.id);
+if (!reviews.length) {
+content = `<div class="empty-state"><div class="empty-icon">⭐</div><div>هنوز نظری ثبت نشده</div></div>`;
+} else {
+content = reviews.map(r => `
+<div class="order-card">
+<div class="order-header">
+<span style="font-weight:600;">${r.customerName}</span>
+<span style="color: var(--primary-gold);">${'⭐'.repeat(r.rating)}</span>
+</div>
+<div class="order-detail">${r.text}</div>
+<div class="order-detail">📅 ${formatDate(r.createdAt)}</div>
+</div>
+`).join('');
+}
 } else if (page === 'profile') {
 content = `
 <div class="input-group"><label>نام</label><input type="text" value="${user.name}" id="profileName"></div>
@@ -939,10 +826,9 @@ content = `
 <div class="input-group"><label>صنف</label><input type="text" value="${user.industry}" disabled></div>
 <div class="input-group"><label>تخصص</label><input type="text" value="${user.sub}" disabled></div>
 <div class="input-group"><label>قیمت</label><input type="number" value="${user.price}" id="profilePrice"></div>
+<div class="input-group"><label>شهر</label><input type="text" value="${user.location || ''}" id="profileLocation"></div>
 <button class="btn btn-primary" onclick="updateProfile()">ذخیره</button>
 `;
-} else if (page === 'reviews') {
-content = `<div class="empty-state"><div class="empty-icon">⭐</div><div>هنوز نظری ثبت نشده</div></div>`;
 }
 
 const container = document.getElementById('appPagesContainer');
@@ -950,7 +836,7 @@ container.innerHTML = `
 <div class="page active">
 <div class="page-header-with-back">
 <button class="back-btn" onclick="navTo('dashboard')">← بازگشت</button>
-<h2>${titles[page] || page}</h2>
+<h2>${titles[page]}</h2>
 </div>
 <div class="glass">${content}</div>
 </div>
@@ -968,30 +854,46 @@ document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList
 function updateProfile() {
 const name = document.getElementById('profileName').value.trim();
 const price = parseInt(document.getElementById('profilePrice').value);
+const location = document.getElementById('profileLocation').value.trim();
 if (!name) { showToast('نام الزامیست', 'error'); return; }
-const user = getCurrentUser();
-let users = getUsers();
-const idx = users.findIndex(u => u.id === user.id);
-users[idx].name = name;
-if (price) users[idx].price = price;
-saveUsers(users);
-setCurrentUser(users[idx]);
+const user = getCurrentExpert();
+const experts = getAllExperts();
+const idx = experts.findIndex(e => e.id === user.id);
+if (idx === -1) return;
+experts[idx].name = name;
+if (price) experts[idx].price = price;
+if (location) experts[idx].location = location;
+saveAllExperts(experts);
+setCurrentExpert(experts[idx]);
 showToast('پروفایل به‌روز شد', 'success');
 navTo('profile');
 }
 
 function requestSettlement() {
-openModal('تسویه', 'درخواست تسویه ارسال شد. بعد از تأیید، مبلغ به حساب شما واریز می‌شود.', function() {
+openModal('تسویه', 'درخواست تسویه ارسال شد. بعد از تأیید مدیریت، مبلغ به حساب شما واریز می‌شود.', function() {
 showToast('درخواست تسویه ثبت شد', 'success');
 });
 }
 
+// ================================================================
+// راه‌اندازی
+// ================================================================
 (function init() {
-const user = getCurrentUser();
+const user = getCurrentExpert();
 if (user) { showDashboard(); } else { showAuthPage(); }
 })();
 
-console.log('🔧 پنل متخصص چاره‌ساز بارگذاری شد.');
+// گوش دادن به تغییرات از پنل مشتری
+window.addEventListener('chare_data_changed', function() {
+const user = getCurrentExpert();
+if (user && document.getElementById('dashboardPage').style.display !== 'none') {
+renderOrders();
+renderStats();
+renderNotifications();
+}
+});
+
+console.log('🔧 پنل متخصص (متصل) بارگذاری شد.');
 </script>
 </body>
 </html>
