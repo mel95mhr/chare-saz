@@ -46,10 +46,7 @@ box-shadow: var(--glass-shadow);
 padding: 18px;
 transition: var(--transition);
 }
-.glass:hover {
-transform: translateY(-3px);
-box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-}
+.glass:hover { transform: translateY(-3px); }
 .btn {
 display: inline-flex;
 align-items: center;
@@ -76,7 +73,6 @@ background: transparent;
 border: 2px solid rgba(255,255,255,0.2);
 color: #fff;
 }
-.btn-outline:hover { background: rgba(255,255,255,0.08); }
 .btn-sm { padding: 8px 14px; font-size: 13px; }
 .btn-xs { padding: 6px 10px; font-size: 12px; }
 .input-group { margin-bottom: 16px; }
@@ -87,9 +83,7 @@ font-weight: 500;
 color: var(--text-muted);
 margin-bottom: 5px;
 }
-.input-group input,
-.input-group select,
-.input-group textarea {
+.input-group input, .input-group select {
 width: 100%;
 padding: 11px 14px;
 border: 1px solid rgba(255,255,255,0.15);
@@ -98,15 +92,11 @@ background: rgba(255,255,255,0.06);
 color: #fff;
 font-family: var(--font);
 font-size: 15px;
-transition: var(--transition);
 outline: none;
 }
-.input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus {
+.input-group input:focus, .input-group select:focus {
 border-color: var(--primary-blue);
 box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
-background: rgba(255,255,255,0.1);
 }
 .input-group input::placeholder { color: rgba(255,255,255,0.35); }
 .toast-container {
@@ -126,7 +116,6 @@ pointer-events: none;
 padding: 12px 18px;
 border-radius: 14px;
 color: #fff;
-font-family: var(--font);
 font-size: 14px;
 font-weight: 500;
 backdrop-filter: blur(12px);
@@ -136,7 +125,6 @@ pointer-events: auto;
 display: flex;
 align-items: center;
 gap: 10px;
-border: 1px solid rgba(255,255,255,0.08);
 }
 .toast-success { background: rgba(43,122,75,0.92); }
 .toast-error { background: rgba(220,53,69,0.92); }
@@ -148,7 +136,6 @@ border: 1px solid rgba(255,255,255,0.08);
 }
 .toast.hide { animation: slideUp 0.3s ease forwards; }
 @keyframes slideUp {
-0% { opacity: 1; transform: translateY(0); }
 100% { opacity: 0; transform: translateY(-30px); }
 }
 .modal-overlay {
@@ -165,14 +152,10 @@ padding: 20px;
 .modal-overlay.open { display: flex; }
 .modal-box {
 background: rgba(30,27,75,0.96);
-backdrop-filter: blur(16px);
-border: 1px solid rgba(255,255,255,0.08);
 border-radius: 24px;
 padding: 28px 22px;
 max-width: 400px;
 width: 100%;
-max-height: 90vh;
-overflow-y: auto;
 }
 .modal-box .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
 .modal-box .modal-body { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
@@ -210,7 +193,6 @@ color: var(--text-muted);
 font-size: 13px;
 font-weight: 600;
 margin: 22px 0 8px;
-letter-spacing: 0.3px;
 }
 .stats-grid {
 display: grid;
@@ -240,24 +222,6 @@ align-items: center;
 .list-item .item-info .item-name { font-size: 14px; font-weight: 600; }
 .list-item .item-info .item-detail { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 .list-item .item-actions { display: flex; gap: 6px; }
-.filter-row {
-display: flex;
-gap: 8px;
-flex-wrap: wrap;
-margin-bottom: 12px;
-}
-.filter-row input, .filter-row select {
-flex: 1;
-min-width: 100px;
-padding: 8px 12px;
-border: 1px solid rgba(255,255,255,0.1);
-border-radius: 10px;
-background: rgba(255,255,255,0.05);
-color: #fff;
-font-family: var(--font);
-font-size: 13px;
-outline: none;
-}
 .back-btn {
 background: rgba(255,255,255,0.06);
 border: 1px solid rgba(255,255,255,0.08);
@@ -267,12 +231,10 @@ padding: 6px 14px;
 font-family: var(--font);
 font-size: 13px;
 cursor: pointer;
-transition: var(--transition);
 display: inline-flex;
 align-items: center;
 gap: 6px;
 }
-.back-btn:hover { background: rgba(255,255,255,0.12); }
 .page-header-with-back {
 display: flex;
 align-items: center;
@@ -309,7 +271,6 @@ color: rgba(255,255,255,0.35);
 font-family: var(--font);
 font-size: 10px;
 cursor: pointer;
-transition: var(--transition);
 padding: 4px 10px;
 }
 .bottom-nav .nav-item .nav-icon { font-size: 22px; }
@@ -326,7 +287,7 @@ padding: 20px;
 .auth-box .logo { text-align: center; margin-bottom: 28px; }
 .auth-box .logo h1 { font-size: 32px; font-weight: 800; }
 .auth-box .logo h1 span { color: var(--primary-blue); }
-.auth-box .logo p { color: var(--text-muted); font-size: 14px; margin-top: 2px; }
+.auth-box .logo p { color: var(--text-muted); font-size: 14px; }
 .auth-form { display: none; }
 .auth-form.active { display: block; }
 .auth-footer {
@@ -335,7 +296,6 @@ margin-top: 16px;
 color: var(--text-muted);
 font-size: 13px;
 }
-.auth-footer a { color: var(--primary-blue); cursor: pointer; text-decoration: none; }
 .badge {
 display: inline-block;
 padding: 2px 10px;
@@ -350,6 +310,25 @@ font-weight: 600;
 </style>
 </head>
 <body>
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+<div class="modal-box">
+<div class="modal-title" id="modalTitle">تأیید</div>
+<div class="modal-body" id="modalBody">آیا مطمئن هستید؟</div>
+<div class="modal-actions">
+<button class="btn btn-outline btn-sm" onclick="closeModal()">انصراف</button>
+<button class="btn btn-primary btn-sm" id="modalConfirmBtn">تأیید</button>
+</div>
+</div>
+</div>
+
+<div class="app-wrapper" id="app">
+
+<div class="auth-page" id="authPage">
+<div class="auth-box glass">
+<div class="logo">
+<h1>چاره‌<
 <div class="toast-container" id="toastContainer"></div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -400,25 +379,32 @@ font-weight: 600;
 
 <div class="glass" style="margin-bottom:16px;">
 <p style="font-size:14px; opacity:0.8;">👋 خوش آمدید <strong id="welcomeName" style="color:#fff;">مدیر</strong></p>
-<p style="font-size:12px; opacity:0.4; margin-top:4px;">اتاق فرماندهی چاره‌ساز</p>
+<p style="font-size:12px; opacity:0.4; margin-top:4px;">اتاق فرماندهی چاره‌ساز — نظارت کلی</p>
 </div>
 
-<div class="section-title">📈 آمار کلی</div>
+<div class="section-title">📈 آمار کلی سیستم</div>
 <div class="stats-grid">
 <div class="stat-card"><div class="stat-value" id="statUsers">۰</div><div class="stat-label">کاربران</div></div>
 <div class="stat-card"><div class="stat-value" id="statExperts">۰</div><div class="stat-label">متخصصان</div></div>
-<div class="stat-card"><div class="stat-value" id="statOrders">۰</div><div class="stat-label">سفارش‌ها</div></div>
-<div class="stat-card"><div class="stat-value" id="statIncome">۰</div><div class="stat-label">درآمد (تومان)</div></div>
+<div class="stat-card"><div class="stat-value" id="statOrders">۰</div><div class="stat-label">کل سفارش‌ها</div></div>
+<div class="stat-card"><div class="stat-value" id="statIncome">۰</div><div class="stat-label">درآمد کل</div></div>
 </div>
 
-<div class="section-title">👥 آخرین کاربران</div>
-<div id="recentUsers"></div>
+<div class="section-title">📊 تفکیک سفارش‌ها</div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value" id="statPending" style="color:var(--primary-gold);">۰</div><div class="stat-label">در انتظار</div></div>
+<div class="stat-card"><div class="stat-value" id="statActive" style="color:var(--primary-blue);">۰</div><div class="stat-label">در حال انجام</div></div>
+<div class="stat-card"><div class="stat-value" id="statDone" style="color:var(--primary-green);">۰</div><div class="stat-label">انجام شده</div></div>
+<div class="stat-card"><div class="stat-value" id="statCancelled" style="color:var(--primary-red);">۰</div><div class="stat-label">لغو شده</div></div>
+</div>
 
-<div class="section-title">🔧 آخرین متخصصان</div>
-<div id="recentExperts"></div>
-
-<div class="section-title">📦 آخرین سفارش‌ها</div>
-<div id="recentOrders"></div>
+<div class="section-title">⚠️ آمار تخلفات</div>
+<div class="glass">
+<div style="display:flex; justify-content:space-between; padding:8px 0;">
+<span>تعداد تخلفات ثبت‌شده</span>
+<strong id="statViolations" style="color:var(--primary-red);">۰</strong>
+</div>
+</div>
 
 <div style="margin-top:24px;">
 <button class="btn btn-danger" onclick="handleLogout()">🚪 خروج</button>
@@ -439,14 +425,19 @@ font-weight: 600;
 <button class="nav-item" data-page="experts" onclick="navTo('experts')">
 <span class="nav-icon">🔧</span><span class="nav-label">متخصصان</span>
 </button>
-<button class="nav-item" data-page="orders" onclick="navTo('orders')">
-<span class="nav-icon">📦</span><span class="nav-label">سفارش‌ها</span>
+<button class="nav-item" data-page="stats" onclick="navTo('stats')">
+<span class="nav-icon">📊</span><span class="nav-label">آمار</span>
 </button>
 <button class="nav-item" data-page="violations" onclick="navTo('violations')">
 <span class="nav-icon">⚠️</span><span class="nav-label">تخلفات</span>
 </button>
 </nav>
+<script src="shared.js"></script>
 <script>
+// ================================================================
+// چاره‌ساز | پنل مدیریت | متصل به shared.js
+// ================================================================
+
 const ADMIN_CREDS = { username: 'admin', password: 'admin123' };
 
 let modalCallback = null;
@@ -482,11 +473,16 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
 if (e.target === this) closeModal();
 });
 
-function getCustomerUsers() { return JSON.parse(localStorage.getItem('chare_customer_users') || '[]'); }
-function getExpertUsers() { return JSON.parse(localStorage.getItem('chare_expert_users') || '[]'); }
-function getOrders() { return JSON.parse(localStorage.getItem('chare_customer_orders') || '[]'); }
-function getAdminUser() { return JSON.parse(localStorage.getItem('chare_admin_current') || 'null'); }
-function setAdminUser(u) { localStorage.setItem('chare_admin_current', JSON.stringify(u)); }
+function getAdminSession() {
+try {
+return JSON.parse(localStorage.getItem('chare_admin_session') || 'null');
+} catch (e) { return null; }
+}
+
+function setAdminSession(s) {
+if (s) localStorage.setItem('chare_admin_session', JSON.stringify(s));
+else localStorage.removeItem('chare_admin_session');
+}
 
 function handleLogin(e) {
 e.preventDefault();
@@ -496,15 +492,14 @@ if (username !== ADMIN_CREDS.username || password !== ADMIN_CREDS.password) {
 showToast('نام کاربری یا رمز اشتباه است', 'error');
 return;
 }
-const admin = { username: username, name: 'مدیر کل', loginAt: new Date().toISOString() };
-setAdminUser(admin);
+setAdminSession({ username, loginAt: new Date().toISOString() });
 showToast('خوش آمدید مدیر', 'success');
 showDashboard();
 }
 
 function handleLogout() {
 openModal('خروج', 'آیا مطمئن هستید؟', function() {
-localStorage.removeItem('chare_admin_current');
+setAdminSession(null);
 showToast('خارج شدید', 'info');
 showAuthPage();
 });
@@ -518,132 +513,74 @@ document.getElementById('appPagesContainer').innerHTML = '';
 }
 
 function showDashboard() {
-const admin = getAdminUser();
-if (!admin) { showAuthPage(); return; }
+const session = getAdminSession();
+if (!session) { showAuthPage(); return; }
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('dashboardPage').style.display = 'block';
 document.getElementById('bottomNav').style.display = 'flex';
 document.getElementById('appPagesContainer').innerHTML = '';
 
-document.getElementById('userNameDisplay').textContent = admin.name;
-document.getElementById('welcomeName').textContent = admin.name;
-document.getElementById('userAvatar').textContent = admin.name.charAt(0);
+document.getElementById('userNameDisplay').textContent = 'مدیر کل';
+document.getElementById('welcomeName').textContent = 'مدیر کل';
+document.getElementById('userAvatar').textContent = 'م';
 
 renderStats();
-renderRecentUsers();
-renderRecentExperts();
-renderRecentOrders();
 
 document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
 document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
 }
 
+// ================================================================
+// آمار کلی (فقط اعداد، بدون جزئیات شخصی)
+// ================================================================
 function renderStats() {
-const users = getCustomerUsers();
-const experts = getExpertUsers();
-const orders = getOrders();
-const income = orders.filter(o => o.status === 'done').reduce((s, o) => s + (o.price || 0), 0);
+const stats = getSystemStats();
 
-document.getElementById('statUsers').textContent = users.length;
-document.getElementById('statExperts').textContent = experts.length;
-document.getElementById('statOrders').textContent = orders.length;
-document.getElementById('statIncome').textContent = income.toLocaleString();
-}
+document.getElementById('statUsers').textContent = stats.totalUsers;
+document.getElementById('statExperts').textContent = stats.totalExperts;
+document.getElementById('statOrders').textContent = stats.totalOrders;
+document.getElementById('statIncome').textContent = stats.totalIncome.toLocaleString();
 
-function renderRecentUsers() {
-const users = getCustomerUsers().slice(-3).reverse();
-const c = document.getElementById('recentUsers');
-if (!users.length) {
-c.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><div>کاربری ثبت نشده</div></div>`;
-return;
-}
-c.innerHTML = users.map(u => `
-<div class="list-item">
-<div class="item-info">
-<div class="item-name">${u.name}</div>
-<div class="item-detail">${u.phone}</div>
-</div>
-<span class="badge badge-info">کاربر</span>
-</div>
-`).join('');
+document.getElementById('statPending').textContent = stats.pendingOrders;
+document.getElementById('statActive').textContent = stats.activeOrders;
+document.getElementById('statDone').textContent = stats.doneOrders;
+document.getElementById('statCancelled').textContent = stats.cancelledOrders;
+
+document.getElementById('statViolations').textContent = stats.totalViolations;
 }
 
-function renderRecentExperts() {
-const experts = getExpertUsers().slice(-3).reverse();
-const c = document.getElementById('recentExperts');
-if (!experts.length) {
-c.innerHTML = `<div class="empty-state"><div class="empty-icon">🔧</div><div>متخصصی ثبت نشده</div></div>`;
-return;
-}
-c.innerHTML = experts.map(u => `
-<div class="list-item">
-<div class="item-info">
-<div class="item-name">${u.name}</div>
-<div class="item-detail">${u.industry} • ${u.sub}</div>
-</div>
-<span class="badge badge-success">متخصص</span>
-</div>
-`).join('');
-}
-
-function renderRecentOrders() {
-const orders = getOrders().slice(-3).reverse();
-const c = document.getElementById('recentOrders');
-if (!orders.length) {
-c.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><div>سفارشی ثبت نشده</div></div>`;
-return;
-}
-const statusMap = { pending: 'در انتظار', confirmed: 'تأیید', done: 'انجام', cancelled: 'لغو' };
-const badgeMap = { pending: 'badge-warning', confirmed: 'badge-info', done: 'badge-success', cancelled: 'badge-danger' };
-c.innerHTML = orders.map(o => `
-<div class="list-item">
-<div class="item-info">
-<div class="item-name">${o.expertName || 'سفارش'}</div>
-<div class="item-detail">${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
-</div>
-<span class="badge ${badgeMap[o.status]}">${statusMap[o.status]}</span>
-</div>
-`).join('');
-}
-
+// ================================================================
+// ناوبری
+// ================================================================
 function navTo(page) {
-const admin = getAdminUser();
-if (!admin) { showAuthPage(); return; }
+const session = getAdminSession();
+if (!session) { showAuthPage(); return; }
 document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
 const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
 if (navBtn) navBtn.classList.add('active');
 
 if (page === 'dashboard') { closeApp(); return; }
 
-const titles = { users: '👥 کاربران', experts: '🔧 متخصصان', orders: '📦 سفارش‌ها', violations: '⚠️ تخلفات' };
+const titles = { users: '👥 کاربران', experts: '🔧 متخصصان', stats: '📊 آمار', violations: '⚠️ تخلفات' };
 let content = '';
 
 if (page === 'users') {
-const users = getCustomerUsers();
+const users = getAllCustomers();
 if (!users.length) {
 content = `<div class="empty-state"><div class="empty-icon">👥</div><div>کاربری ثبت نشده</div></div>`;
 } else {
-content = `
-<div class="filter-row">
-<input type="text" id="searchUser" placeholder="جستجو..." oninput="filterUsers()">
-</div>
-<div id="usersList">
-${users.map(u => `
+content = users.map(u => `
 <div class="list-item">
 <div class="item-info">
 <div class="item-name">${u.name}</div>
-<div class="item-detail">${u.phone}</div>
+<div class="item-detail">${u.phone} • ${formatDate(u.createdAt)}</div>
 </div>
-<div class="item-actions">
-<button class="btn btn-danger btn-xs" onclick="blockUser('${u.id}')">مسدود</button>
+<span class="badge badge-info">کاربر</span>
 </div>
-</div>
-`).join('')}
-</div>
-`;
+`).join('');
 }
 } else if (page === 'experts') {
-const experts = getExpertUsers();
+const experts = getAllExperts();
 if (!experts.length) {
 content = `<div class="empty-state"><div class="empty-icon">🔧</div><div>متخصصی ثبت نشده</div></div>`;
 } else {
@@ -651,41 +588,62 @@ content = experts.map(e => `
 <div class="list-item">
 <div class="item-info">
 <div class="item-name">${e.name}</div>
-<div class="item-detail">${e.industry} • ${e.sub} • ${e.price ? e.price.toLocaleString() : '-'} تومان</div>
+<div class="item-detail">${e.industry} • ${e.sub} • ⭐ ${e.rating || '-'}</div>
 </div>
-<div class="item-actions">
-<button class="btn btn-danger btn-xs" onclick="blockExpert('${e.id}')">مسدود</button>
-</div>
+<span class="badge badge-success">متخصص</span>
 </div>
 `).join('');
 }
-} else if (page === 'orders') {
-const orders = getOrders();
-if (!orders.length) {
-content = `<div class="empty-state"><div class="empty-icon">📦</div><div>سفارشی نیست</div></div>`;
-} else {
-const statusMap = { pending: 'در انتظار', confirmed: 'تأیید', done: 'انجام', cancelled: 'لغو' };
-const badgeMap = { pending: 'badge-warning', confirmed: 'badge-info', done: 'badge-success', cancelled: 'badge-danger' };
-content = orders.map(o => `
-<div class="list-item">
-<div class="item-info">
-<div class="item-name">${o.expertName}</div>
-<div class="item-detail">${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
+} else if (page === 'stats') {
+const stats = getSystemStats();
+content = `
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-value">${stats.totalUsers}</div><div class="stat-label">کاربران</div></div>
+<div class="stat-card"><div class="stat-value">${stats.totalExperts}</div><div class="stat-label">متخصصان</div></div>
+<div class="stat-card"><div class="stat-value">${stats.totalOrders}</div><div class="stat-label">سفارش‌ها</div></div>
+<div class="stat-card"><div class="stat-value">${stats.totalReviews}</div><div class="stat-label">نظرات</div></div>
 </div>
-<span class="badge ${badgeMap[o.status]}">${statusMap[o.status]}</span>
+<div class="glass" style="margin-top:12px;">
+<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+درآمد کل: <strong style="color:var(--primary-gold);">${stats.totalIncome.toLocaleString()} تومان</strong>
 </div>
-`).join('');
-}
+<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+سفارش در انتظار: <strong style="color:var(--primary-gold);">${stats.pendingOrders}</strong>
+</div>
+<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+در حال انجام: <strong style="color:var(--primary-blue);">${stats.activeOrders}</strong>
+</div>
+<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+انجام شده: <strong style="color:var(--primary-green);">${stats.doneOrders}</strong>
+</div>
+<div style="padding:8px 0;">
+لغو شده: <strong style="color:var(--primary-red);">${stats.cancelledOrders}</strong>
+</div>
+</div>
+`;
 } else if (page === 'violations') {
+const violations = getAllViolations();
+if (!violations.length) {
 content = `
 <div class="empty-state">
 <div class="empty-icon">⚠️</div>
 <div>هیچ تخلفی ثبت نشده</div>
 <div style="margin-top:16px;">
-<button class="btn btn-orange btn-sm" onclick="addViolation()">ثبت تخلف جدید</button>
+<button class="btn btn-orange btn-sm" onclick="addViolationDialog()">ثبت تخلف جدید</button>
 </div>
 </div>
 `;
+} else {
+content = violations.map(v => `
+<div class="list-item">
+<div class="item-info">
+<div class="item-name">${v.title || 'تخلف'}</div>
+<div class="item-detail">${v.description || ''} • ${formatDate(v.createdAt)}</div>
+</div>
+<span class="badge badge-danger">تخلف</span>
+</div>
+`).join('');
+}
 }
 
 const container = document.getElementById('appPagesContainer');
@@ -708,39 +666,35 @@ document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.re
 document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
 }
 
-function blockUser(id) {
-openModal('مسدودسازی', 'آیا مطمئن هستید؟', function() {
-showToast('کاربر مسدود شد', 'warning');
-});
-}
-
-function blockExpert(id) {
-openModal('مسدودسازی', 'آیا مطمئن هستید؟', function() {
-showToast('متخصص مسدود شد', 'warning');
-});
-}
-
-function addViolation() {
+function addViolationDialog() {
 openModal('ثبت تخلف', 'تخلف جدید ثبت شد', function() {
+addViolation({
+title: 'تخلف جدید',
+description: 'ثبت‌شده توسط مدیر',
+date: new Date().toISOString()
+});
 showToast('تخلف ثبت شد', 'success');
+navTo('violations');
 });
 }
 
-function filterUsers() {
-const q = document.getElementById('searchUser').value.toLowerCase().trim();
-const items = document.querySelectorAll('#usersList .list-item');
-items.forEach(item => {
-const text = item.textContent.toLowerCase();
-item.style.display = text.includes(q) ? 'flex' : 'none';
-});
-}
-
+// ================================================================
+// راه‌اندازی
+// ================================================================
 (function init() {
-const admin = getAdminUser();
-if (admin) { showDashboard(); } else { showAuthPage(); }
+const session = getAdminSession();
+if (session) { showDashboard(); } else { showAuthPage(); }
 })();
 
-console.log('📊 پنل مدیریت چاره‌ساز بارگذاری شد.');
+// گوش دادن به تغییرات
+window.addEventListener('chare_data_changed', function() {
+const session = getAdminSession();
+if (session && document.getElementById('dashboardPage').style.display !== 'none') {
+renderStats();
+}
+});
+
+console.log('📊 پنل مدیریت (متصل) بارگذاری شد.');
 </script>
 </body>
 </html>
