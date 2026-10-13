@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -13,13 +14,11 @@
 --primary-blue: #3b82f6;
 --primary-gold: #f59e0b;
 --primary-red: #dc3545;
---primary-purple: #8b5cf6;
 --glass-bg: rgba(255,255,255,0.08);
 --glass-border: rgba(255,255,255,0.12);
 --glass-shadow: 0 8px 30px rgba(0,0,0,0.3);
 --glass-radius: 20px;
 --glass-blur: 12px;
---text-light: #ffffff;
 --text-muted: rgba(255,255,255,0.6);
 --font: 'Vazirmatn', sans-serif;
 --transition: all 0.25s ease;
@@ -42,7 +41,6 @@ min-height: 100vh;
 .glass {
 background: var(--glass-bg);
 backdrop-filter: blur(var(--glass-blur));
--webkit-backdrop-filter: blur(var(--glass-blur));
 border: 1px solid var(--glass-border);
 border-radius: var(--glass-radius);
 box-shadow: var(--glass-shadow);
@@ -72,9 +70,7 @@ color: #fff;
 .btn-primary { background: var(--primary-orange); }
 .btn-primary:hover { background: #ea580c; transform: scale(1.02); }
 .btn-success { background: var(--primary-green); }
-.btn-success:hover { background: #1f5a38; }
 .btn-danger { background: var(--primary-red); }
-.btn-danger:hover { background: #b02a37; }
 .btn-outline {
 background: transparent;
 border: 2px solid rgba(255,255,255,0.2);
@@ -91,9 +87,7 @@ font-weight: 500;
 color: var(--text-muted);
 margin-bottom: 5px;
 }
-.input-group input,
-.input-group select,
-.input-group textarea {
+.input-group input, .input-group select, .input-group textarea {
 width: 100%;
 padding: 11px 14px;
 border: 1px solid rgba(255,255,255,0.15);
@@ -102,26 +96,13 @@ background: rgba(255,255,255,0.06);
 color: #fff;
 font-family: var(--font);
 font-size: 15px;
-transition: var(--transition);
 outline: none;
 }
-.input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus {
+.input-group input:focus, .input-group select:focus {
 border-color: var(--primary-orange);
 box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
-background: rgba(255,255,255,0.1);
 }
-.input-group input::placeholder,
-.input-group textarea::placeholder { color: rgba(255,255,255,0.35); }
-.input-group .error-msg {
-color: var(--primary-red);
-font-size: 12px;
-margin-top: 4px;
-display: none;
-}
-.input-group.error input { border-color: var(--primary-red); }
-.input-group.error .error-msg { display: block; }
+.input-group input::placeholder { color: rgba(255,255,255,0.35); }
 .toast-container {
 position: fixed;
 top: 20px;
@@ -149,15 +130,14 @@ pointer-events: auto;
 display: flex;
 align-items: center;
 gap: 10px;
-border: 1px solid rgba(255,255,255,0.08);
 }
 .toast-success { background: rgba(43,122,75,0.92); }
 .toast-error { background: rgba(220,53,69,0.92); }
 .toast-warning { background: rgba(245,158,11,0.92); }
 .toast-info { background: rgba(59,130,246,0.92); }
 @keyframes slideDown {
-0% { opacity: 0; transform: translateY(-30px) scale(0.96); }
-100% { opacity: 1; transform: translateY(0) scale(1); }
+0% { opacity: 0; transform: translateY(-30px); }
+100% { opacity: 1; transform: translateY(0); }
 }
 .toast.hide { animation: slideUp 0.3s ease forwards; }
 @keyframes slideUp {
@@ -175,11 +155,10 @@ align-items: center;
 justify-content: center;
 padding: 20px;
 }
-.modal-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
+.modal-overlay.open { display: flex; }
 .modal-box {
 background: rgba(30,27,75,0.96);
 backdrop-filter: blur(16px);
-border: 1px solid rgba(255,255,255,0.08);
 border-radius: 24px;
 padding: 28px 22px;
 max-width: 400px;
@@ -191,12 +170,8 @@ overflow-y: auto;
 .modal-box .modal-body { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
 .modal-box .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 .modal-box .modal-actions .btn { flex: 1; }
-.page { display: none; animation: fadeIn 0.3s ease; }
+.page { display: none; }
 .page.active { display: block; }
-@keyframes fadeIn {
-0% { opacity: 0; transform: translateY(10px); }
-100% { opacity: 1; transform: translateY(0); }
-}
 .page-header {
 display: flex;
 justify-content: space-between;
@@ -221,14 +196,12 @@ align-items: center;
 justify-content: center;
 font-weight: 700;
 font-size: 16px;
-color: #fff;
 }
 .section-title {
 color: var(--text-muted);
 font-size: 13px;
 font-weight: 600;
 margin: 22px 0 8px;
-letter-spacing: 0.3px;
 }
 .filter-row {
 display: flex;
@@ -236,8 +209,7 @@ gap: 8px;
 flex-wrap: wrap;
 margin-bottom: 12px;
 }
-.filter-row input,
-.filter-row select {
+.filter-row input, .filter-row select {
 flex: 1;
 min-width: 100px;
 padding: 8px 12px;
@@ -249,8 +221,6 @@ font-family: var(--font);
 font-size: 13px;
 outline: none;
 }
-.filter-row input:focus,
-.filter-row select:focus { border-color: var(--primary-orange); }
 .filter-row input::placeholder { color: rgba(255,255,255,0.3); }
 .expert-card {
 background: rgba(255,255,255,0.04);
@@ -258,11 +228,6 @@ border: 1px solid rgba(255,255,255,0.06);
 border-radius: 16px;
 padding: 14px;
 margin-bottom: 12px;
-transition: var(--transition);
-}
-.expert-card:hover {
-background: rgba(255,255,255,0.08);
-border-color: var(--primary-orange);
 }
 .expert-card .expert-name { font-size: 16px; font-weight: 600; }
 .expert-card .expert-info { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
@@ -296,7 +261,6 @@ align-items: center;
 padding: 16px;
 background: rgba(255,255,255,0.04);
 border-radius: 16px;
-border: 1px solid rgba(255,255,255,0.06);
 margin-bottom: 12px;
 }
 .wallet-card .wallet-amount { font-size: 24px; font-weight: 700; color: var(--primary-gold); }
@@ -310,12 +274,10 @@ padding: 6px 14px;
 font-family: var(--font);
 font-size: 13px;
 cursor: pointer;
-transition: var(--transition);
 display: inline-flex;
 align-items: center;
 gap: 6px;
 }
-.back-btn:hover { background: rgba(255,255,255,0.12); }
 .page-header-with-back {
 display: flex;
 align-items: center;
@@ -352,12 +314,10 @@ color: rgba(255,255,255,0.35);
 font-family: var(--font);
 font-size: 10px;
 cursor: pointer;
-transition: var(--transition);
 padding: 4px 10px;
 }
-.bottom-nav .nav-item .nav-icon { font-size: 22px; transition: var(--transition); }
+.bottom-nav .nav-item .nav-icon { font-size: 22px; }
 .bottom-nav .nav-item.active { color: var(--primary-orange); }
-.bottom-nav .nav-item.active .nav-icon { transform: scale(1.1); }
 .auth-page {
 display: flex;
 flex-direction: column;
@@ -370,7 +330,7 @@ padding: 20px;
 .auth-box .logo { text-align: center; margin-bottom: 28px; }
 .auth-box .logo h1 { font-size: 32px; font-weight: 800; }
 .auth-box .logo h1 span { color: var(--primary-orange); }
-.auth-box .logo p { color: var(--text-muted); font-size: 14px; margin-top: 2px; }
+.auth-box .logo p { color: var(--text-muted); font-size: 14px; }
 .auth-tabs {
 display: flex;
 gap: 6px;
@@ -390,7 +350,6 @@ font-family: var(--font);
 font-size: 14px;
 font-weight: 600;
 cursor: pointer;
-transition: var(--transition);
 }
 .auth-tabs button.active { background: rgba(249,115,22,0.2); color: #fff; }
 .auth-form { display: none; }
@@ -401,7 +360,7 @@ margin-top: 16px;
 color: var(--text-muted);
 font-size: 13px;
 }
-.auth-footer a { color: var(--primary-orange); cursor: pointer; text-decoration: none; }
+.auth-footer a { color: var(--primary-orange); cursor: pointer; }
 </style>
 </head>
 <body>
@@ -435,12 +394,10 @@ font-size: 13px;
 <div class="input-group">
 <label>شماره موبایل</label>
 <input type="tel" id="loginPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
-<div class="error-msg">شماره موبایل معتبر نیست</div>
 </div>
 <div class="input-group">
 <label>رمز عبور</label>
 <input type="password" id="loginPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
-<div class="error-msg">رمز عبور حداقل ۶ کاراکتر است</div>
 </div>
 <button type="submit" class="btn btn-primary">ورود</button>
 <div class="auth-footer">حساب ندارید؟ <a onclick="switchTab('register')">ثبت‌نام کنید</a></div>
@@ -450,22 +407,18 @@ font-size: 13px;
 <div class="input-group">
 <label>نام کامل</label>
 <input type="text" id="registerName" placeholder="نام و نام خانوادگی" required>
-<div class="error-msg">نام کامل الزامی است</div>
 </div>
 <div class="input-group">
 <label>شماره موبایل</label>
 <input type="tel" id="registerPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
-<div class="error-msg">شماره موبایل معتبر نیست</div>
 </div>
 <div class="input-group">
 <label>رمز عبور</label>
 <input type="password" id="registerPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
-<div class="error-msg">رمز عبور حداقل ۶ کاراکتر است</div>
 </div>
 <div class="input-group">
 <label>تکرار رمز عبور</label>
 <input type="password" id="registerPasswordConfirm" placeholder="تکرار رمز" required>
-<div class="error-msg">رمز عبور مطابقت ندارد</div>
 </div>
 <button type="submit" class="btn btn-success">ثبت‌نام</button>
 <div class="auth-footer">قبلاً ثبت‌نام کردید؟ <a onclick="switchTab('login')">وارد شوید</a></div>
@@ -486,6 +439,9 @@ font-size: 13px;
 <p style="font-size:14px; opacity:0.8;">👋 خوش آمدید <strong id="welcomeName" style="color:#fff;">کاربر</strong></p>
 <p style="font-size:12px; opacity:0.4; margin-top:4px;">چه خدمتی نیاز دارید؟</p>
 </div>
+
+<div class="section-title">🔔 اعلان‌ها</div>
+<div id="notificationsList"></div>
 
 <div class="section-title">🔍 جستجوی متخصص</div>
 <div class="glass" style="margin-bottom:16px;">
@@ -517,9 +473,7 @@ font-size: 13px;
 <div class="wallet-label">موجودی</div>
 <div class="wallet-amount" id="walletAmount">۰ تومان</div>
 </div>
-<div style="display:flex; gap:8px;">
 <button class="btn btn-primary btn-sm" onclick="showWalletActions()">مدیریت</button>
-</div>
 </div>
 
 <div id="walletActions" style="display:none; margin-top:10px;">
@@ -528,7 +482,6 @@ font-size: 13px;
 <button class="btn btn-success btn-sm" onclick="chargeWallet()">شارژ</button>
 <button class="btn btn-danger btn-sm" onclick="withdrawWallet()">برداشت</button>
 </div>
-<div id="walletHistory"></div>
 </div>
 
 <div style="margin-top:24px;">
@@ -544,29 +497,34 @@ font-size: 13px;
 <button class="nav-item active" data-page="dashboard" onclick="navTo('dashboard')">
 <span class="nav-icon">🏠</span><span class="nav-label">خانه</span>
 </button>
-<button class="nav-item" data-page="profile" onclick="navTo('profile')">
-<span class="nav-icon">👤</span><span class="nav-label">پروفایل</span>
-</button>
 <button class="nav-item" data-page="orders" onclick="navTo('orders')">
 <span class="nav-icon">📦</span><span class="nav-label">سفارش‌ها</span>
 </button>
 <button class="nav-item" data-page="wallet" onclick="navTo('wallet')">
 <span class="nav-icon">💰</span><span class="nav-label">کیف پول</span>
 </button>
+<button class="nav-item" data-page="profile" onclick="navTo('profile')">
+<span class="nav-icon">👤</span><span class="nav-label">پروفایل</span>
+</button>
 <button class="nav-item" data-page="favorites" onclick="navTo('favorites')">
 <span class="nav-icon">❤️</span><span class="nav-label">علاقه‌مندی</span>
 </button>
 </nav>
+<script src="shared.js"></script>
 <script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | نسخه متصل به shared.js
+// ================================================================
+
 const SAMPLE_EXPERTS = [
-{ id: 'e1', name: 'رضا محمدی', industry: 'تعمیرات', sub: 'تعمیرات موبایل', rating: 4.8, price: 250000, location: 'تهران', image: '🔧', desc: 'تعمیرات تخصصی موبایل و لپ‌تاپ' },
-{ id: 'e2', name: 'سارا حسینی', industry: 'آرایشگری', sub: 'آرایشگری زنانه', rating: 4.9, price: 350000, location: 'تهران', image: '💇', desc: 'آرایشگری حرفه‌ای با ۱۰ سال سابقه' },
-{ id: 'e3', name: 'علی کریمی', industry: 'ساختمان', sub: 'نقاشی ساختمان', rating: 4.7, price: 400000, location: 'کرج', image: '🎨', desc: 'نقاشی ساختمان با بهترین کیفیت' },
-{ id: 'e4', name: 'مریم نوری', industry: 'آموزش', sub: 'آموزش زبان', rating: 4.9, price: 300000, location: 'اصفهان', image: '📚', desc: 'آموزش زبان انگلیسی با متد روز' },
-{ id: 'e5', name: 'حسن رضایی', industry: 'خودرو', sub: 'تعمیرات خودرو', rating: 4.6, price: 450000, location: 'تهران', image: '🚗', desc: 'تعمیرات تخصصی خودروهای خارجی' },
-{ id: 'e6', name: 'فاطمه صادقی', industry: 'نظافت', sub: 'نظافت منزل', rating: 4.8, price: 200000, location: 'تهران', image: '🧹', desc: 'نظافت منزل با مواد بهداشتی' },
-{ id: 'e7', name: 'امیر رحیمی', industry: 'پزشکی', sub: 'پزشک عمومی', rating: 4.9, price: 500000, location: 'تهران', image: '👨‍⚕️', desc: 'ویزیت در منزل با تجهیزات کامل' },
-{ id: 'e8', name: 'زهرا موسوی', industry: 'املاک', sub: 'مشاوره املاک', rating: 4.7, price: 0, location: 'تهران', image: '🏠', desc: 'مشاوره رایگان املاک' },
+{ id: 'demo_e1', name: 'رضا محمدی', industry: 'تعمیرات', sub: 'تعمیرات موبایل', rating: 4.8, price: 250000, location: 'تهران', image: '🔧', desc: 'تعمیرات تخصصی موبایل و لپ‌تاپ' },
+{ id: 'demo_e2', name: 'سارا حسینی', industry: 'آرایشگری', sub: 'آرایشگری زنانه', rating: 4.9, price: 350000, location: 'تهران', image: '💇', desc: 'آرایشگری حرفه‌ای با ۱۰ سال سابقه' },
+{ id: 'demo_e3', name: 'علی کریمی', industry: 'ساختمان', sub: 'نقاشی ساختمان', rating: 4.7, price: 400000, location: 'کرج', image: '🎨', desc: 'نقاشی ساختمان با بهترین کیفیت' },
+{ id: 'demo_e4', name: 'مریم نوری', industry: 'آموزش', sub: 'آموزش زبان', rating: 4.9, price: 300000, location: 'اصفهان', image: '📚', desc: 'آموزش زبان انگلیسی' },
+{ id: 'demo_e5', name: 'حسن رضایی', industry: 'خودرو', sub: 'تعمیرات خودرو', rating: 4.6, price: 450000, location: 'تهران', image: '🚗', desc: 'تعمیرات خودروهای خارجی' },
+{ id: 'demo_e6', name: 'فاطمه صادقی', industry: 'نظافت', sub: 'نظافت منزل', rating: 4.8, price: 200000, location: 'تهران', image: '🧹', desc: 'نظافت منزل' },
+{ id: 'demo_e7', name: 'امیر رحیمی', industry: 'پزشکی', sub: 'پزشک عمومی', rating: 4.9, price: 500000, location: 'تهران', image: '👨‍⚕️', desc: 'ویزیت در منزل' },
+{ id: 'demo_e8', name: 'زهرا موسوی', industry: 'املاک', sub: 'مشاوره املاک', rating: 4.7, price: 0, location: 'تهران', image: '🏠', desc: 'مشاوره رایگان' },
 ];
 
 let modalCallback = null;
@@ -609,25 +567,18 @@ document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'
 document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
 }
 
-function getUsers() { return JSON.parse(localStorage.getItem('chare_customer_users') || '[]'); }
-function saveUsers(u) { localStorage.setItem('chare_customer_users', JSON.stringify(u)); }
-function getCurrentUser() { return JSON.parse(localStorage.getItem('chare_customer_current') || 'null'); }
-function setCurrentUser(u) { localStorage.setItem('chare_customer_current', JSON.stringify(u)); }
-function getOrders() { return JSON.parse(localStorage.getItem('chare_customer_orders') || '[]'); }
-function saveOrders(o) { localStorage.setItem('chare_customer_orders', JSON.stringify(o)); }
-function getFavorites() { return JSON.parse(localStorage.getItem('chare_customer_favorites') || '[]'); }
-function saveFavorites(f) { localStorage.setItem('chare_customer_favorites', JSON.stringify(f)); }
-
+// ================================================================
+// احراز هویت با shared.js
+// ================================================================
 function handleLogin(e) {
 e.preventDefault();
 const phone = document.getElementById('loginPhone').value.trim();
 const pass = document.getElementById('loginPassword').value;
-if (!phone || phone.length < 11) { showToast('شماره موبایل معتبر نیست', 'error'); return; }
-if (!pass || pass.length < 6) { showToast('رمز عبور حداقل ۶ کاراکتر است', 'error'); return; }
-const users = getUsers();
-const user = users.find(u => u.phone === phone && u.password === pass);
-if (!user) { showToast('اطلاعات وارد شده صحیح نیست', 'error'); return; }
-setCurrentUser(user);
+if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
+const user = findCustomerByPhone(phone);
+if (!user || user.password !== pass) { showToast('اطلاعات صحیح نیست', 'error'); return; }
+setCurrentCustomer(user);
 showToast(`خوش آمدید ${user.name}`, 'success');
 showDashboard();
 }
@@ -638,28 +589,22 @@ const name = document.getElementById('registerName').value.trim();
 const phone = document.getElementById('registerPhone').value.trim();
 const pass = document.getElementById('registerPassword').value;
 const confirm = document.getElementById('registerPasswordConfirm').value;
-if (!name || name.length < 3) { showToast('نام کامل الزامی است', 'error'); return; }
-if (!phone || phone.length < 11) { showToast('شماره موبایل معتبر نیست', 'error'); return; }
-if (!pass || pass.length < 6) { showToast('رمز عبور حداقل ۶ کاراکتر است', 'error'); return; }
-if (pass !== confirm) { showToast('رمز عبور مطابقت ندارد', 'error'); return; }
-const users = getUsers();
-if (users.find(u => u.phone === phone)) { showToast('این شماره قبلاً ثبت شده', 'error'); return; }
-const newUser = {
-id: Date.now().toString(),
-name, phone, password: pass,
-wallet: 0, points: 0,
-createdAt: new Date().toISOString()
-};
-users.push(newUser);
-saveUsers(users);
-setCurrentUser(newUser);
+if (!name || name.length < 3) { showToast('نام کامل الزامی', 'error'); return; }
+if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
+if (pass !== confirm) { showToast('رمز مطابقت ندارد', 'error'); return; }
+
+const result = addCustomer({ name, phone, password: pass, wallet: 0, points: 0 });
+if (!result.success) { showToast(result.error, 'error'); return; }
+
+setCurrentCustomer(result.user);
 showToast(`ثبت‌نام موفق! خوش آمدید ${name}`, 'success');
 showDashboard();
 }
 
 function handleLogout() {
-openModal('خروج', 'آیا از خروج خود مطمئن هستید؟', function() {
-localStorage.removeItem('chare_customer_current');
+openModal('خروج', 'آیا مطمئن هستید؟', function() {
+setCurrentCustomer(null);
 showToast('خارج شدید', 'info');
 showAuthPage();
 });
@@ -674,7 +619,7 @@ switchTab('login');
 }
 
 function showDashboard() {
-const user = getCurrentUser();
+const user = getCurrentCustomer();
 if (!user) { showAuthPage(); return; }
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('dashboardPage').style.display = 'block';
@@ -686,6 +631,7 @@ document.getElementById('welcomeName').textContent = user.name;
 document.getElementById('userAvatar').textContent = user.name.charAt(0);
 document.getElementById('walletAmount').textContent = (user.wallet || 0).toLocaleString() + ' تومان';
 
+renderNotifications();
 renderExperts();
 renderOrders();
 
@@ -693,8 +639,35 @@ document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.re
 document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
 }
 
+// ================================================================
+// نمایش اعلان‌ها
+// ================================================================
+function renderNotifications() {
+const user = getCurrentCustomer();
+if (!user) return;
+const notifications = getNotificationsFor(user.id).filter(n => !n.read).slice(0, 3);
+const c = document.getElementById('notificationsList');
+if (!notifications.length) { c.innerHTML = ''; return; }
+c.innerHTML = notifications.map(n => `
+<div class="glass" style="margin-bottom:8px; padding:12px; border-right:3px solid var(--primary-orange);">
+<div style="font-size:13px; font-weight:600;">${n.title}</div>
+<div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${n.message}</div>
+</div>
+`).join('');
+}
+
+// ================================================================
+// متخصصان
+// ================================================================
+function getAllExpertsCombined() {
+const real = getAllExperts();
+const ids = new Set(real.map(e => e.id));
+const demos = SAMPLE_EXPERTS.filter(d => !ids.has(d.id));
+return [...real, ...demos];
+}
+
 function renderExperts(list) {
-const data = list || SAMPLE_EXPERTS;
+const data = list || getAllExpertsCombined();
 const container = document.getElementById('expertList');
 if (!data.length) {
 container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div>متخصصی یافت نشد</div></div>`;
@@ -703,9 +676,9 @@ return;
 container.innerHTML = data.map(e => `
 <div class="expert-card">
 <div class="expert-name">${e.image || '🔧'} ${e.name}</div>
-<div class="expert-info">${e.industry} • ${e.sub} • ${e.location}</div>
-<div class="expert-info">⭐ <span class="expert-rating">${e.rating}</span> • 💰 <span class="expert-price">${e.price ? e.price.toLocaleString() + ' تومان' : 'رایگان'}</span></div>
-<div class="expert-info" style="font-size:12px; opacity:0.6;">${e.desc}</div>
+<div class="expert-info">${e.industry} • ${e.sub} • ${e.location || 'ایران'}</div>
+<div class="expert-info">⭐ <span class="expert-rating">${e.rating || '-'}</span> • 💰 <span class="expert-price">${e.price ? e.price.toLocaleString() + ' تومان' : 'رایگان'}</span></div>
+<div class="expert-info" style="font-size:12px; opacity:0.6;">${e.desc || ''}</div>
 <div class="expert-actions">
 <button class="btn btn-primary btn-sm" onclick="bookExpert('${e.id}')">📅 رزرو</button>
 <button class="btn btn-outline btn-sm" onclick="toggleFavorite('${e.id}')">❤️</button>
@@ -717,56 +690,65 @@ container.innerHTML = data.map(e => `
 function filterExperts() {
 const query = document.getElementById('searchExpert').value.toLowerCase().trim();
 const industry = document.getElementById('filterIndustry').value;
-const filtered = SAMPLE_EXPERTS.filter(e => {
-const matchName = e.name.includes(query) || e.sub.includes(query) || e.industry.includes(query);
+const filtered = getAllExpertsCombined().filter(e => {
+const matchName = (e.name || '').toLowerCase().includes(query) || (e.sub || '').toLowerCase().includes(query);
 const matchIndustry = !industry || e.industry === industry;
 return matchName && matchIndustry;
 });
 renderExperts(filtered);
 }
 
-function bookExpert(id) {
-const user = getCurrentUser();
+// ================================================================
+// رزرو متخصص (اتصال به متخصص)
+// ================================================================
+function bookExpert(expertId) {
+const user = getCurrentCustomer();
 if (!user) { showAuthPage(); return; }
-const expert = SAMPLE_EXPERTS.find(e => e.id === id);
+const expert = getAllExpertsCombined().find(e => e.id === expertId);
 if (!expert) return;
+
 openModal('رزرو متخصص', `آیا می‌خواهید ${expert.name} را با قیمت ${expert.price ? expert.price.toLocaleString() + ' تومان' : 'رایگان'} رزرو کنید؟`, function() {
-const orders = getOrders();
-const newOrder = {
-id: Date.now().toString(),
+const result = createOrder({
+customerId: user.id,
+customerName: user.name,
 expertId: expert.id,
 expertName: expert.name,
 expertImage: expert.image,
-price: expert.price,
+price: expert.price || 0,
 status: 'pending',
-date: new Date().toISOString(),
-userId: user.id
-};
-orders.push(newOrder);
-saveOrders(orders);
-showToast(`رزرو ${expert.name} با موفقیت ثبت شد`, 'success');
+date: new Date().toISOString()
+});
+
+if (result.success) {
+showToast(`رزرو ${expert.name} ثبت شد`, 'success');
 renderOrders();
+} else {
+showToast('خطا در رزرو', 'error');
+}
 });
 }
 
 function toggleFavorite(id) {
-let favs = getFavorites();
+let favs = JSON.parse(localStorage.getItem('chare_customer_favorites') || '[]');
 const idx = favs.indexOf(id);
-if (idx > -1) { favs.splice(idx, 1); showToast('از علاقه‌مندی حذف شد', 'info'); }
-else { favs.push(id); showToast('به علاقه‌مندی افزوده شد', 'success'); }
-saveFavorites(favs);
+if (idx > -1) { favs.splice(idx, 1); showToast('حذف شد', 'info'); }
+else { favs.push(id); showToast('اضافه شد', 'success'); }
+localStorage.setItem('chare_customer_favorites', JSON.stringify(favs));
 }
 
+// ================================================================
+// سفارش‌ها
+// ================================================================
 function renderOrders() {
-const user = getCurrentUser();
+const user = getCurrentCustomer();
 if (!user) return;
-const orders = getOrders().filter(o => o.userId === user.id);
+const orders = getOrdersByCustomer(user.id);
 const container = document.getElementById('orderList');
 if (!orders.length) {
 container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div>هیچ سفارشی ندارید</div></div>`;
 return;
 }
-const statusMap = { pending: 'در انتظار', confirmed: 'تأیید شده', done: 'انجام شده', cancelled: 'لغو شده' };
+const statusMap = { pending: 'در انتظار تأیید متخصص', confirmed: 'تأیید شد - در حال انجام', done: 'انجام شده', cancelled: 'لغو شده' };
 const statusClass = { pending: 'pending', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled' };
 container.innerHTML = orders.map(o => `
 <div class="order-card">
@@ -775,64 +757,123 @@ container.innerHTML = orders.map(o => `
 <span class="order-status ${statusClass[o.status] || 'pending'}">${statusMap[o.status] || o.status}</span>
 </div>
 <div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
-<div class="order-detail">📅 ${new Date(o.date).toLocaleDateString('fa-IR')}</div>
+<div class="order-detail">📅 ${formatDate(o.date)}</div>
+${o.escrow && !o.escrowReleased ? `<div class="order-detail" style="color:var(--primary-gold);">🔒 مبلغ در امانت چاره‌ساز</div>` : ''}
+${o.status === 'done' && o.escrowReleased ? `<div class="order-detail" style="color:var(--primary-green);">✅ پرداخت انجام شد</div>` : ''}
 ${o.status === 'pending' ? `<div class="expert-actions" style="margin-top:8px;">
-<button class="btn btn-danger btn-sm" onclick="cancelOrder('${o.id}')">لغو</button>
+<button class="btn btn-danger btn-sm" onclick="cancelOrder('${o.id}')">لغو سفارش</button>
+</div>` : ''}
+${o.status === 'done' && !o.reviewed ? `<div class="expert-actions" style="margin-top:8px;">
+<button class="btn btn-gold btn-sm" onclick="reviewOrder('${o.id}')">⭐ ثبت نظر</button>
 </div>` : ''}
 </div>
 `).join('');
 }
 
 function cancelOrder(id) {
-openModal('لغو سفارش', 'آیا از لغو این سفارش مطمئن هستید؟', function() {
-let orders = getOrders();
-orders = orders.map(o => o.id === id ? { ...o, status: 'cancelled' } : o);
-saveOrders(orders);
-showToast('سفارش لغو شد', 'warning');
-renderOrders();
+openModal('لغو سفارش', 'آیا مطمئن هستید؟', function() {
+const result = updateOrderStatus(id, 'cancelled');
+if (result.success) { showToast('سفارش لغو شد', 'warning'); renderOrders(); }
 });
 }
 
+function reviewOrder(orderId) {
+const html = `
+<div class="input-group">
+<label>امتیاز</label>
+<select id="reviewRating">
+<option value="5">⭐⭐⭐⭐⭐ عالی</option>
+<option value="4">⭐⭐⭐⭐ خوب</option>
+<option value="3">⭐⭐⭐ متوسط</option>
+<option value="2">⭐⭐ ضعیف</option>
+<option value="1">⭐ بد</option>
+</select>
+</div>
+<div class="input-group">
+<label>نظر شما</label>
+<textarea id="reviewText" placeholder="تجربه خود را بنویسید..." rows="3"></textarea>
+</div>
+<button class="btn btn-gold" onclick="submitReview('${orderId}')">ثبت نظر</button>
+`;
+document.getElementById('modalTitle').textContent = '⭐ ثبت نظر';
+document.getElementById('modalBody').innerHTML = html;
+document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitReview(orderId) {
+const rating = parseInt(document.getElementById('reviewRating').value);
+const text = document.getElementById('reviewText').value.trim();
+const user = getCurrentCustomer();
+const orders = getAllOrders();
+const order = orders.find(o => o.id === orderId);
+if (!order || !user) return;
+
+addReview({
+orderId: orderId,
+expertId: order.expertId,
+expertName: order.expertName,
+customerId: user.id,
+customerName: user.name,
+rating: rating,
+text: text || 'بدون نظر'
+});
+
+const orders2 = getAllOrders();
+const idx = orders2.findIndex(o => o.id === orderId);
+if (idx !== -1) {
+orders2[idx].reviewed = true;
+saveAllOrders(orders2);
+}
+
+closeModal();
+showToast('نظر ثبت شد. ممنون!', 'success');
+renderOrders();
+}
+
+// ================================================================
+// کیف پول
+// ================================================================
 function showWalletActions() {
 const el = document.getElementById('walletActions');
 el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
 function chargeWallet() {
-const user = getCurrentUser();
-if (!user) return;
 const amount = parseInt(document.getElementById('walletAmountInput').value);
 if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
-let users = getUsers();
+const user = getCurrentCustomer();
+if (!user) return;
+const users = getAllCustomers();
 const idx = users.findIndex(u => u.id === user.id);
 if (idx === -1) return;
 users[idx].wallet = (users[idx].wallet || 0) + amount;
-saveUsers(users);
-setCurrentUser(users[idx]);
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
 document.getElementById('walletAmount').textContent = users[idx].wallet.toLocaleString() + ' تومان';
-showToast(`کیف پول ${amount.toLocaleString()} تومان شارژ شد`, 'success');
+showToast(`${amount.toLocaleString()} تومان شارژ شد`, 'success');
 document.getElementById('walletAmountInput').value = '';
 }
 
 function withdrawWallet() {
-const user = getCurrentUser();
-if (!user) return;
 const amount = parseInt(document.getElementById('walletAmountInput').value);
 if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
-let users = getUsers();
+const user = getCurrentCustomer();
+const users = getAllCustomers();
 const idx = users.findIndex(u => u.id === user.id);
-if (idx === -1) return;
 if ((users[idx].wallet || 0) < amount) { showToast('موجودی کافی نیست', 'error'); return; }
 users[idx].wallet = (users[idx].wallet || 0) - amount;
-saveUsers(users);
-setCurrentUser(users[idx]);
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
 document.getElementById('walletAmount').textContent = users[idx].wallet.toLocaleString() + ' تومان';
-showToast(`برداشت ${amount.toLocaleString()} تومان انجام شد`, 'success');
+showToast(`${amount.toLocaleString()} تومان برداشت شد`, 'success');
 document.getElementById('walletAmountInput').value = '';
 }
 
+// ================================================================
+// ناوبری
+// ================================================================
 function navTo(page) {
-const user = getCurrentUser();
+const user = getCurrentCustomer();
 if (!user) { showAuthPage(); return; }
 document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
 const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
@@ -840,18 +881,11 @@ if (navBtn) navBtn.classList.add('active');
 
 if (page === 'dashboard') { closeApp(); return; }
 
-const titles = { profile: '👤 پروفایل', orders: '📦 سفارش‌ها', wallet: '💰 کیف پول', favorites: '❤️ علاقه‌مندی' };
+const titles = { orders: '📦 سفارش‌ها', wallet: '💰 کیف پول', profile: '👤 پروفایل', favorites: '❤️ علاقه‌مندی' };
 let content = '';
 
-if (page === 'profile') {
-content = `
-<div class="input-group"><label>نام</label><input type="text" value="${user.name}" id="profileName"></div>
-<div class="input-group"><label>شماره موبایل</label><input type="text" value="${user.phone}" disabled></div>
-<div class="input-group"><label>موجودی</label><input type="text" value="${(user.wallet || 0).toLocaleString()} تومان" disabled></div>
-<button class="btn btn-primary" onclick="updateProfile()">ذخیره</button>
-`;
-} else if (page === 'orders') {
-const orders = getOrders().filter(o => o.userId === user.id);
+if (page === 'orders') {
+const orders = getOrdersByCustomer(user.id);
 if (!orders.length) {
 content = `<div class="empty-state"><div class="empty-icon">📭</div><div>سفارشی ندارید</div></div>`;
 } else {
@@ -861,9 +895,9 @@ content = orders.map(o => `
 <div class="order-card">
 <div class="order-header">
 <span style="font-weight:600;">${o.expertName}</span>
-<span class="order-status ${statusClass[o.status] || 'pending'}">${statusMap[o.status] || o.status}</span>
+<span class="order-status ${statusClass[o.status]}">${statusMap[o.status]}</span>
 </div>
-<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
+<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() : 'رایگان'}</div>
 </div>
 `).join('');
 }
@@ -878,11 +912,18 @@ content = `
 <button class="btn btn-danger btn-sm" onclick="withdrawWalletPage()">برداشت</button>
 </div>
 `;
+} else if (page === 'profile') {
+content = `
+<div class="input-group"><label>نام</label><input type="text" value="${user.name}" id="profileName"></div>
+<div class="input-group"><label>شماره</label><input type="text" value="${user.phone}" disabled></div>
+<div class="input-group"><label>موجودی</label><input type="text" value="${(user.wallet || 0).toLocaleString()} تومان" disabled></div>
+<button class="btn btn-primary" onclick="updateProfile()">ذخیره</button>
+`;
 } else if (page === 'favorites') {
-const favs = getFavorites();
-const experts = SAMPLE_EXPERTS.filter(e => favs.includes(e.id));
+const favs = JSON.parse(localStorage.getItem('chare_customer_favorites') || '[]');
+const experts = getAllExpertsCombined().filter(e => favs.includes(e.id));
 if (!experts.length) {
-content = `<div class="empty-state"><div class="empty-icon">❤️</div><div>علاقه‌مندی خالی است</div></div>`;
+content = `<div class="empty-state"><div class="empty-icon">❤️</div><div>علاقه‌مندی خالی</div></div>`;
 } else {
 content = experts.map(e => `
 <div class="expert-card">
@@ -902,7 +943,7 @@ container.innerHTML = `
 <div class="page active">
 <div class="page-header-with-back">
 <button class="back-btn" onclick="navTo('dashboard')">← بازگشت</button>
-<h2>${titles[page] || page}</h2>
+<h2>${titles[page]}</h2>
 </div>
 <div class="glass">${content}</div>
 </div>
@@ -919,15 +960,13 @@ document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList
 
 function updateProfile() {
 const name = document.getElementById('profileName').value.trim();
-if (!name) { showToast('نام خالی است', 'error'); return; }
-const user = getCurrentUser();
-if (!user) return;
-let users = getUsers();
+if (!name) { showToast('نام الزامیست', 'error'); return; }
+const user = getCurrentCustomer();
+const users = getAllCustomers();
 const idx = users.findIndex(u => u.id === user.id);
-if (idx === -1) return;
 users[idx].name = name;
-saveUsers(users);
-setCurrentUser(users[idx]);
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
 showToast('پروفایل به‌روز شد', 'success');
 navTo('profile');
 }
@@ -935,12 +974,12 @@ navTo('profile');
 function chargeWalletPage() {
 const amount = parseInt(document.getElementById('walletPageAmount').value);
 if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
-const user = getCurrentUser();
-let users = getUsers();
+const user = getCurrentCustomer();
+const users = getAllCustomers();
 const idx = users.findIndex(u => u.id === user.id);
 users[idx].wallet = (users[idx].wallet || 0) + amount;
-saveUsers(users);
-setCurrentUser(users[idx]);
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
 showToast(`${amount.toLocaleString()} تومان شارژ شد`, 'success');
 navTo('wallet');
 }
@@ -948,23 +987,36 @@ navTo('wallet');
 function withdrawWalletPage() {
 const amount = parseInt(document.getElementById('walletPageAmount').value);
 if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
-const user = getCurrentUser();
-let users = getUsers();
+const user = getCurrentCustomer();
+const users = getAllCustomers();
 const idx = users.findIndex(u => u.id === user.id);
 if ((users[idx].wallet || 0) < amount) { showToast('موجودی کافی نیست', 'error'); return; }
 users[idx].wallet = (users[idx].wallet || 0) - amount;
-saveUsers(users);
-setCurrentUser(users[idx]);
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
 showToast(`${amount.toLocaleString()} تومان برداشت شد`, 'success');
 navTo('wallet');
 }
 
+// ================================================================
+// راه‌اندازی
+// ================================================================
 (function init() {
-const user = getCurrentUser();
+const user = getCurrentCustomer();
 if (user) { showDashboard(); } else { showAuthPage(); }
 })();
 
-console.log('🛒 پنل مشتری چاره‌ساز بارگذاری شد.');
+// گوش دادن به تغییرات از پنل متخصص
+window.addEventListener('chare_data_changed', function() {
+const user = getCurrentCustomer();
+if (user && document.getElementById('dashboardPage').style.display !== 'none') {
+renderOrders();
+renderNotifications();
+}
+});
+
+console.log('🛒 پنل مشتری (متصل) بارگذاری شد.');
 </script>
 </body>
 </html>
+
