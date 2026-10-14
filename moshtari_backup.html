@@ -1,0 +1,1022 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>چاره‌ساز | پنل مشتری</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--primary-orange: #f97316;
+--primary-green: #2b7a4b;
+--primary-blue: #3b82f6;
+--primary-gold: #f59e0b;
+--primary-red: #dc3545;
+--glass-bg: rgba(255,255,255,0.08);
+--glass-border: rgba(255,255,255,0.12);
+--glass-shadow: 0 8px 30px rgba(0,0,0,0.3);
+--glass-radius: 20px;
+--glass-blur: 12px;
+--text-muted: rgba(255,255,255,0.6);
+--font: 'Vazirmatn', sans-serif;
+--transition: all 0.25s ease;
+}
+html, body {
+font-family: var(--font);
+background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+min-height: 100vh;
+color: #fff;
+direction: rtl;
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--primary-orange); border-radius: 10px; }
+.app-wrapper {
+max-width: 480px;
+margin: 0 auto;
+padding: 16px 14px 90px;
+min-height: 100vh;
+}
+.glass {
+background: var(--glass-bg);
+backdrop-filter: blur(var(--glass-blur));
+border: 1px solid var(--glass-border);
+border-radius: var(--glass-radius);
+box-shadow: var(--glass-shadow);
+padding: 18px;
+transition: var(--transition);
+}
+.glass:hover {
+transform: translateY(-3px);
+box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 12px 20px;
+border: none;
+border-radius: 12px;
+font-family: var(--font);
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+transition: var(--transition);
+width: 100%;
+color: #fff;
+}
+.btn-primary { background: var(--primary-orange); }
+.btn-primary:hover { background: #ea580c; transform: scale(1.02); }
+.btn-success { background: var(--primary-green); }
+.btn-danger { background: var(--primary-red); }
+.btn-outline {
+background: transparent;
+border: 2px solid rgba(255,255,255,0.2);
+color: #fff;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.08); }
+.btn-gold { background: var(--primary-gold); color: #000; }
+.btn-sm { padding: 8px 14px; font-size: 13px; }
+.input-group { margin-bottom: 16px; }
+.input-group label {
+display: block;
+font-size: 14px;
+font-weight: 500;
+color: var(--text-muted);
+margin-bottom: 5px;
+}
+.input-group input, .input-group select, .input-group textarea {
+width: 100%;
+padding: 11px 14px;
+border: 1px solid rgba(255,255,255,0.15);
+border-radius: 12px;
+background: rgba(255,255,255,0.06);
+color: #fff;
+font-family: var(--font);
+font-size: 15px;
+outline: none;
+}
+.input-group input:focus, .input-group select:focus {
+border-color: var(--primary-orange);
+box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+}
+.input-group input::placeholder { color: rgba(255,255,255,0.35); }
+.toast-container {
+position: fixed;
+top: 20px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 9999;
+display: flex;
+flex-direction: column;
+gap: 10px;
+max-width: 460px;
+width: 92%;
+pointer-events: none;
+}
+.toast {
+padding: 12px 18px;
+border-radius: 14px;
+color: #fff;
+font-family: var(--font);
+font-size: 14px;
+font-weight: 500;
+backdrop-filter: blur(12px);
+box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+animation: slideDown 0.35s ease forwards;
+pointer-events: auto;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.toast-success { background: rgba(43,122,75,0.92); }
+.toast-error { background: rgba(220,53,69,0.92); }
+.toast-warning { background: rgba(245,158,11,0.92); }
+.toast-info { background: rgba(59,130,246,0.92); }
+@keyframes slideDown {
+0% { opacity: 0; transform: translateY(-30px); }
+100% { opacity: 1; transform: translateY(0); }
+}
+.toast.hide { animation: slideUp 0.3s ease forwards; }
+@keyframes slideUp {
+0% { opacity: 1; transform: translateY(0); }
+100% { opacity: 0; transform: translateY(-30px); }
+}
+.modal-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.6);
+backdrop-filter: blur(8px);
+z-index: 999;
+display: none;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+background: rgba(30,27,75,0.96);
+backdrop-filter: blur(16px);
+border-radius: 24px;
+padding: 28px 22px;
+max-width: 400px;
+width: 100%;
+max-height: 90vh;
+overflow-y: auto;
+}
+.modal-box .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.modal-box .modal-body { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+.modal-box .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.modal-box .modal-actions .btn { flex: 1; }
+.page { display: none; }
+.page.active { display: block; }
+.page-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px 0 16px;
+}
+.page-header h2 { font-size: 22px; font-weight: 700; }
+.page-header .user-badge {
+display: flex;
+align-items: center;
+gap: 10px;
+color: var(--text-muted);
+font-size: 13px;
+}
+.page-header .user-badge .avatar {
+width: 38px;
+height: 38px;
+border-radius: 50%;
+background: var(--primary-orange);
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+font-size: 16px;
+}
+.section-title {
+color: var(--text-muted);
+font-size: 13px;
+font-weight: 600;
+margin: 22px 0 8px;
+}
+.filter-row {
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+margin-bottom: 12px;
+}
+.filter-row input, .filter-row select {
+flex: 1;
+min-width: 100px;
+padding: 8px 12px;
+border: 1px solid rgba(255,255,255,0.1);
+border-radius: 10px;
+background: rgba(255,255,255,0.05);
+color: #fff;
+font-family: var(--font);
+font-size: 13px;
+outline: none;
+}
+.filter-row input::placeholder { color: rgba(255,255,255,0.3); }
+.expert-card {
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.06);
+border-radius: 16px;
+padding: 14px;
+margin-bottom: 12px;
+}
+.expert-card .expert-name { font-size: 16px; font-weight: 600; }
+.expert-card .expert-info { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.expert-card .expert-rating { color: var(--primary-gold); font-weight: 600; }
+.expert-card .expert-price { color: var(--primary-green); font-weight: 600; }
+.expert-card .expert-actions { display: flex; gap: 8px; margin-top: 10px; }
+.expert-card .expert-actions .btn { flex: 1; font-size: 13px; padding: 8px; }
+.order-card {
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.06);
+border-radius: 16px;
+padding: 14px;
+margin-bottom: 12px;
+}
+.order-card .order-header { display: flex; justify-content: space-between; align-items: center; }
+.order-card .order-status {
+font-size: 12px;
+padding: 4px 12px;
+border-radius: 30px;
+font-weight: 600;
+}
+.order-card .order-status.pending { background: rgba(245,158,11,0.2); color: var(--primary-gold); }
+.order-card .order-status.confirmed { background: rgba(59,130,246,0.2); color: var(--primary-blue); }
+.order-card .order-status.done { background: rgba(43,122,75,0.2); color: var(--primary-green); }
+.order-card .order-status.cancelled { background: rgba(220,53,69,0.2); color: var(--primary-red); }
+.order-card .order-detail { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+.wallet-card {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 16px;
+background: rgba(255,255,255,0.04);
+border-radius: 16px;
+margin-bottom: 12px;
+}
+.wallet-card .wallet-amount { font-size: 24px; font-weight: 700; color: var(--primary-gold); }
+.wallet-card .wallet-label { font-size: 13px; color: var(--text-muted); }
+.back-btn {
+background: rgba(255,255,255,0.06);
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 12px;
+color: #fff;
+padding: 6px 14px;
+font-family: var(--font);
+font-size: 13px;
+cursor: pointer;
+display: inline-flex;
+align-items: center;
+gap: 6px;
+}
+.page-header-with-back {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 8px 0 16px;
+}
+.page-header-with-back h2 { font-size: 20px; font-weight: 700; flex: 1; }
+.empty-state { text-align: center; padding: 40px 10px; color: var(--text-muted); }
+.empty-state .empty-icon { font-size: 44px; margin-bottom: 12px; }
+.bottom-nav {
+position: fixed;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+max-width: 480px;
+width: 100%;
+background: rgba(0,0,0,0.4);
+backdrop-filter: blur(18px);
+border-top: 1px solid rgba(255,255,255,0.06);
+display: flex;
+justify-content: space-around;
+padding: 6px 0 12px;
+z-index: 100;
+border-radius: 28px 28px 0 0;
+}
+.bottom-nav .nav-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 2px;
+background: none;
+border: none;
+color: rgba(255,255,255,0.35);
+font-family: var(--font);
+font-size: 10px;
+cursor: pointer;
+padding: 4px 10px;
+}
+.bottom-nav .nav-item .nav-icon { font-size: 22px; }
+.bottom-nav .nav-item.active { color: var(--primary-orange); }
+.auth-page {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+padding: 20px;
+}
+.auth-box { width: 100%; max-width: 400px; }
+.auth-box .logo { text-align: center; margin-bottom: 28px; }
+.auth-box .logo h1 { font-size: 32px; font-weight: 800; }
+.auth-box .logo h1 span { color: var(--primary-orange); }
+.auth-box .logo p { color: var(--text-muted); font-size: 14px; }
+.auth-tabs {
+display: flex;
+gap: 6px;
+margin-bottom: 20px;
+background: rgba(255,255,255,0.04);
+border-radius: 14px;
+padding: 4px;
+}
+.auth-tabs button {
+flex: 1;
+padding: 10px;
+border: none;
+border-radius: 11px;
+background: transparent;
+color: var(--text-muted);
+font-family: var(--font);
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+}
+.auth-tabs button.active { background: rgba(249,115,22,0.2); color: #fff; }
+.auth-form { display: none; }
+.auth-form.active { display: block; }
+.auth-footer {
+text-align: center;
+margin-top: 16px;
+color: var(--text-muted);
+font-size: 13px;
+}
+.auth-footer a { color: var(--primary-orange); cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+<div class="modal-box">
+<div class="modal-title" id="modalTitle">تأیید</div>
+<div class="modal-body" id="modalBody">آیا مطمئن هستید؟</div>
+<div class="modal-actions">
+<button class="btn btn-outline btn-sm" onclick="closeModal()">انصراف</button>
+<button class="btn btn-primary btn-sm" id="modalConfirmBtn">تأیید</button>
+</div>
+</div>
+</div>
+
+<div class="app-wrapper" id="app">
+
+<div class="auth-page" id="authPage">
+<div class="auth-box glass">
+<div class="logo">
+<h1>چاره‌<span>ساز</span></h1>
+<p>پنل مشتری</p>
+</div>
+<div class="auth-tabs">
+<button class="active" data-tab="login" onclick="switchTab('login')">ورود</button>
+<button data-tab="register" onclick="switchTab('register')">ثبت‌نام</button>
+</div>
+
+<form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+<div class="input-group">
+<label>شماره موبایل</label>
+<input type="tel" id="loginPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+</div>
+<div class="input-group">
+<label>رمز عبور</label>
+<input type="password" id="loginPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
+</div>
+<button type="submit" class="btn btn-primary">ورود</button>
+<div class="auth-footer">حساب ندارید؟ <a onclick="switchTab('register')">ثبت‌نام کنید</a></div>
+</form>
+
+<form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+<div class="input-group">
+<label>نام کامل</label>
+<input type="text" id="registerName" placeholder="نام و نام خانوادگی" required>
+</div>
+<div class="input-group">
+<label>شماره موبایل</label>
+<input type="tel" id="registerPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+</div>
+<div class="input-group">
+<label>رمز عبور</label>
+<input type="password" id="registerPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
+</div>
+<div class="input-group">
+<label>تکرار رمز عبور</label>
+<input type="password" id="registerPasswordConfirm" placeholder="تکرار رمز" required>
+</div>
+<button type="submit" class="btn btn-success">ثبت‌نام</button>
+<div class="auth-footer">قبلاً ثبت‌نام کردید؟ <a onclick="switchTab('login')">وارد شوید</a></div>
+</form>
+</div>
+</div>
+
+<div class="page" id="dashboardPage" style="display:none;">
+<div class="page-header">
+<h2>🛒 پنل مشتری</h2>
+<div class="user-badge">
+<span id="userNameDisplay">کاربر</span>
+<div class="avatar" id="userAvatar">ش</div>
+</div>
+</div>
+
+<div class="glass" style="margin-bottom:16px;">
+<p style="font-size:14px; opacity:0.8;">👋 خوش آمدید <strong id="welcomeName" style="color:#fff;">کاربر</strong></p>
+<p style="font-size:12px; opacity:0.4; margin-top:4px;">چه خدمتی نیاز دارید؟</p>
+</div>
+
+<div class="section-title">🔔 اعلان‌ها</div>
+<div id="notificationsList"></div>
+
+<div class="section-title">🔍 جستجوی متخصص</div>
+<div class="glass" style="margin-bottom:16px;">
+<div class="filter-row">
+<input type="text" id="searchExpert" placeholder="جستجو..." oninput="filterExperts()">
+<select id="filterIndustry" onchange="filterExperts()">
+<option value="">همه صنف‌ها</option>
+<option value="آرایشگری">آرایشگری</option>
+<option value="تعمیرات">تعمیرات</option>
+<option value="ساختمان">ساختمان</option>
+<option value="خودرو">خودرو</option>
+<option value="نظافت">نظافت</option>
+<option value="آموزش">آموزش</option>
+<option value="پزشکی">پزشکی</option>
+<option value="املاک">املاک</option>
+<option value="حقوقی">حقوقی</option>
+</select>
+</div>
+</div>
+
+<div id="expertList"></div>
+
+<div class="section-title">📦 سفارش‌های من</div>
+<div id="orderList"></div>
+
+<div class="section-title">💰 کیف پول</div>
+<div class="wallet-card glass">
+<div>
+<div class="wallet-label">موجودی</div>
+<div class="wallet-amount" id="walletAmount">۰ تومان</div>
+</div>
+<button class="btn btn-primary btn-sm" onclick="showWalletActions()">مدیریت</button>
+</div>
+
+<div id="walletActions" style="display:none; margin-top:10px;">
+<div class="filter-row">
+<input type="number" id="walletAmountInput" placeholder="مبلغ به تومان">
+<button class="btn btn-success btn-sm" onclick="chargeWallet()">شارژ</button>
+<button class="btn btn-danger btn-sm" onclick="withdrawWallet()">برداشت</button>
+</div>
+</div>
+
+<div style="margin-top:24px;">
+<button class="btn btn-danger" onclick="handleLogout()">🚪 خروج</button>
+</div>
+</div>
+
+<div id="appPagesContainer"></div>
+
+</div>
+
+<nav class="bottom-nav" id="bottomNav" style="display:none;">
+<button class="nav-item active" data-page="dashboard" onclick="navTo('dashboard')">
+<span class="nav-icon">🏠</span><span class="nav-label">خانه</span>
+</button>
+<button class="nav-item" data-page="orders" onclick="navTo('orders')">
+<span class="nav-icon">📦</span><span class="nav-label">سفارش‌ها</span>
+</button>
+<button class="nav-item" data-page="wallet" onclick="navTo('wallet')">
+<span class="nav-icon">💰</span><span class="nav-label">کیف پول</span>
+</button>
+<button class="nav-item" data-page="profile" onclick="navTo('profile')">
+<span class="nav-icon">👤</span><span class="nav-label">پروفایل</span>
+</button>
+<button class="nav-item" data-page="favorites" onclick="navTo('favorites')">
+<span class="nav-icon">❤️</span><span class="nav-label">علاقه‌مندی</span>
+</button>
+</nav>
+<script src="shared.js"></script>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | نسخه متصل به shared.js
+// ================================================================
+
+const SAMPLE_EXPERTS = [
+{ id: 'demo_e1', name: 'رضا محمدی', industry: 'تعمیرات', sub: 'تعمیرات موبایل', rating: 4.8, price: 250000, location: 'تهران', image: '🔧', desc: 'تعمیرات تخصصی موبایل و لپ‌تاپ' },
+{ id: 'demo_e2', name: 'سارا حسینی', industry: 'آرایشگری', sub: 'آرایشگری زنانه', rating: 4.9, price: 350000, location: 'تهران', image: '💇', desc: 'آرایشگری حرفه‌ای با ۱۰ سال سابقه' },
+{ id: 'demo_e3', name: 'علی کریمی', industry: 'ساختمان', sub: 'نقاشی ساختمان', rating: 4.7, price: 400000, location: 'کرج', image: '🎨', desc: 'نقاشی ساختمان با بهترین کیفیت' },
+{ id: 'demo_e4', name: 'مریم نوری', industry: 'آموزش', sub: 'آموزش زبان', rating: 4.9, price: 300000, location: 'اصفهان', image: '📚', desc: 'آموزش زبان انگلیسی' },
+{ id: 'demo_e5', name: 'حسن رضایی', industry: 'خودرو', sub: 'تعمیرات خودرو', rating: 4.6, price: 450000, location: 'تهران', image: '🚗', desc: 'تعمیرات خودروهای خارجی' },
+{ id: 'demo_e6', name: 'فاطمه صادقی', industry: 'نظافت', sub: 'نظافت منزل', rating: 4.8, price: 200000, location: 'تهران', image: '🧹', desc: 'نظافت منزل' },
+{ id: 'demo_e7', name: 'امیر رحیمی', industry: 'پزشکی', sub: 'پزشک عمومی', rating: 4.9, price: 500000, location: 'تهران', image: '👨‍⚕️', desc: 'ویزیت در منزل' },
+{ id: 'demo_e8', name: 'زهرا موسوی', industry: 'املاک', sub: 'مشاوره املاک', rating: 4.7, price: 0, location: 'تهران', image: '🏠', desc: 'مشاوره رایگان' },
+];
+
+let modalCallback = null;
+
+function showToast(msg, type = 'info', duration = 3000) {
+const c = document.getElementById('toastContainer');
+const t = document.createElement('div');
+t.className = `toast toast-${type}`;
+const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+t.innerHTML = `${icons[type] || 'ℹ️'} ${msg}`;
+c.appendChild(t);
+setTimeout(() => { t.classList.add('hide'); setTimeout(() => t.remove(), 300); }, duration);
+}
+
+function openModal(title, body, cb) {
+document.getElementById('modalTitle').textContent = title;
+document.getElementById('modalBody').textContent = body;
+document.getElementById('modalOverlay').classList.add('open');
+modalCallback = cb;
+}
+
+function closeModal() {
+document.getElementById('modalOverlay').classList.remove('open');
+modalCallback = null;
+}
+
+document.getElementById('modalConfirmBtn').addEventListener('click', function() {
+if (modalCallback) modalCallback();
+closeModal();
+});
+
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+if (e.target === this) closeModal();
+});
+
+function switchTab(tab) {
+document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
+document.querySelector(`.auth-tabs button[data-tab="${tab}"]`).classList.add('active');
+document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+}
+
+// ================================================================
+// احراز هویت با shared.js
+// ================================================================
+function handleLogin(e) {
+e.preventDefault();
+const phone = document.getElementById('loginPhone').value.trim();
+const pass = document.getElementById('loginPassword').value;
+if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
+const user = findCustomerByPhone(phone);
+if (!user || user.password !== pass) { showToast('اطلاعات صحیح نیست', 'error'); return; }
+setCurrentCustomer(user);
+showToast(`خوش آمدید ${user.name}`, 'success');
+showDashboard();
+}
+
+function handleRegister(e) {
+e.preventDefault();
+const name = document.getElementById('registerName').value.trim();
+const phone = document.getElementById('registerPhone').value.trim();
+const pass = document.getElementById('registerPassword').value;
+const confirm = document.getElementById('registerPasswordConfirm').value;
+if (!name || name.length < 3) { showToast('نام کامل الزامی', 'error'); return; }
+if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
+if (pass !== confirm) { showToast('رمز مطابقت ندارد', 'error'); return; }
+
+const result = addCustomer({ name, phone, password: pass, wallet: 0, points: 0 });
+if (!result.success) { showToast(result.error, 'error'); return; }
+
+setCurrentCustomer(result.user);
+showToast(`ثبت‌نام موفق! خوش آمدید ${name}`, 'success');
+showDashboard();
+}
+
+function handleLogout() {
+openModal('خروج', 'آیا مطمئن هستید؟', function() {
+setCurrentCustomer(null);
+showToast('خارج شدید', 'info');
+showAuthPage();
+});
+}
+
+function showAuthPage() {
+document.getElementById('authPage').style.display = 'flex';
+document.getElementById('dashboardPage').style.display = 'none';
+document.getElementById('bottomNav').style.display = 'none';
+document.getElementById('appPagesContainer').innerHTML = '';
+switchTab('login');
+}
+
+function showDashboard() {
+const user = getCurrentCustomer();
+if (!user) { showAuthPage(); return; }
+document.getElementById('authPage').style.display = 'none';
+document.getElementById('dashboardPage').style.display = 'block';
+document.getElementById('bottomNav').style.display = 'flex';
+document.getElementById('appPagesContainer').innerHTML = '';
+
+document.getElementById('userNameDisplay').textContent = user.name;
+document.getElementById('welcomeName').textContent = user.name;
+document.getElementById('userAvatar').textContent = user.name.charAt(0);
+document.getElementById('walletAmount').textContent = (user.wallet || 0).toLocaleString() + ' تومان';
+
+renderNotifications();
+renderExperts();
+renderOrders();
+
+document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
+document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
+}
+
+// ================================================================
+// نمایش اعلان‌ها
+// ================================================================
+function renderNotifications() {
+const user = getCurrentCustomer();
+if (!user) return;
+const notifications = getNotificationsFor(user.id).filter(n => !n.read).slice(0, 3);
+const c = document.getElementById('notificationsList');
+if (!notifications.length) { c.innerHTML = ''; return; }
+c.innerHTML = notifications.map(n => `
+<div class="glass" style="margin-bottom:8px; padding:12px; border-right:3px solid var(--primary-orange);">
+<div style="font-size:13px; font-weight:600;">${n.title}</div>
+<div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${n.message}</div>
+</div>
+`).join('');
+}
+
+// ================================================================
+// متخصصان
+// ================================================================
+function getAllExpertsCombined() {
+const real = getAllExperts();
+const ids = new Set(real.map(e => e.id));
+const demos = SAMPLE_EXPERTS.filter(d => !ids.has(d.id));
+return [...real, ...demos];
+}
+
+function renderExperts(list) {
+const data = list || getAllExpertsCombined();
+const container = document.getElementById('expertList');
+if (!data.length) {
+container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><div>متخصصی یافت نشد</div></div>`;
+return;
+}
+container.innerHTML = data.map(e => `
+<div class="expert-card">
+<div class="expert-name">${e.image || '🔧'} ${e.name}</div>
+<div class="expert-info">${e.industry} • ${e.sub} • ${e.location || 'ایران'}</div>
+<div class="expert-info">⭐ <span class="expert-rating">${e.rating || '-'}</span> • 💰 <span class="expert-price">${e.price ? e.price.toLocaleString() + ' تومان' : 'رایگان'}</span></div>
+<div class="expert-info" style="font-size:12px; opacity:0.6;">${e.desc || ''}</div>
+<div class="expert-actions">
+<button class="btn btn-primary btn-sm" onclick="bookExpert('${e.id}')">📅 رزرو</button>
+<button class="btn btn-outline btn-sm" onclick="toggleFavorite('${e.id}')">❤️</button>
+</div>
+</div>
+`).join('');
+}
+
+function filterExperts() {
+const query = document.getElementById('searchExpert').value.toLowerCase().trim();
+const industry = document.getElementById('filterIndustry').value;
+const filtered = getAllExpertsCombined().filter(e => {
+const matchName = (e.name || '').toLowerCase().includes(query) || (e.sub || '').toLowerCase().includes(query);
+const matchIndustry = !industry || e.industry === industry;
+return matchName && matchIndustry;
+});
+renderExperts(filtered);
+}
+
+// ================================================================
+// رزرو متخصص (اتصال به متخصص)
+// ================================================================
+function bookExpert(expertId) {
+const user = getCurrentCustomer();
+if (!user) { showAuthPage(); return; }
+const expert = getAllExpertsCombined().find(e => e.id === expertId);
+if (!expert) return;
+
+openModal('رزرو متخصص', `آیا می‌خواهید ${expert.name} را با قیمت ${expert.price ? expert.price.toLocaleString() + ' تومان' : 'رایگان'} رزرو کنید؟`, function() {
+const result = createOrder({
+customerId: user.id,
+customerName: user.name,
+expertId: expert.id,
+expertName: expert.name,
+expertImage: expert.image,
+price: expert.price || 0,
+status: 'pending',
+date: new Date().toISOString()
+});
+
+if (result.success) {
+showToast(`رزرو ${expert.name} ثبت شد`, 'success');
+renderOrders();
+} else {
+showToast('خطا در رزرو', 'error');
+}
+});
+}
+
+function toggleFavorite(id) {
+let favs = JSON.parse(localStorage.getItem('chare_customer_favorites') || '[]');
+const idx = favs.indexOf(id);
+if (idx > -1) { favs.splice(idx, 1); showToast('حذف شد', 'info'); }
+else { favs.push(id); showToast('اضافه شد', 'success'); }
+localStorage.setItem('chare_customer_favorites', JSON.stringify(favs));
+}
+
+// ================================================================
+// سفارش‌ها
+// ================================================================
+function renderOrders() {
+const user = getCurrentCustomer();
+if (!user) return;
+const orders = getOrdersByCustomer(user.id);
+const container = document.getElementById('orderList');
+if (!orders.length) {
+container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div>هیچ سفارشی ندارید</div></div>`;
+return;
+}
+const statusMap = { pending: 'در انتظار تأیید متخصص', confirmed: 'تأیید شد - در حال انجام', done: 'انجام شده', cancelled: 'لغو شده' };
+const statusClass = { pending: 'pending', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled' };
+container.innerHTML = orders.map(o => `
+<div class="order-card">
+<div class="order-header">
+<span style="font-weight:600;">${o.expertImage || '🔧'} ${o.expertName}</span>
+<span class="order-status ${statusClass[o.status] || 'pending'}">${statusMap[o.status] || o.status}</span>
+</div>
+<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
+<div class="order-detail">📅 ${formatDate(o.date)}</div>
+${o.escrow && !o.escrowReleased ? `<div class="order-detail" style="color:var(--primary-gold);">🔒 مبلغ در امانت چاره‌ساز</div>` : ''}
+${o.status === 'done' && o.escrowReleased ? `<div class="order-detail" style="color:var(--primary-green);">✅ پرداخت انجام شد</div>` : ''}
+${o.status === 'pending' ? `<div class="expert-actions" style="margin-top:8px;">
+<button class="btn btn-danger btn-sm" onclick="cancelOrder('${o.id}')">لغو سفارش</button>
+</div>` : ''}
+${o.status === 'done' && !o.reviewed ? `<div class="expert-actions" style="margin-top:8px;">
+<button class="btn btn-gold btn-sm" onclick="reviewOrder('${o.id}')">⭐ ثبت نظر</button>
+</div>` : ''}
+</div>
+`).join('');
+}
+
+function cancelOrder(id) {
+openModal('لغو سفارش', 'آیا مطمئن هستید؟', function() {
+const result = updateOrderStatus(id, 'cancelled');
+if (result.success) { showToast('سفارش لغو شد', 'warning'); renderOrders(); }
+});
+}
+
+function reviewOrder(orderId) {
+const html = `
+<div class="input-group">
+<label>امتیاز</label>
+<select id="reviewRating">
+<option value="5">⭐⭐⭐⭐⭐ عالی</option>
+<option value="4">⭐⭐⭐⭐ خوب</option>
+<option value="3">⭐⭐⭐ متوسط</option>
+<option value="2">⭐⭐ ضعیف</option>
+<option value="1">⭐ بد</option>
+</select>
+</div>
+<div class="input-group">
+<label>نظر شما</label>
+<textarea id="reviewText" placeholder="تجربه خود را بنویسید..." rows="3"></textarea>
+</div>
+<button class="btn btn-gold" onclick="submitReview('${orderId}')">ثبت نظر</button>
+`;
+document.getElementById('modalTitle').textContent = '⭐ ثبت نظر';
+document.getElementById('modalBody').innerHTML = html;
+document.getElementById('modalOverlay').classList.add('open');
+}
+
+function submitReview(orderId) {
+const rating = parseInt(document.getElementById('reviewRating').value);
+const text = document.getElementById('reviewText').value.trim();
+const user = getCurrentCustomer();
+const orders = getAllOrders();
+const order = orders.find(o => o.id === orderId);
+if (!order || !user) return;
+
+addReview({
+orderId: orderId,
+expertId: order.expertId,
+expertName: order.expertName,
+customerId: user.id,
+customerName: user.name,
+rating: rating,
+text: text || 'بدون نظر'
+});
+
+const orders2 = getAllOrders();
+const idx = orders2.findIndex(o => o.id === orderId);
+if (idx !== -1) {
+orders2[idx].reviewed = true;
+saveAllOrders(orders2);
+}
+
+closeModal();
+showToast('نظر ثبت شد. ممنون!', 'success');
+renderOrders();
+}
+
+// ================================================================
+// کیف پول
+// ================================================================
+function showWalletActions() {
+const el = document.getElementById('walletActions');
+el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function chargeWallet() {
+const amount = parseInt(document.getElementById('walletAmountInput').value);
+if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
+const user = getCurrentCustomer();
+if (!user) return;
+const users = getAllCustomers();
+const idx = users.findIndex(u => u.id === user.id);
+if (idx === -1) return;
+users[idx].wallet = (users[idx].wallet || 0) + amount;
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
+document.getElementById('walletAmount').textContent = users[idx].wallet.toLocaleString() + ' تومان';
+showToast(`${amount.toLocaleString()} تومان شارژ شد`, 'success');
+document.getElementById('walletAmountInput').value = '';
+}
+
+function withdrawWallet() {
+const amount = parseInt(document.getElementById('walletAmountInput').value);
+if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
+const user = getCurrentCustomer();
+const users = getAllCustomers();
+const idx = users.findIndex(u => u.id === user.id);
+if ((users[idx].wallet || 0) < amount) { showToast('موجودی کافی نیست', 'error'); return; }
+users[idx].wallet = (users[idx].wallet || 0) - amount;
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
+document.getElementById('walletAmount').textContent = users[idx].wallet.toLocaleString() + ' تومان';
+showToast(`${amount.toLocaleString()} تومان برداشت شد`, 'success');
+document.getElementById('walletAmountInput').value = '';
+}
+
+// ================================================================
+// ناوبری
+// ================================================================
+function navTo(page) {
+const user = getCurrentCustomer();
+if (!user) { showAuthPage(); return; }
+document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
+const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
+if (navBtn) navBtn.classList.add('active');
+
+if (page === 'dashboard') { closeApp(); return; }
+
+const titles = { orders: '📦 سفارش‌ها', wallet: '💰 کیف پول', profile: '👤 پروفایل', favorites: '❤️ علاقه‌مندی' };
+let content = '';
+
+if (page === 'orders') {
+const orders = getOrdersByCustomer(user.id);
+if (!orders.length) {
+content = `<div class="empty-state"><div class="empty-icon">📭</div><div>سفارشی ندارید</div></div>`;
+} else {
+const statusMap = { pending: 'در انتظار', confirmed: 'تأیید شده', done: 'انجام شده', cancelled: 'لغو شده' };
+const statusClass = { pending: 'pending', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled' };
+content = orders.map(o => `
+<div class="order-card">
+<div class="order-header">
+<span style="font-weight:600;">${o.expertName}</span>
+<span class="order-status ${statusClass[o.status]}">${statusMap[o.status]}</span>
+</div>
+<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() : 'رایگان'}</div>
+</div>
+`).join('');
+}
+} else if (page === 'wallet') {
+content = `
+<div class="wallet-card">
+<div><div class="wallet-label">موجودی</div><div class="wallet-amount">${(user.wallet || 0).toLocaleString()} تومان</div></div>
+</div>
+<div class="filter-row">
+<input type="number" id="walletPageAmount" placeholder="مبلغ">
+<button class="btn btn-success btn-sm" onclick="chargeWalletPage()">شارژ</button>
+<button class="btn btn-danger btn-sm" onclick="withdrawWalletPage()">برداشت</button>
+</div>
+`;
+} else if (page === 'profile') {
+content = `
+<div class="input-group"><label>نام</label><input type="text" value="${user.name}" id="profileName"></div>
+<div class="input-group"><label>شماره</label><input type="text" value="${user.phone}" disabled></div>
+<div class="input-group"><label>موجودی</label><input type="text" value="${(user.wallet || 0).toLocaleString()} تومان" disabled></div>
+<button class="btn btn-primary" onclick="updateProfile()">ذخیره</button>
+`;
+} else if (page === 'favorites') {
+const favs = JSON.parse(localStorage.getItem('chare_customer_favorites') || '[]');
+const experts = getAllExpertsCombined().filter(e => favs.includes(e.id));
+if (!experts.length) {
+content = `<div class="empty-state"><div class="empty-icon">❤️</div><div>علاقه‌مندی خالی</div></div>`;
+} else {
+content = experts.map(e => `
+<div class="expert-card">
+<div class="expert-name">${e.image} ${e.name}</div>
+<div class="expert-info">${e.industry} • ${e.sub}</div>
+<div class="expert-actions">
+<button class="btn btn-primary btn-sm" onclick="bookExpert('${e.id}')">📅 رزرو</button>
+<button class="btn btn-danger btn-sm" onclick="toggleFavorite('${e.id}');navTo('favorites')">حذف</button>
+</div>
+</div>
+`).join('');
+}
+}
+
+const container = document.getElementById('appPagesContainer');
+container.innerHTML = `
+<div class="page active">
+<div class="page-header-with-back">
+<button class="back-btn" onclick="navTo('dashboard')">← بازگشت</button>
+<h2>${titles[page]}</h2>
+</div>
+<div class="glass">${content}</div>
+</div>
+`;
+document.getElementById('dashboardPage').style.display = 'none';
+}
+
+function closeApp() {
+document.getElementById('appPagesContainer').innerHTML = '';
+document.getElementById('dashboardPage').style.display = 'block';
+document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
+document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
+}
+
+function updateProfile() {
+const name = document.getElementById('profileName').value.trim();
+if (!name) { showToast('نام الزامیست', 'error'); return; }
+const user = getCurrentCustomer();
+const users = getAllCustomers();
+const idx = users.findIndex(u => u.id === user.id);
+users[idx].name = name;
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
+showToast('پروفایل به‌روز شد', 'success');
+navTo('profile');
+}
+
+function chargeWalletPage() {
+const amount = parseInt(document.getElementById('walletPageAmount').value);
+if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
+const user = getCurrentCustomer();
+const users = getAllCustomers();
+const idx = users.findIndex(u => u.id === user.id);
+users[idx].wallet = (users[idx].wallet || 0) + amount;
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
+showToast(`${amount.toLocaleString()} تومان شارژ شد`, 'success');
+navTo('wallet');
+}
+
+function withdrawWalletPage() {
+const amount = parseInt(document.getElementById('walletPageAmount').value);
+if (!amount || amount < 1000) { showToast('مبلغ معتبر وارد کنید', 'error'); return; }
+const user = getCurrentCustomer();
+const users = getAllCustomers();
+const idx = users.findIndex(u => u.id === user.id);
+if ((users[idx].wallet || 0) < amount) { showToast('موجودی کافی نیست', 'error'); return; }
+users[idx].wallet = (users[idx].wallet || 0) - amount;
+saveAllCustomers(users);
+setCurrentCustomer(users[idx]);
+showToast(`${amount.toLocaleString()} تومان برداشت شد`, 'success');
+navTo('wallet');
+}
+
+// ================================================================
+// راه‌اندازی
+// ================================================================
+(function init() {
+const user = getCurrentCustomer();
+if (user) { showDashboard(); } else { showAuthPage(); }
+})();
+
+// گوش دادن به تغییرات از پنل متخصص
+window.addEventListener('chare_data_changed', function() {
+const user = getCurrentCustomer();
+if (user && document.getElementById('dashboardPage').style.display !== 'none') {
+renderOrders();
+renderNotifications();
+}
+});
+
+console.log('🛒 پنل مشتری (متصل) بارگذاری شد.');
+</script>
+</body>
+</html>
+
