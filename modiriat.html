@@ -20,7 +20,6 @@
 --glass-blur: 12px;
 --text-muted: rgba(255,255,255,0.6);
 --font: 'Vazirmatn', sans-serif;
---transition: all 0.25s ease;
 }
 html, body {
 font-family: var(--font);
@@ -29,8 +28,6 @@ min-height: 100vh;
 color: #fff;
 direction: rtl;
 }
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: var(--primary-blue); border-radius: 10px; }
 .app-wrapper {
 max-width: 480px;
 margin: 0 auto;
@@ -44,9 +41,7 @@ border: 1px solid var(--glass-border);
 border-radius: var(--glass-radius);
 box-shadow: var(--glass-shadow);
 padding: 18px;
-transition: var(--transition);
 }
-.glass:hover { transform: translateY(-3px); }
 .btn {
 display: inline-flex;
 align-items: center;
@@ -59,22 +54,17 @@ font-family: var(--font);
 font-size: 15px;
 font-weight: 600;
 cursor: pointer;
-transition: var(--transition);
 width: 100%;
 color: #fff;
 }
 .btn-primary { background: var(--primary-blue); }
-.btn-primary:hover { background: #2563eb; transform: scale(1.02); }
-.btn-orange { background: var(--primary-orange); }
 .btn-danger { background: var(--primary-red); }
-.btn-success { background: var(--primary-green); }
 .btn-outline {
 background: transparent;
 border: 2px solid rgba(255,255,255,0.2);
 color: #fff;
 }
 .btn-sm { padding: 8px 14px; font-size: 13px; }
-.btn-xs { padding: 6px 10px; font-size: 12px; }
 .input-group { margin-bottom: 16px; }
 .input-group label {
 display: block;
@@ -83,7 +73,7 @@ font-weight: 500;
 color: var(--text-muted);
 margin-bottom: 5px;
 }
-.input-group input, .input-group select {
+.input-group input {
 width: 100%;
 padding: 11px 14px;
 border: 1px solid rgba(255,255,255,0.15);
@@ -94,7 +84,7 @@ font-family: var(--font);
 font-size: 15px;
 outline: none;
 }
-.input-group input:focus, .input-group select:focus {
+.input-group input:focus {
 border-color: var(--primary-blue);
 box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
 }
@@ -120,11 +110,11 @@ font-size: 14px;
 font-weight: 500;
 backdrop-filter: blur(12px);
 box-shadow: 0 6px 24px rgba(0,0,0,0.4);
-animation: slideDown 0.35s ease forwards;
 pointer-events: auto;
 display: flex;
 align-items: center;
 gap: 10px;
+animation: slideDown 0.35s ease forwards;
 }
 .toast-success { background: rgba(43,122,75,0.92); }
 .toast-error { background: rgba(220,53,69,0.92); }
@@ -133,10 +123,6 @@ gap: 10px;
 @keyframes slideDown {
 0% { opacity: 0; transform: translateY(-30px); }
 100% { opacity: 1; transform: translateY(0); }
-}
-.toast.hide { animation: slideUp 0.3s ease forwards; }
-@keyframes slideUp {
-100% { opacity: 0; transform: translateY(-30px); }
 }
 .modal-overlay {
 position: fixed;
@@ -221,7 +207,6 @@ align-items: center;
 }
 .list-item .item-info .item-name { font-size: 14px; font-weight: 600; }
 .list-item .item-info .item-detail { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.list-item .item-actions { display: flex; gap: 6px; }
 .back-btn {
 background: rgba(255,255,255,0.06);
 border: 1px solid rgba(255,255,255,0.08);
@@ -288,14 +273,6 @@ padding: 20px;
 .auth-box .logo h1 { font-size: 32px; font-weight: 800; }
 .auth-box .logo h1 span { color: var(--primary-blue); }
 .auth-box .logo p { color: var(--text-muted); font-size: 14px; }
-.auth-form { display: none; }
-.auth-form.active { display: block; }
-.auth-footer {
-text-align: center;
-margin-top: 16px;
-color: var(--text-muted);
-font-size: 13px;
-}
 .badge {
 display: inline-block;
 padding: 2px 10px;
@@ -303,32 +280,12 @@ border-radius: 20px;
 font-size: 11px;
 font-weight: 600;
 }
+.badge-info { background: rgba(59,130,246,0.2); color: var(--primary-blue); }
 .badge-success { background: rgba(43,122,75,0.2); color: var(--primary-green); }
 .badge-warning { background: rgba(245,158,11,0.2); color: var(--primary-gold); }
-.badge-danger { background: rgba(220,53,69,0.2); color: var(--primary-red); }
-.badge-info { background: rgba(59,130,246,0.2); color: var(--primary-blue); }
 </style>
 </head>
 <body>
-<div class="toast-container" id="toastContainer"></div>
-
-<div class="modal-overlay" id="modalOverlay">
-<div class="modal-box">
-<div class="modal-title" id="modalTitle">تأیید</div>
-<div class="modal-body" id="modalBody">آیا مطمئن هستید؟</div>
-<div class="modal-actions">
-<button class="btn btn-outline btn-sm" onclick="closeModal()">انصراف</button>
-<button class="btn btn-primary btn-sm" id="modalConfirmBtn">تأیید</button>
-</div>
-</div>
-</div>
-
-<div class="app-wrapper" id="app">
-
-<div class="auth-page" id="authPage">
-<div class="auth-box glass">
-<div class="logo">
-<h1>چاره‌<
 <div class="toast-container" id="toastContainer"></div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -351,7 +308,7 @@ font-weight: 600;
 <p>پنل مدیریت</p>
 </div>
 
-<form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+<form id="loginForm" onsubmit="handleLogin(event)">
 <div class="input-group">
 <label>نام کاربری</label>
 <input type="text" id="loginUser" placeholder="admin" required>
@@ -361,8 +318,8 @@ font-weight: 600;
 <input type="password" id="loginPassword" placeholder="رمز" required>
 </div>
 <button type="submit" class="btn btn-primary">ورود مدیر</button>
-<div class="auth-footer" style="font-size:12px; margin-top:12px;">
-دسترسی پیش‌فرض: <b>admin</b> / <b>admin123</b>
+<div style="text-align:center; margin-top:12px; font-size:12px; color:var(--text-muted);">
+دسترسی: <b>admin</b> / <b>admin123</b>
 </div>
 </form>
 </div>
@@ -372,38 +329,30 @@ font-weight: 600;
 <div class="page-header">
 <h2>📊 پنل مدیریت</h2>
 <div class="user-badge">
-<span id="userNameDisplay">مدیر</span>
-<div class="avatar" id="userAvatar">م</div>
+<span>مدیر کل</span>
+<div class="avatar">م</div>
 </div>
 </div>
 
 <div class="glass" style="margin-bottom:16px;">
-<p style="font-size:14px; opacity:0.8;">👋 خوش آمدید <strong id="welcomeName" style="color:#fff;">مدیر</strong></p>
-<p style="font-size:12px; opacity:0.4; margin-top:4px;">اتاق فرماندهی چاره‌ساز — نظارت کلی</p>
+<p style="font-size:14px; opacity:0.8;">👋 خوش آمدید <strong style="color:#fff;">مدیر کل</strong></p>
+<p style="font-size:12px; opacity:0.4; margin-top:4px;">اتاق فرماندهی چاره‌ساز</p>
 </div>
 
-<div class="section-title">📈 آمار کلی سیستم</div>
+<div class="section-title">📈 آمار کلی</div>
 <div class="stats-grid">
 <div class="stat-card"><div class="stat-value" id="statUsers">۰</div><div class="stat-label">کاربران</div></div>
 <div class="stat-card"><div class="stat-value" id="statExperts">۰</div><div class="stat-label">متخصصان</div></div>
-<div class="stat-card"><div class="stat-value" id="statOrders">۰</div><div class="stat-label">کل سفارش‌ها</div></div>
-<div class="stat-card"><div class="stat-value" id="statIncome">۰</div><div class="stat-label">درآمد کل</div></div>
+<div class="stat-card"><div class="stat-value" id="statOrders">۰</div><div class="stat-label">سفارش‌ها</div></div>
+<div class="stat-card"><div class="stat-value" id="statIncome">۰</div><div class="stat-label">درآمد</div></div>
 </div>
 
-<div class="section-title">📊 تفکیک سفارش‌ها</div>
+<div class="section-title">📊 وضعیت سفارش‌ها</div>
 <div class="stats-grid">
 <div class="stat-card"><div class="stat-value" id="statPending" style="color:var(--primary-gold);">۰</div><div class="stat-label">در انتظار</div></div>
 <div class="stat-card"><div class="stat-value" id="statActive" style="color:var(--primary-blue);">۰</div><div class="stat-label">در حال انجام</div></div>
 <div class="stat-card"><div class="stat-value" id="statDone" style="color:var(--primary-green);">۰</div><div class="stat-label">انجام شده</div></div>
 <div class="stat-card"><div class="stat-value" id="statCancelled" style="color:var(--primary-red);">۰</div><div class="stat-label">لغو شده</div></div>
-</div>
-
-<div class="section-title">⚠️ آمار تخلفات</div>
-<div class="glass">
-<div style="display:flex; justify-content:space-between; padding:8px 0;">
-<span>تعداد تخلفات ثبت‌شده</span>
-<strong id="statViolations" style="color:var(--primary-red);">۰</strong>
-</div>
 </div>
 
 <div style="margin-top:24px;">
@@ -425,31 +374,28 @@ font-weight: 600;
 <button class="nav-item" data-page="experts" onclick="navTo('experts')">
 <span class="nav-icon">🔧</span><span class="nav-label">متخصصان</span>
 </button>
-<button class="nav-item" data-page="stats" onclick="navTo('stats')">
-<span class="nav-icon">📊</span><span class="nav-label">آمار</span>
-</button>
-<button class="nav-item" data-page="violations" onclick="navTo('violations')">
-<span class="nav-icon">⚠️</span><span class="nav-label">تخلفات</span>
+<button class="nav-item" data-page="orders" onclick="navTo('orders')">
+<span class="nav-icon">📦</span><span class="nav-label">سفارش‌ها</span>
 </button>
 </nav>
-<script src="shared.js"></script>
 <script>
 // ================================================================
-// چاره‌ساز | پنل مدیریت | متصل به shared.js
+// چاره‌ساز | پنل مدیریت | نسخه ساده
 // ================================================================
 
-const ADMIN_CREDS = { username: 'admin', password: 'admin123' };
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'admin123';
 
 let modalCallback = null;
 
-function showToast(msg, type = 'info', duration = 3000) {
+function showToast(msg, type = 'info') {
 const c = document.getElementById('toastContainer');
 const t = document.createElement('div');
-t.className = `toast toast-${type}`;
+t.className = 'toast toast-' + type;
 const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-t.innerHTML = `${icons[type] || 'ℹ️'} ${msg}`;
+t.innerHTML = (icons[type] || 'ℹ️') + ' ' + msg;
 c.appendChild(t);
-setTimeout(() => { t.classList.add('hide'); setTimeout(() => t.remove(), 300); }, duration);
+setTimeout(function() { t.remove(); }, 3000);
 }
 
 function openModal(title, body, cb) {
@@ -469,37 +415,40 @@ if (modalCallback) modalCallback();
 closeModal();
 });
 
-document.getElementById('modalOverlay').addEventListener('click', function(e) {
-if (e.target === this) closeModal();
-});
-
-function getAdminSession() {
+// ================================================================
+// خواندن داده از LocalStorage (همون کلیدهای shared)
+// ================================================================
+function safeGet(key) {
 try {
-return JSON.parse(localStorage.getItem('chare_admin_session') || 'null');
-} catch (e) { return null; }
+return JSON.parse(localStorage.getItem(key) || '[]');
+} catch (e) {
+return [];
+}
 }
 
-function setAdminSession(s) {
-if (s) localStorage.setItem('chare_admin_session', JSON.stringify(s));
-else localStorage.removeItem('chare_admin_session');
-}
+function getCustomers() { return safeGet('chare_shared_users'); }
+function getExperts() { return safeGet('chare_shared_experts'); }
+function getOrders() { return safeGet('chare_shared_orders'); }
 
+// ================================================================
+// ورود و خروج
+// ================================================================
 function handleLogin(e) {
 e.preventDefault();
-const username = document.getElementById('loginUser').value.trim();
-const password = document.getElementById('loginPassword').value;
-if (username !== ADMIN_CREDS.username || password !== ADMIN_CREDS.password) {
+const u = document.getElementById('loginUser').value.trim();
+const p = document.getElementById('loginPassword').value;
+if (u !== ADMIN_USER || p !== ADMIN_PASS) {
 showToast('نام کاربری یا رمز اشتباه است', 'error');
 return;
 }
-setAdminSession({ username, loginAt: new Date().toISOString() });
+localStorage.setItem('chare_admin_session', '1');
 showToast('خوش آمدید مدیر', 'success');
 showDashboard();
 }
 
 function handleLogout() {
 openModal('خروج', 'آیا مطمئن هستید؟', function() {
-setAdminSession(null);
+localStorage.removeItem('chare_admin_session');
 showToast('خارج شدید', 'info');
 showAuthPage();
 });
@@ -513,188 +462,155 @@ document.getElementById('appPagesContainer').innerHTML = '';
 }
 
 function showDashboard() {
-const session = getAdminSession();
-if (!session) { showAuthPage(); return; }
+if (!localStorage.getItem('chare_admin_session')) {
+showAuthPage();
+return;
+}
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('dashboardPage').style.display = 'block';
 document.getElementById('bottomNav').style.display = 'flex';
 document.getElementById('appPagesContainer').innerHTML = '';
-
-document.getElementById('userNameDisplay').textContent = 'مدیر کل';
-document.getElementById('welcomeName').textContent = 'مدیر کل';
-document.getElementById('userAvatar').textContent = 'م';
-
 renderStats();
+setActiveNav('dashboard');
+}
 
-document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
-document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
+function setActiveNav(page) {
+document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
+el.classList.remove('active');
+});
+const btn = document.querySelector('.bottom-nav .nav-item[data-page="' + page + '"]');
+if (btn) btn.classList.add('active');
 }
 
 // ================================================================
-// آمار کلی (فقط اعداد، بدون جزئیات شخصی)
+// آمار
 // ================================================================
 function renderStats() {
-const stats = getSystemStats();
+const users = getCustomers();
+const experts = getExperts();
+const orders = getOrders();
 
-document.getElementById('statUsers').textContent = stats.totalUsers;
-document.getElementById('statExperts').textContent = stats.totalExperts;
-document.getElementById('statOrders').textContent = stats.totalOrders;
-document.getElementById('statIncome').textContent = stats.totalIncome.toLocaleString();
+const income = orders
+.filter(function(o) { return o.status === 'done'; })
+.reduce(function(s, o) { return s + (o.price || 0); }, 0);
 
-document.getElementById('statPending').textContent = stats.pendingOrders;
-document.getElementById('statActive').textContent = stats.activeOrders;
-document.getElementById('statDone').textContent = stats.doneOrders;
-document.getElementById('statCancelled').textContent = stats.cancelledOrders;
+const pending = orders.filter(function(o) { return o.status === 'pending'; }).length;
+const active = orders.filter(function(o) { return o.status === 'confirmed'; }).length;
+const done = orders.filter(function(o) { return o.status === 'done'; }).length;
+const cancelled = orders.filter(function(o) { return o.status === 'cancelled'; }).length;
 
-document.getElementById('statViolations').textContent = stats.totalViolations;
+document.getElementById('statUsers').textContent = users.length;
+document.getElementById('statExperts').textContent = experts.length;
+document.getElementById('statOrders').textContent = orders.length;
+document.getElementById('statIncome').textContent = income.toLocaleString();
+document.getElementById('statPending').textContent = pending;
+document.getElementById('statActive').textContent = active;
+document.getElementById('statDone').textContent = done;
+document.getElementById('statCancelled').textContent = cancelled;
 }
 
 // ================================================================
 // ناوبری
 // ================================================================
 function navTo(page) {
-const session = getAdminSession();
-if (!session) { showAuthPage(); return; }
-document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
-const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
-if (navBtn) navBtn.classList.add('active');
+if (!localStorage.getItem('chare_admin_session')) {
+showAuthPage();
+return;
+}
 
-if (page === 'dashboard') { closeApp(); return; }
+setActiveNav(page);
 
-const titles = { users: '👥 کاربران', experts: '🔧 متخصصان', stats: '📊 آمار', violations: '⚠️ تخلفات' };
+if (page === 'dashboard') {
+closeApp();
+return;
+}
+
+const titles = {
+users: '👥 کاربران',
+experts: '🔧 متخصصان',
+orders: '📦 سفارش‌ها'
+};
+
 let content = '';
 
 if (page === 'users') {
-const users = getAllCustomers();
-if (!users.length) {
-content = `<div class="empty-state"><div class="empty-icon">👥</div><div>کاربری ثبت نشده</div></div>`;
+const users = getCustomers();
+if (users.length === 0) {
+content = '<div class="empty-state"><div class="empty-icon">👥</div><div>کاربری ثبت نشده</div></div>';
 } else {
-content = users.map(u => `
-<div class="list-item">
-<div class="item-info">
-<div class="item-name">${u.name}</div>
-<div class="item-detail">${u.phone} • ${formatDate(u.createdAt)}</div>
-</div>
-<span class="badge badge-info">کاربر</span>
-</div>
-`).join('');
+content = users.map(function(u) {
+return '<div class="list-item">' +
+'<div class="item-info">' +
+'<div class="item-name">' + (u.name || 'کاربر') + '</div>' +
+'<div class="item-detail">' + (u.phone || '') + '</div>' +
+'</div>' +
+'<span class="badge badge-info">کاربر</span>' +
+'</div>';
+}).join('');
 }
 } else if (page === 'experts') {
-const experts = getAllExperts();
-if (!experts.length) {
-content = `<div class="empty-state"><div class="empty-icon">🔧</div><div>متخصصی ثبت نشده</div></div>`;
+const experts = getExperts();
+if (experts.length === 0) {
+content = '<div class="empty-state"><div class="empty-icon">🔧</div><div>متخصصی ثبت نشده</div></div>';
 } else {
-content = experts.map(e => `
-<div class="list-item">
-<div class="item-info">
-<div class="item-name">${e.name}</div>
-<div class="item-detail">${e.industry} • ${e.sub} • ⭐ ${e.rating || '-'}</div>
-</div>
-<span class="badge badge-success">متخصص</span>
-</div>
-`).join('');
+content = experts.map(function(e) {
+return '<div class="list-item">' +
+'<div class="item-info">' +
+'<div class="item-name">' + (e.name || 'متخصص') + '</div>' +
+'<div class="item-detail">' + (e.industry || '') + ' • ' + (e.sub || '') + '</div>' +
+'</div>' +
+'<span class="badge badge-success">متخصص</span>' +
+'</div>';
+}).join('');
 }
-} else if (page === 'stats') {
-const stats = getSystemStats();
-content = `
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-value">${stats.totalUsers}</div><div class="stat-label">کاربران</div></div>
-<div class="stat-card"><div class="stat-value">${stats.totalExperts}</div><div class="stat-label">متخصصان</div></div>
-<div class="stat-card"><div class="stat-value">${stats.totalOrders}</div><div class="stat-label">سفارش‌ها</div></div>
-<div class="stat-card"><div class="stat-value">${stats.totalReviews}</div><div class="stat-label">نظرات</div></div>
-</div>
-<div class="glass" style="margin-top:12px;">
-<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-درآمد کل: <strong style="color:var(--primary-gold);">${stats.totalIncome.toLocaleString()} تومان</strong>
-</div>
-<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-سفارش در انتظار: <strong style="color:var(--primary-gold);">${stats.pendingOrders}</strong>
-</div>
-<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-در حال انجام: <strong style="color:var(--primary-blue);">${stats.activeOrders}</strong>
-</div>
-<div style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
-انجام شده: <strong style="color:var(--primary-green);">${stats.doneOrders}</strong>
-</div>
-<div style="padding:8px 0;">
-لغو شده: <strong style="color:var(--primary-red);">${stats.cancelledOrders}</strong>
-</div>
-</div>
-`;
-} else if (page === 'violations') {
-const violations = getAllViolations();
-if (!violations.length) {
-content = `
-<div class="empty-state">
-<div class="empty-icon">⚠️</div>
-<div>هیچ تخلفی ثبت نشده</div>
-<div style="margin-top:16px;">
-<button class="btn btn-orange btn-sm" onclick="addViolationDialog()">ثبت تخلف جدید</button>
-</div>
-</div>
-`;
+} else if (page === 'orders') {
+const orders = getOrders();
+if (orders.length === 0) {
+content = '<div class="empty-state"><div class="empty-icon">📦</div><div>سفارشی ثبت نشده</div></div>';
 } else {
-content = violations.map(v => `
-<div class="list-item">
-<div class="item-info">
-<div class="item-name">${v.title || 'تخلف'}</div>
-<div class="item-detail">${v.description || ''} • ${formatDate(v.createdAt)}</div>
-</div>
-<span class="badge badge-danger">تخلف</span>
-</div>
-`).join('');
+const statusMap = { pending: 'در انتظار', confirmed: 'در حال انجام', done: 'انجام شده', cancelled: 'لغو شده' };
+const badgeMap = { pending: 'badge-warning', confirmed: 'badge-info', done: 'badge-success', cancelled: 'badge-info' };
+content = orders.map(function(o) {
+return '<div class="list-item">' +
+'<div class="item-info">' +
+'<div class="item-name">' + (o.expertName || 'سفارش') + '</div>' +
+'<div class="item-detail">' + (o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان') + '</div>' +
+'</div>' +
+'<span class="badge ' + (badgeMap[o.status] || 'badge-info') + '">' + (statusMap[o.status] || o.status) + '</span>' +
+'</div>';
+}).join('');
 }
 }
 
 const container = document.getElementById('appPagesContainer');
-container.innerHTML = `
-<div class="page active">
-<div class="page-header-with-back">
-<button class="back-btn" onclick="navTo('dashboard')">← بازگشت</button>
-<h2>${titles[page]}</h2>
-</div>
-<div class="glass">${content}</div>
-</div>
-`;
+container.innerHTML =
+'<div class="page active">' +
+'<div class="page-header-with-back">' +
+'<button class="back-btn" onclick="navTo(\'dashboard\')">← بازگشت</button>' +
+'<h2>' + (titles[page] || page) + '</h2>' +
+'</div>' +
+'<div class="glass">' + content + '</div>' +
+'</div>';
+
 document.getElementById('dashboardPage').style.display = 'none';
 }
 
 function closeApp() {
 document.getElementById('appPagesContainer').innerHTML = '';
 document.getElementById('dashboardPage').style.display = 'block';
-document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
-document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
-}
-
-function addViolationDialog() {
-openModal('ثبت تخلف', 'تخلف جدید ثبت شد', function() {
-addViolation({
-title: 'تخلف جدید',
-description: 'ثبت‌شده توسط مدیر',
-date: new Date().toISOString()
-});
-showToast('تخلف ثبت شد', 'success');
-navTo('violations');
-});
+setActiveNav('dashboard');
 }
 
 // ================================================================
 // راه‌اندازی
 // ================================================================
-(function init() {
-const session = getAdminSession();
-if (session) { showDashboard(); } else { showAuthPage(); }
-})();
-
-// گوش دادن به تغییرات
-window.addEventListener('chare_data_changed', function() {
-const session = getAdminSession();
-if (session && document.getElementById('dashboardPage').style.display !== 'none') {
-renderStats();
+if (localStorage.getItem('chare_admin_session')) {
+showDashboard();
+} else {
+showAuthPage();
 }
-});
 
-console.log('📊 پنل مدیریت (متصل) بارگذاری شد.');
+console.log('📊 پنل مدیریت (ساده) بارگذاری شد.');
 </script>
 </body>
 </html>
