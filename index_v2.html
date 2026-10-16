@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>چاره‌ساز | سوپر اپلیکیشن ملی</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--primary: #f97316;
+--primary-dark: #ea580c;
+--accent: #8b5cf6;
+--accent2: #ec4899;
+--gold: #f59e0b;
+--green: #10b981;
+--blue: #3b82f6;
+--red: #ef4444;
+--bg1: #0a0612;
+--bg2: #1a0f2e;
+--bg3: #0f1a3d;
+--glass: rgba(255,255,255,0.06);
+--glass-border: rgba(255,255,255,0.1);
+--text: #ffffff;
+--text-muted: rgba(255,255,255,0.55);
+--font: 'Vazirmatn', sans-serif;
+}
+html, body {
+font-family: var(--font);
+background:
+radial-gradient(circle at 20% 0%, #2a0a4a 0%, transparent 50%),
+radial-gradient(circle at 80% 100%, #0f1a5d 0%, transparent 50%),
+linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+background-attachment: fixed;
+min-height: 100vh;
+color: var(--text);
+direction: rtl;
+overflow-x: hidden;
+position: relative;
+}
+/* حباب‌های شناور */
+.bg-bubbles {
+position: fixed;
+inset: 0;
+z-index: 0;
+overflow: hidden;
+pointer-events: none;
+}
+.bubble {
+position: absolute;
+border-radius: 50%;
+opacity: 0.15;
+animation: float 20s infinite ease-in-out;
+}
+.bubble:nth-child(1) {
+width: 240px; height: 240px;
+background: radial-gradient(circle, #f97316, transparent);
+top: 5%; left: -5%;
+animation-delay: 0s;
+}
+.bubble:nth-child(2) {
+width: 300px; height: 300px;
+background: radial-gradient(circle, #8b5cf6, transparent);
+top: 40%; right: -10%;
+animation-delay: 5s;
+}
+.bubble:nth-child(3) {
+width: 200px; height: 200px;
+background: radial-gradient(circle, #ec4899, transparent);
+top: 75%; left: 15%;
+animation-delay: 10s;
+}
+.bubble:nth-child(4) {
+width: 280px; height: 280px;
+background: radial-gradient(circle, #3b82f6, transparent);
+top: 25%; right: 25%;
+animation-delay: 15s;
+}
+@keyframes float {
+0%, 100% { transform: translate(0, 0) scale(1); }
+25% { transform: translate(30px, -40px) scale(1.1); }
+50% { transform: translate(-20px, 30px) scale(0.9); }
+75% { transform: translate(40px, 20px) scale(1.05); }
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary), var(--accent)); border-radius: 10px; }
+/* صفحه ورود */
+.auth-page {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+padding: 20px;
+position: relative;
+z-index: 1;
+}
+.auth-box {
+width: 100%;
+max-width: 420px;
+background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+backdrop-filter: blur(24px);
+-webkit-backdrop-filter: blur(24px);
+border: 1px solid rgba(255,255,255,0.12);
+border-radius: 28px;
+box-shadow:
+0 20px 60px rgba(0,0,0,0.5),
+inset 0 1px 0 rgba(255,255,255,0.1);
+padding: 32px 26px;
+position: relative;
+overflow: hidden;
+animation: cardIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes cardIn {
+0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.auth-box::before {
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: conic-gradient(from 0deg, transparent, rgba(249,115,22,0.1), transparent 30%);
+animation: rotate 8s linear infinite;
+pointer-events: none;
+}
+@keyframes rotate {
+100% { transform: rotate(360deg); }
+}
+/* لوگو */
+.logo {
+text-align: center;
+margin-bottom: 32px;
+position: relative;
+z-index: 1;
+}
+.logo-icon {
+font-size: 64px;
+margin-bottom: 8px;
+display: inline-block;
+animation: bounce 2s infinite ease-in-out;
+filter: drop-shadow(0 8px 20px rgba(249,115,22,0.5));
+}
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-10px); }
+}
+.logo h1 {
+font-size: 42px;
+font-weight: 900;
+background: linear-gradient(135deg, #fff 0%, #fbbf24 50%, #f97316 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+letter-spacing: -2px;
+margin-bottom: 4px;
+}
+.logo p {
+color: var(--text-muted);
+font-size: 14px;
+font-weight: 500;
+letter-spacing: 1px;
+}
+.logo .tagline {
+display: inline-block;
+margin-top: 12px;
+padding: 6px 16px;
+background: rgba(249,115,22,0.15);
+border: 1px solid rgba(249,115,22,0.3);
+border-radius: 20px;
+font-size: 11px;
+font-weight: 600;
+color: #fbbf24;
+}
+/* تب‌های ورود/ثبت‌نام */
+.auth-tabs {
+display: flex;
+gap: 6px;
+margin-bottom: 24px;
+background: rgba(255,255,255,0.04);
+border-radius: 16px;
+padding: 5px;
+position: relative;
+z-index: 1;
+}
+.auth-tabs button {
+flex: 1;
+padding: 12px;
+border: none;
+border-radius: 12px;
+background: transparent;
+color: var(--text-muted);
+font-family: var(--font);
+font-size: 14px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.auth-tabs button.active {
+background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+color: #fff;
+box-shadow: 0 4px 15px rgba(249,115,22,0.4);
+transform: scale(1.02);
+}
+/* فرم */
+.auth-form {
+display: none;
+position: relative;
+z-index: 1;
+}
+.auth-form.active {
+display: block;
+animation: formIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes formIn {
+from { opacity: 0; transform: translateX(-15px); }
+to { opacity: 1; transform: translateX(0); }
+}
+.input-group { margin-bottom: 16px; }
+.input-group label {
+display: block;
+font-size: 13px;
+font-weight: 600;
+color: var(--text-muted);
+margin-bottom: 6px;
+padding-right: 4px;
+}
+.input-group input, .input-group select {
+width: 100%;
+padding: 14px 18px;
+border: 1px solid rgba(255,255,255,0.12);
+border-radius: 16px;
+background: rgba(255,255,255,0.05);
+color: #fff;
+font-family: var(--font);
+font-size: 15px;
+outline: none;
+transition: all 0.3s;
+}
+.input-group input:focus, .input-group select:focus {
+border-color: var(--primary);
+box-shadow: 0 0 0 4px rgba(249,115,22,0.15);
+background: rgba(255,255,255,0.08);
+transform: translateY(-2px);
+}
+.input-group input::placeholder { color: rgba(255,255,255,0.3); }
+/* انتخاب نقش */
+.role-selector {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 8px;
+margin: 8px 0 12px;
+}
+.role-option {
+padding: 14px 8px;
+border: 2px solid rgba(255,255,255,0.1);
+border-radius: 16px;
+background: rgba(255,255,255,0.03);
+text-align: center;
+cursor: pointer;
+transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+.role-option:hover {
+background: rgba(255,255,255,0.06);
+transform: translateY(-2px);
+}
+.role-option.selected {
+border-color: var(--primary);
+background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(139,92,246,0.15));
+box-shadow: 0 4px 20px rgba(249,115,22,0.25);
+transform: translateY(-2px);
+}
+.role-option .role-icon {
+display: block;
+font-size: 28px;
+margin-bottom: 4px;
+}
+.role-option .role-label {
+font-size: 12px;
+font-weight: 700;
+color: var(--text-muted);
+}
+.role-option.selected .role-label {
+color: #fff;
+}
+/* دکمه‌ها */
+.btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 15px 24px;
+border: none;
+border-radius: 16px;
+font-family: var(--font);
+font-size: 15px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+width: 100%;
+color: #fff;
+position: relative;
+overflow: hidden;
+}
+.btn::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+transition: left 0.6s;
+}
+.btn:hover::before { left: 100%; }
+.btn-primary {
+background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+box-shadow: 0 8px 25px rgba(249,115,22,0.4);
+}
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: 0 12px 35px rgba(249,115,22,0.5);
+}
+.btn-success {
+background: linear-gradient(135deg, var(--green), #059669);
+box-shadow: 0 8px 25px rgba(16,185,129,0.4);
+}
+.btn-success:hover {
+transform: translateY(-2px);
+box-shadow: 0 12px 35px rgba(16,185,129,0.5);
+}
+/* فوتر */
+.auth-footer {
+text-align: center;
+margin-top: 20px;
+color: var(--text-muted);
+font-size: 13px;
+position: relative;
+z-index: 1;
+}
+.auth-footer a {
+color: var(--primary);
+cursor: pointer;
+text-decoration: none;
+font-weight: 700;
+transition: all 0.3s;
+}
+.auth-footer a:hover {
+color: #fbbf24;
+}
+/* ویژگی‌های کوچک پایین */
+.features {
+margin-top: 24px;
+display: flex;
+justify-content: center;
+gap: 16px;
+flex-wrap: wrap;
+position: relative;
+z-index: 1;
+}
+.feature-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 4px;
+font-size: 11px;
+color: var(--text-muted);
+}
+.feature-item .feature-icon {
+font-size: 20px;
+filter: drop-shadow(0 2px 8px rgba(249,115,22,0.3));
+}
+/* Toast */
+.toast-container {
+position: fixed;
+top: 20px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 9999;
+display: flex;
+flex-direction: column;
+gap: 10px;
+max-width: 460px;
+width: 92%;
+pointer-events: none;
+}
+.toast {
+padding: 14px 20px;
+border-radius: 16px;
+color: #fff;
+font-size: 14px;
+font-weight: 600;
+backdrop-filter: blur(20px);
+box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+pointer-events: auto;
+display: flex;
+align-items: center;
+gap: 10px;
+animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+border: 1px solid rgba(255,255,255,0.15);
+}
+.toast-success { background: linear-gradient(135deg, rgba(16,185,129,0.95), rgba(5,150,105,0.95)); }
+.toast-error { background: linear-gradient(135deg, rgba(239,68,68,0.95), rgba(220,38,38,0.95)); }
+.toast-warning { background: linear-gradient(135deg, rgba(245,158,11,0.95), rgba(217,119,6,0.95)); }
+.toast-info { background: linear-gradient(135deg, rgba(59,130,246,0.95), rgba(37,99,235,0.95)); }
+@keyframes slideDown {
+0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
+100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* لودینگ */
+.loading-overlay {
+position: fixed;
+inset: 0;
+background: rgba(10,6,18,0.98);
+backdrop-filter: blur(20px);
+z-index: 10000;
+display: none;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+gap: 20px;
+}
+.loading-overlay.open { display: flex; }
+.loading-spinner {
+width: 60px;
+height: 60px;
+border: 4px solid rgba(249,115,22,0.2);
+border-top-color: var(--primary);
+border-radius: 50%;
+animation: spin 1s linear infinite;
+}
+@keyframes spin {
+100% { transform: rotate(360deg); }
+}
+.loading-text {
+color: #fff;
+font-size: 15px;
+font-weight: 600;
+}
+.loading-overlay .loading-icon {
+font-size: 48px;
+animation: bounce 2s infinite;
+}
+@media (max-width: 420px) {
+.auth-box { padding: 26px 20px; }
+.logo h1 { font-size: 34px; }
+.logo-icon { font-size: 52px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-bubbles">
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="loading-overlay" id="loadingOverlay">
+<div class="loading-spinner"></div>
+<div class="loading-text">در حال ورود...</div>
+</div><div class="auth-page" id="authPage">
+<div class="auth-box">
+<div class="logo">
+<div class="logo-icon">🌐</div>
+<h1>چاره‌ساز</h1>
+<p>سوپر اپلیکیشن ملی</p>
+<div class="tagline">✨ بیش از ۲۵ اپلیکیشن در یک اپ</div>
+</div>
+
+<div class="auth-tabs">
+<button class="active" data-tab="login" onclick="switchTab('login')">ورود</button>
+<button data-tab="register" onclick="switchTab('register')">ثبت‌نام</button>
+</div>
+
+<form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+<div class="input-group">
+<label>شماره موبایل</label>
+<input type="tel" id="loginPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+</div>
+<div class="input-group">
+<label>رمز عبور</label>
+<input type="password" id="loginPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
+</div>
+<button type="submit" class="btn btn-primary">ورود به چاره‌ساز</button>
+<div class="auth-footer">حساب ندارید؟ <a onclick="switchTab('register')">ثبت‌نام کنید</a></div>
+</form>
+
+<form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+<div class="input-group">
+<label>نام کامل</label>
+<input type="text" id="registerName" placeholder="نام و نام خانوادگی" required>
+</div>
+<div class="input-group">
+<label>شماره موبایل</label>
+<input type="tel" id="registerPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+</div>
+<div class="input-group">
+<label>رمز عبور</label>
+<input type="password" id="registerPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
+</div>
+<div class="input-group">
+<label>تکرار رمز عبور</label>
+<input type="password" id="registerPasswordConfirm" placeholder="تکرار رمز" required>
+</div>
+<div class="input-group">
+<label>نقش خود را انتخاب کنید</label>
+<div class="role-selector" id="roleSelector">
+<div class="role-option selected" data-role="customer" onclick="selectRole('customer')">
+<span class="role-icon">🛒</span>
+<span class="role-label">مشتری</span>
+</div>
+<div class="role-option" data-role="expert" onclick="selectRole('expert')">
+<span class="role-icon">🔧</span>
+<span class="role-label">متخصص</span>
+</div>
+<div class="role-option" data-role="both" onclick="selectRole('both')">
+<span class="role-icon">🌟</span>
+<span class="role-label">هر دو</span>
+</div>
+</div>
+</div>
+<button type="submit" class="btn btn-success">ثبت‌نام</button>
+<div class="auth-footer">قبلاً ثبت‌نام کردید؟ <a onclick="switchTab('login')">وارد شوید</a></div>
+</form>
+
+<div class="features">
+<div class="feature-item">
+<span class="feature-icon">🛒</span>
+<span>خرید و رزرو</span>
+</div>
+<div class="feature-item">
+<span class="feature-icon">🔧</span>
+<span>متخصصان</span>
+</div>
+<div class="feature-item">
+<span class="feature-icon">💰</span>
+<span>کیف پول</span>
+</div>
+<div class="feature-item">
+<span class="feature-icon">🔒</span>
+<span>پرداخت امن</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- داشبورد (بعد از ورود) -->
+<div class="dashboard-page" id="dashboardPage" style="display:none; padding: 20px; max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; z-index: 1;">
+<div style="display:flex; justify-content:space-between; align-items:center; padding: 14px 0 24px;">
+<div>
+<h2 style="font-size:26px; font-weight:900; background: linear-gradient(90deg, #fff, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">چاره‌ساز</h2>
+<p style="font-size:12px; color: rgba(255,255,255,0.5); margin-top:4px;">سوپر اپلیکیشن ملی</p>
+</div>
+<div style="display:flex; align-items:center; gap:10px;">
+<span id="userNameDisplay" style="font-size:13px; color: rgba(255,255,255,0.7);">کاربر</span>
+<div id="userAvatar" style="width:44px; height:44px; border-radius:50%; background: linear-gradient(135deg, #f97316, #8b5cf6); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; box-shadow: 0 4px 15px rgba(249,115,22,0.4);">ش</div>
+</div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(249,115,22,0.18), rgba(139,92,246,0.18)); border: 1px solid rgba(249,115,22,0.3); border-radius: 24px; padding: 22px; margin-bottom: 20px; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(249,115,22,0.15);">
+<div style="font-size:20px; font-weight:800; background: linear-gradient(90deg, #fff, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px;" id="welcomeTitle">خوش آمدید 👋</div>
+<div style="font-size:13px; color: rgba(255,255,255,0.8); line-height:1.7;">
+<strong id="welcomeName" style="color:#fff;">کاربر</strong> عزیز، به چاره‌ساز خوش آمدید. از پنل‌های زیر انتخاب کنید.
+</div>
+</div>
+
+<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:16px;">
+<a href="moshtari.html" style="text-decoration:none; color:#fff; background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(249,115,22,0.05)); border: 1px solid rgba(249,115,22,0.3); border-radius:20px; padding:20px 16px; text-align:center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+<div style="font-size:36px; margin-bottom:8px;">🛒</div>
+<div style="font-size:14px; font-weight:700;">پنل مشتری</div>
+<div style="font-size:11px; color: rgba(255,255,255,0.5); margin-top:4px;">رزرو و خرید</div>
+</a>
+
+<a href="motakhasseh.html" style="text-decoration:none; color:#fff; background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05)); border: 1px solid rgba(16,185,129,0.3); border-radius:20px; padding:20px 16px; text-align:center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+<div style="font-size:36px; margin-bottom:8px;">🔧</div>
+<div style="font-size:14px; font-weight:700;">پنل متخصص</div>
+<div style="font-size:11px; color: rgba(255,255,255,0.5); margin-top:4px;">مدیریت سفارش</div>
+</a>
+
+<a href="modiriat.html" style="text-decoration:none; color:#fff; background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05)); border: 1px solid rgba(59,130,246,0.3); border-radius:20px; padding:20px 16px; text-align:center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+<div style="font-size:36px; margin-bottom:8px;">👑</div>
+<div style="font-size:14px; font-weight:700;">پنل مدیریت</div>
+<div style="font-size:11px; color: rgba(255,255,255,0.5); margin-top:4px;">نظارت کلی</div>
+</a>
+
+<a href="gozareshgiri.html" style="text-decoration:none; color:#fff; background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.3); border-radius:20px; padding:20px 16px; text-align:center; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+<div style="font-size:36px; margin-bottom:8px;">📊</div>
+<div style="font-size:14px; font-weight:700;">گزارش‌گیری</div>
+<div style="font-size:11px; color: rgba(255,255,255,0.5); margin-top:4px;">آمار و تحلیل</div>
+</a>
+</div>
+
+<div style="margin-top:16px; padding:14px; background: rgba(255,255,255,0.04); border-radius:16px; border:1px solid rgba(255,255,255,0.08);">
+<div style="font-size:13px; font-weight:700; margin-bottom:10px;">📱 به‌زودی اضافه می‌شود</div>
+<div style="display:flex; flex-wrap:wrap; gap:8px;">
+<span style="padding:4px 12px; background:rgba(255,255,255,0.05); border-radius:20px; font-size:11px; color:rgba(255,255,255,0.6);">👨‍💼 کارمند</span>
+<span style="padding:4px 12px; background:rgba(255,255,255,0.05); border-radius:20px; font-size:11px; color:rgba(255,255,255,0.6);">🔍 بازرس</span>
+<span style="padding:4px 12px; background:rgba(255,255,255,0.05); border-radius:20px; font-size:11px; color:rgba(255,255,255,0.6);">💬 پشتیبان</span>
+<span style="padding:4px 12px; background:rgba(255,255,255,0.05); border-radius:20px; font-size:11px; color:rgba(255,255,255,0.6);">🚗 راننده</span>
+<span style="padding:4px 12px; background:rgba(255,255,255,0.05); border-radius:20px; font-size:11px; color:rgba(255,255,255,0.6);">🏪 فروشگاه</span>
+<span style="padding:4px 12px; background:rgba(255,255,255,0.05); border-radius:20px; font-size:11px; color:rgba(255,255,255,0.6);">+ ۲۰ اپ دیگر</span>
+</div>
+</div>
+
+<button class="btn btn-primary" onclick="handleLogout()" style="margin-top:20px; background: linear-gradient(135deg, #ef4444, #dc2626);">🚪 خروج از حساب</button>
+</div><script>
+// ================================================================
+// چاره‌ساز | هسته اصلی | JavaScript
+// ================================================================
+
+let selectedRole = 'customer';
+
+// ================================================================
+// Toast
+// ================================================================
+function showToast(msg, type = 'info', duration = 3000) {
+const c = document.getElementById('toastContainer');
+const t = document.createElement('div');
+t.className = `toast toast-${type}`;
+const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+t.innerHTML = `${icons[type] || 'ℹ️'} ${msg}`;
+c.appendChild(t);
+setTimeout(() => { t.remove(); }, duration);
+}
+
+// ================================================================
+// Loading
+// ================================================================
+function showLoading(text = 'در حال ورود...') {
+const overlay = document.getElementById('loadingOverlay');
+overlay.querySelector('.loading-text').textContent = text;
+overlay.classList.add('open');
+}
+
+function hideLoading() {
+document.getElementById('loadingOverlay').classList.remove('open');
+}
+
+// ================================================================
+// LocalStorage
+// ================================================================
+function safeGet(key) {
+try { return JSON.parse(localStorage.getItem(key) || '[]'); }
+catch (e) { return []; }
+}
+
+function safeSet(key, value) {
+try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+catch (e) { return false; }
+}
+
+function getCustomers() { return safeGet('chare_customer_users'); }
+function getExperts() { return safeGet('chare_expert_users'); }
+function getCurrentUser() {
+try { return JSON.parse(localStorage.getItem('chare_customer_current') || 'null'); }
+catch (e) { return null; }
+}
+function getCurrentExpert() {
+try { return JSON.parse(localStorage.getItem('chare_expert_current') || 'null'); }
+catch (e) { return null; }
+}
+
+// ================================================================
+// تب‌ها
+// ================================================================
+function switchTab(tab) {
+document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
+document.querySelector(`.auth-tabs button[data-tab="${tab}"]`).classList.add('active');
+document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+}
+
+// ================================================================
+// انتخاب نقش
+// ================================================================
+function selectRole(role) {
+selectedRole = role;
+document.querySelectorAll('.role-option').forEach(el => {
+el.classList.toggle('selected', el.dataset.role === role);
+});
+}
+
+// ================================================================
+// ورود
+// ================================================================
+function handleLogin(e) {
+e.preventDefault();
+const phone = document.getElementById('loginPhone').value.trim();
+const pass = document.getElementById('loginPassword').value;
+
+if (!phone || phone.length < 11) { showToast('شماره موبایل معتبر نیست', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز عبور حداقل ۶ کاراکتر است', 'error'); return; }
+
+// جستجو در مشتریان
+const customers = getCustomers();
+const customer = customers.find(u => u.phone === phone && u.password === pass);
+if (customer) {
+showLoading('در حال ورود...');
+setTimeout(() => {
+localStorage.setItem('chare_customer_current', JSON.stringify(customer));
+hideLoading();
+showToast(`خوش آمدید ${customer.name}`, 'success');
+showDashboard(customer);
+}, 600);
+return;
+}
+
+// جستجو در متخصصان
+const experts = getExperts();
+const expert = experts.find(x => x.phone === phone && x.password === pass);
+if (expert) {
+showLoading('در حال ورود...');
+setTimeout(() => {
+localStorage.setItem('chare_expert_current', JSON.stringify(expert));
+hideLoading();
+showToast(`خوش آمدید ${expert.name}`, 'success');
+showDashboard(expert);
+}, 600);
+return;
+}
+
+// بررسی ادمین
+if (phone === 'admin' && pass === 'admin123') {
+showLoading('ورود مدیر...');
+setTimeout(() => {
+localStorage.setItem('chare_admin_session', '1');
+hideLoading();
+showToast('خوش آمدید مدیر', 'success');
+showDashboard({ name: 'مدیر کل', role: 'admin' });
+}, 600);
+return;
+}
+
+showToast('اطلاعات وارد شده صحیح نیست', 'error');
+}
+
+// ================================================================
+// ثبت‌نام
+// ================================================================
+function handleRegister(e) {
+e.preventDefault();
+const name = document.getElementById('registerName').value.trim();
+const phone = document.getElementById('registerPhone').value.trim();
+const pass = document.getElementById('registerPassword').value;
+const confirm = document.getElementById('registerPasswordConfirm').value;
+
+if (!name || name.length < 3) { showToast('نام کامل الزامی است', 'error'); return; }
+if (!phone || phone.length < 11) { showToast('شماره موبایل معتبر نیست', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز عبور حداقل ۶ کاراکتر است', 'error'); return; }
+if (pass !== confirm) { showToast('رمز عبور مطابقت ندارد', 'error'); return; }
+
+// چک تکراری نبودن
+const customers = getCustomers();
+const experts = getExperts();
+if (customers.find(u => u.phone === phone) || experts.find(x => x.phone === phone)) {
+showToast('این شماره قبلاً ثبت شده است', 'error');
+return;
+}
+
+const newUser = {
+id: 'u_' + Date.now(),
+name, phone, password: pass,
+role: selectedRole,
+wallet: 0, points: 0,
+createdAt: new Date().toISOString()
+};
+
+showLoading('در حال ثبت‌نام...');
+
+if (selectedRole === 'customer') {
+customers.push(newUser);
+safeSet('chare_customer_users', customers);
+localStorage.setItem('chare_customer_current', JSON.stringify(newUser));
+} else if (selectedRole === 'expert') {
+const newExpert = { ...newUser, id: 'e_' + Date.now(), industry: '', sub: '', price: 0, rating: 0 };
+experts.push(newExpert);
+safeSet('chare_expert_users', experts);
+localStorage.setItem('chare_expert_current', JSON.stringify(newExpert));
+} else {
+// هر دو
+customers.push(newUser);
+safeSet('chare_customer_users', customers);
+const newExpert = { ...newUser, id: 'e_' + Date.now(), industry: '', sub: '', price: 0, rating: 0 };
+experts.push(newExpert);
+safeSet('chare_expert_users', experts);
+localStorage.setItem('chare_customer_current', JSON.stringify(newUser));
+}
+
+setTimeout(() => {
+hideLoading();
+showToast(`ثبت‌نام موفق! خوش آمدید ${name}`, 'success');
+showDashboard(newUser);
+}, 700);
+}
+
+// ================================================================
+// خروج
+// ================================================================
+function handleLogout() {
+if (!confirm('آیا از خروج خود مطمئن هستید؟')) return;
+localStorage.removeItem('chare_customer_current');
+localStorage.removeItem('chare_expert_current');
+localStorage.removeItem('chare_admin_session');
+showToast('خارج شدید', 'info');
+document.getElementById('dashboardPage').style.display = 'none';
+document.getElementById('authPage').style.display = 'flex';
+}
+
+// ================================================================
+// نمایش داشبورد
+// ================================================================
+function showDashboard(user) {
+document.getElementById('authPage').style.display = 'none';
+document.getElementById('dashboardPage').style.display = 'block';
+
+document.getElementById('userNameDisplay').textContent = user.name || 'کاربر';
+document.getElementById('userAvatar').textContent = (user.name || 'ک').charAt(0);
+document.getElementById('welcomeName').textContent = user.name || 'کاربر';
+
+// سلام بر اساس ساعت
+const now = new Date();
+const hour = now.getHours();
+let greeting = 'خوش آمدید 👋';
+if (hour < 12) greeting = 'صبح بخیر ☀️';
+else if (hour < 17) greeting = 'ظهر بخیر 🌤️';
+else if (hour < 20) greeting = 'عصر بخیر 🌆';
+else greeting = 'شب بخیر 🌙';
+document.getElementById('welcomeTitle').textContent = greeting;
+
+window.scrollTo(0, 0);
+}
+
+// ================================================================
+// راه‌اندازی
+// ================================================================
+(function init() {
+const customer = getCurrentUser();
+const expert = getCurrentExpert();
+const admin = localStorage.getItem('chare_admin_session');
+
+if (admin) {
+showDashboard({ name: 'مدیر کل', role: 'admin' });
+} else if (customer) {
+showDashboard(customer);
+} else if (expert) {
+showDashboard(expert);
+} else {
+document.getElementById('authPage').style.display = 'flex';
+document.getElementById('dashboardPage').style.display = 'none';
+}
+})();
+
+console.log('🌐 هسته اصلی چاره‌ساز بارگذاری شد.');
+console.log('📱 ۴ پنل فعال + ۲۱ اپ در آینده');
+</script>
+</body>
+</html>
