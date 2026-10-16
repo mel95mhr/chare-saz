@@ -366,7 +366,6 @@ color: #fff; box-shadow: 0 4px 15px rgba(249,115,22,0.4);
 .auth-form.active { display: block; animation: pageIn 0.4s; }
 .auth-footer { text-align: center; margin-top: 18px; color: var(--text-muted); font-size: 13px; }
 .auth-footer a { color: var(--primary); cursor: pointer; font-weight: 700; }
-/* پروفایل */
 .profile-header { text-align: center; padding: 20px 0; margin-bottom: 10px; }
 .profile-avatar-wrap { position: relative; display: inline-block; margin-bottom: 12px; }
 .profile-avatar {
@@ -398,7 +397,6 @@ background: linear-gradient(90deg, #fff, #fbbf24);
 }
 .profile-phone { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
 .profile-badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-/* سطح */
 .level-card {
 background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(249,115,22,0.1));
 border: 1px solid rgba(245,158,11,0.3);
@@ -418,7 +416,6 @@ background: linear-gradient(90deg, var(--primary), var(--gold));
 border-radius: 10px; transition: width 0.5s;
 }
 .level-text { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-/* نشان‌ها */
 .badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .badge-item {
 background: rgba(255,255,255,0.05);
@@ -434,7 +431,6 @@ box-shadow: 0 4px 15px rgba(245,158,11,0.2);
 .badge-item .badge-icon { font-size: 28px; }
 .badge-item .badge-name { font-size: 10px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
 .badge-item.unlocked .badge-name { color: #fff; }
-/* کیف پول پیشرفته */
 .wallet-advanced {
 background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(139,92,246,0.2));
 border: 1px solid rgba(249,115,22,0.3);
@@ -460,7 +456,6 @@ text-align: center; border: 1px solid rgba(255,255,255,0.08);
 }
 .coin-value { font-size: 16px; font-weight: 800; color: var(--gold); }
 .coin-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-/* دعوت دوستان */
 .invite-card {
 background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(59,130,246,0.15));
 border: 1px solid rgba(16,185,129,0.3);
@@ -473,7 +468,6 @@ font-size: 22px; font-weight: 800; color: var(--green);
 letter-spacing: 4px; margin: 12px 0;
 font-family: monospace;
 }
-/* تنظیمات */
 .settings-row {
 display: flex; justify-content: space-between; align-items: center;
 padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -494,7 +488,6 @@ transition: 0.3s; border-radius: 50%;
 }
 input:checked + .slider { background: var(--primary); box-shadow: 0 0 15px rgba(249,115,22,0.5); }
 input:checked + .slider:before { transform: translateX(22px); }
-/* آمار شخصی */
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .stat-card {
 background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
@@ -507,7 +500,6 @@ background: linear-gradient(135deg, #fff, #fbbf24);
 -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .stat-card .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-/* آلبوم خاطرات */
 .memory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .memory-item {
 aspect-ratio: 1; background: rgba(255,255,255,0.05);
@@ -520,7 +512,6 @@ padding: 6px;
 }
 .memory-item:hover { background: rgba(249,115,22,0.15); transform: scale(1.05); }
 .memory-item .memory-date { font-size: 9px; color: var(--text-muted); margin-top: 4px; }
-/* دستیار چار */
 .chat-panel {
 position: fixed; bottom: 100px; left: 20px;
 width: 320px; max-width: calc(100% - 40px);
@@ -581,12 +572,16 @@ box-shadow: 0 8px 30px rgba(139,92,246,0.5);
 transition: all 0.3s; z-index: 99;
 }
 .floating-chat-btn:hover { transform: scale(1.1) rotate(10deg); }
-/* برنز، نقره، طلا، الماس، افسانه‌ای */
 .level-bronze { color: var(--bronze); }
 .level-silver { color: var(--silver); }
 .level-gold { color: var(--gold); }
 .level-diamond { color: var(--diamond); }
 .level-legendary { color: var(--legendary); }
+@keyframes partyColors {
+0% { filter: hue-rotate(0deg); }
+50% { filter: hue-rotate(180deg); }
+100% { filter: hue-rotate(360deg); }
+}
 @media (max-width: 420px) {
 .filter-row input, .filter-row select { min-width: 80px; font-size: 12px; }
 .page-header h2 { font-size: 20px; }
@@ -782,11 +777,9 @@ transition: all 0.3s; z-index: 99;
 <button class="nav-item" data-page="favorites" onclick="navTo('favorites')">
 <span class="nav-icon">❤️</span><span>علاقه‌مندی</span>
 </button>
-</nav>
-
-<script>
+</nav><script>
 // ================================================================
-// چاره‌ساز | پنل مشتری | JavaScript
+// چاره‌ساز | پنل مشتری | JavaScript پایه
 // ================================================================
 
 const SAMPLE_EXPERTS = [
@@ -821,6 +814,9 @@ const BADGES = [
 
 let modalCallback = null;
 
+// ================================================================
+// Toast و Modal
+// ================================================================
 function showToast(msg, type = 'info', duration = 3000) {
 const c = document.getElementById('toastContainer');
 const t = document.createElement('div');
@@ -852,6 +848,9 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
 if (e.target === this) closeModal();
 });
 
+// ================================================================
+// LocalStorage
+// ================================================================
 function getUsers() { return JSON.parse(localStorage.getItem('chare_customer_users') || '[]'); }
 function saveUsers(u) { localStorage.setItem('chare_customer_users', JSON.stringify(u)); }
 function getCurrentUser() { return JSON.parse(localStorage.getItem('chare_customer_current') || 'null'); }
@@ -861,6 +860,9 @@ function saveOrders(o) { localStorage.setItem('chare_shared_orders', JSON.string
 function getFavorites() { return JSON.parse(localStorage.getItem('chare_customer_favorites') || '[]'); }
 function saveFavorites(f) { localStorage.setItem('chare_customer_favorites', JSON.stringify(f)); }
 
+// ================================================================
+// احراز هویت
+// ================================================================
 function switchTab(tab) {
 document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
 document.querySelector(`.auth-tabs button[data-tab="${tab}"]`).classList.add('active');
@@ -897,8 +899,7 @@ if (users.find(u => u.phone === phone)) { showToast('این شماره قبلا�
 const newUser = {
 id: 'u_' + Date.now(),
 name, phone, password: pass,
-wallet: 0,
-points: 0,
+wallet: 0, points: 0,
 level: 'برنز',
 badges: [],
 invitedFriends: 0,
@@ -1146,7 +1147,7 @@ updateStats();
 }
 
 // ================================================================
-// توابع پایه (تکمیلی در بخش‌های بعد)
+// توابع پایه
 // ================================================================
 function addPoints(amount) {
 const user = getCurrentUser();
@@ -1174,6 +1175,9 @@ function getLevelInfo(levelName) {
 return LEVELS.find(l => l.name === levelName) || LEVELS[0];
 }
 
+// ================================================================
+// ناوبری
+// ================================================================
 function navTo(page) {
 const user = getCurrentUser();
 if (!user) { showAuthPage(); return; }
@@ -1228,6 +1232,7 @@ content = `
 `;
 } else if (page === 'profile') {
 content = renderProfilePage(user);
+loadProfileStats();
 } else if (page === 'favorites') {
 const favs = getFavorites();
 const experts = getAllExpertsCombined().filter(e => favs.includes(e.id));
@@ -1294,21 +1299,11 @@ setCurrentUser(users[idx]);
 showToast(`${amount.toLocaleString()} تومان برداشت شد`, 'success');
 navTo('wallet');
 }
+</script>V<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۴: پروفایل کامل
+// ================================================================
 
-// ================================================================
-// راه‌اندازی
-// ================================================================
-(function init() {
-const user = getCurrentUser();
-if (user) { showDashboard(); } else { showAuthPage(); }
-})();
-
-console.log('🛒 پنل مشتری (نسخه کامل) بارگذاری شد.');
-</script>
-</body>
-</html>// ================================================================
-// پروفایل کامل کاربر
-// ================================================================
 function renderProfilePage(user) {
 const levelInfo = getLevelInfo(user.level || 'برنز');
 const levelPts = user.points || 0;
@@ -1480,7 +1475,6 @@ ${[1,2,3,4,5,6].map(i => `
 `;
 }
 
-// بارگذاری آمار پروفایل
 function loadProfileStats() {
 setTimeout(() => {
 const user = getCurrentUser();
@@ -1511,9 +1505,6 @@ profileHistory.innerHTML = orders.slice(-5).reverse().map(o => `
 }, 100);
 }
 
-// ================================================================
-// آپلود عکس پروفایل
-// ================================================================
 function uploadAvatar(event) {
 const file = event.target.files[0];
 if (!file) return;
@@ -1539,9 +1530,6 @@ if (topAvatar) topAvatar.innerHTML = '<img src="' + e.target.result + '">';
 reader.readAsDataURL(file);
 }
 
-// ================================================================
-// ذخیره اطلاعات پروفایل
-// ================================================================
 function saveProfile() {
 const name = document.getElementById('profileName').value.trim();
 const email = document.getElementById('profileEmail').value.trim();
@@ -1549,14 +1537,11 @@ const birthday = document.getElementById('profileBirthday').value.trim();
 const city = document.getElementById('profileCity').value.trim();
 const address = document.getElementById('profileAddress').value.trim();
 const bio = document.getElementById('profileBio').value.trim();
-
 if (!name || name.length < 3) { showToast('نام کامل الزامیست', 'error'); return; }
-
 const user = getCurrentUser();
 const users = getUsers();
 const idx = users.findIndex(u => u.id === user.id);
 if (idx === -1) return;
-
 users[idx].name = name;
 users[idx].email = email;
 users[idx].birthday = birthday;
@@ -1570,9 +1555,6 @@ addPoints(15);
 navTo('profile');
 }
 
-// ================================================================
-// کپی و اشتراک کد دعوت
-// ================================================================
 function copyInviteCode() {
 const user = getCurrentUser();
 if (!user) return;
@@ -1599,9 +1581,6 @@ copyInviteCode();
 }
 }
 
-// ================================================================
-// مودال‌های پروفایل
-// ================================================================
 function showChangePassword() {
 openModal('تغییر رمز عبور', 'این قابلیت به‌زودی فعال می‌شود', function() {
 showToast('در حال توسعه...', 'info');
@@ -1739,19 +1718,224 @@ return `امتیاز شما: ${u?.points || 0} | سطح: ${levelInfo.icon} ${lev
 if (lower.includes('ممنون') || lower.includes('مرسی')) return 'خواهش می‌کنم! 🌟';
 return 'متوجه نشدم. می‌تونی بگی دنبال چه خدمتی هستی؟';
 }
+</script><script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۵: نهایی
+// ================================================================
 
 // ================================================================
-// بارگذاری پروفایل (اضافه شدن به navTo)
+// پاداش روزانه
 // ================================================================
-const originalNavTo = navTo;
-navTo = function(page) {
-originalNavTo(page);
-if (page === 'profile') {
-loadProfileStats();
+function checkDailyBonus() {
+const user = getCurrentUser();
+if (!user) return;
+const lastBonus = user.lastBonusDate || null;
+const today = new Date().toDateString();
+if (lastBonus === today) return;
+
+const users = getUsers();
+const idx = users.findIndex(u => u.id === user.id);
+users[idx].points = (users[idx].points || 0) + 5;
+users[idx].lastBonusDate = today;
+saveUsers(users);
+setCurrentUser(users[idx]);
+setTimeout(() => {
+showToast('🎁 پاداش روزانه: +۵ سکه چاره', 'success');
+}, 1500);
 }
-};
 
+// ================================================================
+// بررسی و اعطای نشان
+// ================================================================
+function checkBadges() {
+const user = getCurrentUser();
+if (!user) return;
+const orders = getOrders().filter(o => o.customerId === user.id);
+const doneOrders = orders.filter(o => o.status === 'done');
+const totalSpent = doneOrders.reduce((s, o) => s + (o.price || 0), 0);
+const badges = user.badges || [];
+const newBadges = [];
+
+if (orders.length >= 1 && !badges.includes('first_order')) newBadges.push('first_order');
+if (orders.length >= 10 && !badges.includes('ten_orders')) newBadges.push('ten_orders');
+if (totalSpent >= 1000000 && !badges.includes('million')) newBadges.push('million');
+if ((user.invitedFriends || 0) >= 5 && !badges.includes('five_invites')) newBadges.push('five_invites');
+if ((user.wallet || 0) >= 500000 && !badges.includes('wallet_rich')) newBadges.push('wallet_rich');
+if (orders.length >= 20 && !badges.includes('loyal')) newBadges.push('loyal');
+
+if (newBadges.length > 0) {
+const users = getUsers();
+const idx = users.findIndex(u => u.id === user.id);
+users[idx].badges = [...badges, ...newBadges];
+saveUsers(users);
+setCurrentUser(users[idx]);
+newBadges.forEach(b => {
+const badgeInfo = BADGES.find(x => x.id === b);
+if (badgeInfo) {
+setTimeout(() => showToast(`🏆 نشان جدید: ${badgeInfo.name}`, 'success'), 800);
+}
+});
+}
+}
+
+// ================================================================
+// دستاوردهای پنهان
+// ================================================================
+const SECRET_ACHIEVEMENTS = [
+{ id: 'night_owl', name: 'جغد شب', desc: 'بعد از نیمه‌شب وارد شو', icon: '🦉' },
+{ id: 'early_bird', name: 'پرنده سحرخیز', desc: 'قبل از ۶ صبح وارد شو', icon: '🐦' },
+{ id: 'chatterbox', name: 'پرحرف', desc: '۱۰۰ پیام با چار بفرست', icon: '💬' },
+{ id: 'explorer', name: 'کاوشگر', desc: 'همه پنل‌ها رو باز کن', icon: '🧭' },
+{ id: 'shopper', name: 'خریدار حرفه‌ای', desc: '۵ سفارش موفق', icon: '🛍️' },
+{ id: 'generous', name: 'سخاوتمند', desc: '۵ دوست دعوت کن', icon: '🎁' },
+{ id: 'big_spender', name: 'خرید بزرگ', desc: 'بیش از ۵ میلیون خرج کن', icon: '💎' }
+];
+
+function checkSecretAchievements() {
+const user = getCurrentUser();
+if (!user) return;
+const achievements = user.secretAchievements || [];
+const newOnes = [];
+const hour = new Date().getHours();
+
+if ((hour >= 0 && hour < 5) && !achievements.includes('night_owl')) newOnes.push('night_owl');
+if (hour >= 4 && hour < 7 && !achievements.includes('early_bird')) newOnes.push('early_bird');
+if ((user.invitedFriends || 0) >= 5 && !achievements.includes('generous')) newOnes.push('generous');
+
+const orders = getOrders().filter(o => o.customerId === user.id && o.status === 'done');
+if (orders.length >= 5 && !achievements.includes('shopper')) newOnes.push('shopper');
+const totalSpent = orders.reduce((s, o) => s + (o.price || 0), 0);
+if (totalSpent >= 5000000 && !achievements.includes('big_spender')) newOnes.push('big_spender');
+
+if (newOnes.length > 0) {
+const users = getUsers();
+const idx = users.findIndex(u => u.id === user.id);
+users[idx].secretAchievements = [...achievements, ...newOnes];
+users[idx].points = (users[idx].points || 0) + (newOnes.length * 50);
+saveUsers(users);
+setCurrentUser(users[idx]);
+
+newOnes.forEach((id, i) => {
+const ach = SECRET_ACHIEVEMENTS.find(a => a.id === id);
+if (ach) {
+setTimeout(() => {
+showToast(`${ach.icon} دستاورد پنهان: ${ach.name}`, 'success', 5000);
+}, 1000 + (i * 800));
+}
+});
+}
+}
+
+// ================================================================
+// چرخ شانس
+// ================================================================
+function spinWheel() {
+const user = getCurrentUser();
+if (!user) return;
+const lastSpin = user.lastSpinDate || null;
+const today = new Date().toDateString();
+if (lastSpin === today) { showToast('فردا دوباره امتحان کن', 'warning'); return; }
+
+const prizes = [5, 10, 15, 20, 25, 30, 50, 100];
+const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+
+openModal('🎡 چرخ شانس', `آیا می‌خواهید چرخ رو بچرخونید؟ (فردا دوباره)`, function() {
+const users = getUsers();
+const idx = users.findIndex(u => u.id === user.id);
+users[idx].points = (users[idx].points || 0) + randomPrize;
+users[idx].lastSpinDate = today;
+saveUsers(users);
+setCurrentUser(users[idx]);
+showToast(`🎉 ${randomPrize} سکه چاره برنده شدی!`, 'success');
+});
+}
+
+// ================================================================
+// دعوت دوستان
+// ================================================================
+function simulateInvite() {
+const user = getCurrentUser();
+if (!user) return;
+const users = getUsers();
+const idx = users.findIndex(u => u.id === user.id);
+users[idx].invitedFriends = (users[idx].invitedFriends || 0) + 1;
+users[idx].wallet = (users[idx].wallet || 0) + 50000;
+users[idx].points = (users[idx].points || 0) + 100;
+saveUsers(users);
+setCurrentUser(users[idx]);
+showToast('🎁 ۵۰,۰۰۰ تومان پاداش دعوت!', 'success');
+checkBadges();
+navTo('profile');
+}
+
+// ================================================================
+// آمار زنده
+// ================================================================
+function updateLiveStats() {
+const user = getCurrentUser();
+if (!user) return;
+const orders = getOrders().filter(o => o.customerId === user.id);
+const statOrders = document.getElementById('statOrders');
+const statWallet = document.getElementById('statWallet');
+const statFavs = document.getElementById('statFavs');
+const walletAmount = document.getElementById('walletAmount');
+if (statOrders) statOrders.textContent = orders.length;
+if (statWallet) statWallet.textContent = ((user.wallet || 0) / 1000).toFixed(0) + 'K';
+if (statFavs) statFavs.textContent = getFavorites().length;
+if (walletAmount) walletAmount.textContent = (user.wallet || 0).toLocaleString() + ' تومان';
+}
+
+// ================================================================
+// نمودار آمار ماهانه
+// ================================================================
+function getMonthlyStats() {
+const user = getCurrentUser();
+if (!user) return {};
+const orders = getOrders().filter(o => o.customerId === user.id);
+const now = new Date();
+const monthOrders = orders.filter(o => {
+const d = new Date(o.date);
+return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+});
+const totalSpent = monthOrders.reduce((s, o) => s + (o.price || 0), 0);
+return {
+count: monthOrders.length,
+spent: totalSpent,
+avgSpent: monthOrders.length ? Math.round(totalSpent / monthOrders.length) : 0
+};
+}
+
+// ================================================================
+// راه‌اندازی
+// ================================================================
 (function init() {
 const user = getCurrentUser();
 if (user) { showDashboard(); } else { showAuthPage(); }
 })();
+
+// پاداش روزانه و بررسی نشان‌ها
+setTimeout(() => {
+checkDailyBonus();
+checkBadges();
+checkSecretAchievements();
+}, 2000);
+
+// بررسی دوره‌ای دستاوردها
+setInterval(() => {
+checkSecretAchievements();
+}, 60000);
+
+// گوش دادن به تغییرات
+window.addEventListener('chare_data_changed', function() {
+const user = getCurrentUser();
+if (user && document.getElementById('dashboardPage').style.display !== 'none') {
+updateLiveStats();
+}
+});
+
+console.log('🛒 پنل مشتری (نسخه کامل) بارگذاری شد.');
+console.log('🌟 ۵ سطح + ۸ نشان + ۷ دستاورد پنهان');
+console.log('💬 دستیار چار فعال است.');
+</script>
+</body>
+</html>
