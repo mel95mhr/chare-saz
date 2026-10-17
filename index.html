@@ -1,17 +1,18 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>چاره‌ساز | سوپر اپلیکیشن ملی</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
 --primary: #f97316;
 --primary-dark: #ea580c;
 --accent: #8b5cf6;
---accent2: #ec4899;
 --gold: #f59e0b;
 --green: #10b981;
 --blue: #3b82f6;
@@ -27,13 +28,9 @@
 --font-mult: 1;
 }
 html[data-theme="light"] {
---bg1: #f5f7fa;
---bg2: #e0e7ff;
---bg3: #f0f4ff;
---glass: rgba(255,255,255,0.75);
---glass-border: rgba(0,0,0,0.08);
---text: #1a1a2e;
---text-muted: rgba(26,26,46,0.6);
+--bg1: #f5f7fa; --bg2: #e0e7ff; --bg3: #f0f4ff;
+--glass: rgba(255,255,255,0.75); --glass-border: rgba(0,0,0,0.08);
+--text: #1a1a2e; --text-muted: rgba(26,26,46,0.6);
 }
 html[data-font="small"] { --font-mult: 0.85; }
 html[data-font="medium"] { --font-mult: 1; }
@@ -42,491 +39,63 @@ html[data-font="xlarge"] { --font-mult: 1.35; }
 html, body {
 font-family: var(--font);
 font-size: calc(15px * var(--font-mult));
-background:
-radial-gradient(circle at 20% 0%, #2a0a4a 0%, transparent 50%),
+background: radial-gradient(circle at 20% 0%, #2a0a4a 0%, transparent 50%),
 radial-gradient(circle at 80% 100%, #0f1a5d 0%, transparent 50%),
 linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-background-attachment: fixed;
-min-height: 100vh;
-color: var(--text);
-direction: rtl;
-overflow-x: hidden;
-position: relative;
-transition: background 0.4s, color 0.4s;
+background-attachment: fixed; min-height: 100vh; color: var(--text);
+direction: rtl; overflow-x: hidden; position: relative; transition: background 0.4s, color 0.4s;
 }
-html[data-theme="light"] body {
-background:
-radial-gradient(circle at 20% 0%, #dbeafe 0%, transparent 50%),
-radial-gradient(circle at 80% 100%, #e0e7ff 0%, transparent 50%),
-linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-}
-.bg-bubbles { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.bubble { position: absolute; border-radius: 50%; opacity: 0.12; animation: float 20s infinite ease-in-out; }
-.bubble:nth-child(1) { width: 220px; height: 220px; background: radial-gradient(circle, #f97316, transparent); top: 10%; left: 5%; }
-.bubble:nth-child(2) { width: 280px; height: 280px; background: radial-gradient(circle, #8b5cf6, transparent); top: 50%; right: -5%; animation-delay: 5s; }
-.bubble:nth-child(3) { width: 160px; height: 160px; background: radial-gradient(circle, #ec4899, transparent); top: 80%; left: 20%; animation-delay: 10s; }
-.bubble:nth-child(4) { width: 240px; height: 240px; background: radial-gradient(circle, #3b82f6, transparent); top: 30%; right: 30%; animation-delay: 15s; }
-@keyframes float {
-0%, 100% { transform: translate(0, 0) scale(1); }
-25% { transform: translate(30px, -40px) scale(1.1); }
-50% { transform: translate(-20px, 30px) scale(0.9); }
-75% { transform: translate(40px, 20px) scale(1.05); }
-}
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary), var(--accent)); border-radius: 10px; }
 .glass {
-background: var(--glass);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
-border: 1px solid var(--glass-border);
-border-radius: 20px;
-box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-padding: 18px;
-transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.glass:hover {
-transform: translateY(-3px);
-border-color: rgba(249,115,22,0.3);
-box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,115,22,0.2);
+background: var(--glass); backdrop-filter: blur(20px);
+border: 1px solid var(--glass-border); border-radius: 20px;
+box-shadow: 0 8px 32px rgba(0,0,0,0.3); padding: 18px; transition: all 0.35s;
 }
 .btn {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-padding: 13px 22px;
-border: none;
-border-radius: 14px;
-font-family: var(--font);
-font-size: calc(15px * var(--font-mult));
-font-weight: 700;
-cursor: pointer;
-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-width: 100%;
-color: #fff;
-position: relative;
-overflow: hidden;
+display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+padding: 13px 22px; border: none; border-radius: 14px; font-family: var(--font);
+font-size: calc(15px * var(--font-mult)); font-weight: 700; cursor: pointer;
+width: 100%; color: #fff; transition: all 0.3s;
 }
-.btn::before {
-content: '';
-position: absolute;
-top: 0; left: -100%; width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-transition: left 0.5s;
-}
-.btn:hover::before { left: 100%; }
-.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); box-shadow: 0 6px 20px rgba(249,115,22,0.4); }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(249,115,22,0.5); }
-.btn-success { background: linear-gradient(135deg, var(--green), #059669); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
+.btn-success { background: linear-gradient(135deg, var(--green), #059669); }
 .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: var(--text); }
-.btn-outline:hover { background: rgba(255,255,255,0.1); }
-.btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); color: #000; }
-.btn-sm { padding: 9px 16px; font-size: calc(13px * var(--font-mult)); }
-.btn-xs { padding: 6px 12px; font-size: calc(12px * var(--font-mult)); }
 .input-group { margin-bottom: 16px; }
-.input-group label {
-display: block;
-font-size: calc(13px * var(--font-mult));
-font-weight: 600;
-color: var(--text-muted);
-margin-bottom: 6px;
-}
+.input-group label { display: block; font-size: calc(13px * var(--font-mult)); font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
 .input-group input, .input-group select {
-width: 100%;
-padding: 12px 16px;
-border: 1px solid rgba(255,255,255,0.12);
-border-radius: 14px;
-background: rgba(255,255,255,0.05);
-color: var(--text);
-font-family: var(--font);
-font-size: calc(15px * var(--font-mult));
-outline: none;
-transition: all 0.3s;
+width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.12);
+border-radius: 14px; background: rgba(255,255,255,0.05); color: var(--text);
+font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: none; transition: all 0.3s;
 }
-.input-group input:focus, .input-group select:focus {
-border-color: var(--primary);
-box-shadow: 0 0 0 4px rgba(249,115,22,0.15);
-background: rgba(255,255,255,0.08);
-}
-.input-group input::placeholder { color: rgba(255,255,255,0.3); }
-.toast-container {
-position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-z-index: 9999; display: flex; flex-direction: column; gap: 10px;
-max-width: 460px; width: 92%; pointer-events: none;
-}
-.toast {
-padding: 14px 20px; border-radius: 16px; color: #fff;
-font-size: calc(14px * var(--font-mult)); font-weight: 600;
-backdrop-filter: blur(20px);
-box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-pointer-events: auto; display: flex; align-items: center; gap: 10px;
-animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-border: 1px solid rgba(255,255,255,0.15);
-}
-.toast-success { background: linear-gradient(135deg, rgba(16,185,129,0.95), rgba(5,150,105,0.95)); }
-.toast-error { background: linear-gradient(135deg, rgba(239,68,68,0.95), rgba(220,38,38,0.95)); }
-.toast-warning { background: linear-gradient(135deg, rgba(245,158,11,0.95), rgba(217,119,6,0.95)); }
-.toast-info { background: linear-gradient(135deg, rgba(59,130,246,0.95), rgba(37,99,235,0.95)); }
-@keyframes slideDown {
-0% { opacity: 0; transform: translateY(-30px) scale(0.9); }
-100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-.onboarding {
-position: fixed; inset: 0;
-background:
-radial-gradient(circle at 20% 0%, #2a0a4a 0%, transparent 50%),
-radial-gradient(circle at 80% 100%, #0f1a5d 0%, transparent 50%),
-linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-z-index: 10000;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-padding: 30px 20px;
-overflow-y: auto;
-}
-.onboarding.hidden { display: none; }
-.onboarding-slide {
-display: none;
-flex-direction: column;
-align-items: center;
-text-align: center;
-max-width: 400px;
-width: 100%;
-}
-.onboarding-slide.active { display: flex; animation: slideIn 0.5s; }
-@keyframes slideIn {
-from { opacity: 0; transform: translateX(30px); }
-to { opacity: 1; transform: translateX(0); }
-}
-.onboarding-icon {
-font-size: 96px;
-margin-bottom: 24px;
-animation: bounce 2s infinite ease-in-out;
-filter: drop-shadow(0 8px 30px rgba(249,115,22,0.5));
-}
-@keyframes bounce {
-0%, 100% { transform: translateY(0); }
-50% { transform: translateY(-15px); }
-}
-.onboarding-title {
-font-size: calc(28px * var(--font-mult));
-font-weight: 900;
-background: linear-gradient(135deg, #fff, var(--primary), var(--accent));
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-margin-bottom: 12px;
-}
-.onboarding-desc {
-font-size: calc(15px * var(--font-mult));
-color: var(--text-muted);
-line-height: 1.8;
-margin-bottom: 30px;
-max-width: 320px;
-}
-.onboarding-dots {
-display: flex;
-gap: 8px;
-margin-bottom: 24px;
-}
-.onboarding-dot {
-width: 10px;
-height: 10px;
-border-radius: 50%;
-background: rgba(255,255,255,0.2);
-transition: all 0.3s;
-}
-.onboarding-dot.active {
-width: 30px;
-border-radius: 5px;
-background: linear-gradient(90deg, var(--primary), var(--accent));
-}
-.onboarding-buttons {
-display: flex;
-gap: 10px;
-width: 100%;
-max-width: 320px;
-}
-.onboarding-buttons .btn { flex: 1; }
-.role-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 12px;
-margin-bottom: 20px;
-}
-.role-card {
-background: var(--glass);
-border: 2px solid rgba(255,255,255,0.1);
-border-radius: 20px;
-padding: 20px 12px;
-text-align: center;
-cursor: pointer;
-transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.role-card:hover { transform: translateY(-4px); border-color: rgba(249,115,22,0.4); }
-.role-card.selected {
-border-color: var(--primary);
-background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(139,92,246,0.15));
-box-shadow: 0 8px 25px rgba(249,115,22,0.3);
-transform: translateY(-4px);
-}
-.role-card .role-icon { font-size: 40px; display: block; margin-bottom: 8px; }
-.role-card .role-name { font-size: calc(15px * var(--font-mult)); font-weight: 700; }
-.role-card .role-desc { font-size: calc(11px * var(--font-mult)); color: var(--text-muted); margin-top: 4px; }
-.font-options {
-display: flex;
-gap: 8px;
-justify-content: center;
-flex-wrap: wrap;
-margin: 12px 0;
-}
-.font-btn {
-padding: 12px 18px;
-border: 2px solid rgba(255,255,255,0.1);
-border-radius: 14px;
-background: rgba(255,255,255,0.05);
-color: var(--text);
-font-family: var(--font);
-font-weight: 700;
-cursor: pointer;
-transition: all 0.3s;
-}
-.font-btn.active { border-color: var(--primary); background: rgba(249,115,22,0.15); }
-.font-btn.small { font-size: 13px; }
-.font-btn.medium { font-size: 15px; }
-.font-btn.large { font-size: 18px; }
-.font-btn.xlarge { font-size: 22px; }
-.auth-page {
-display: flex; flex-direction: column; align-items: center; justify-content: center;
-min-height: 100vh; padding: 20px; position: relative; z-index: 1;
-}
-.auth-box {
-width: 100%; max-width: 420px;
-background: var(--glass);
-backdrop-filter: blur(24px);
-border: 1px solid var(--glass-border);
-border-radius: 28px;
-box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-padding: 32px 26px;
-}
+.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(249,115,22,0.15); }
+.toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; max-width: 460px; width: 92%; pointer-events: none; }
+.toast { padding: 14px 20px; border-radius: 16px; color: #fff; font-size: calc(14px * var(--font-mult)); font-weight: 600; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); pointer-events: auto; display: flex; align-items: center; gap: 10px; animation: slideDown 0.4s; border: 1px solid rgba(255,255,255,0.15); }
+.toast-success { background: rgba(16,185,129,0.95); }
+.toast-error { background: rgba(239,68,68,0.95); }
+.toast-warning { background: rgba(245,158,11,0.95); }
+.toast-info { background: rgba(59,130,246,0.95); }
+@keyframes slideDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
+.auth-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; position: relative; z-index: 1; }
+.auth-box { width: 100%; max-width: 420px; background: var(--glass); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); padding: 32px 26px; }
 .auth-box .logo { text-align: center; margin-bottom: 32px; }
-.auth-box .logo-icon {
-font-size: 64px; margin-bottom: 8px; display: inline-block;
-animation: bounce 2s infinite ease-in-out;
-filter: drop-shadow(0 8px 20px rgba(249,115,22,0.5));
-}
-.auth-box .logo h1 {
-font-size: calc(42px * var(--font-mult)); font-weight: 900;
-background: linear-gradient(135deg, #fff 0%, #fbbf24 50%, #f97316 100%);
--webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-letter-spacing: -2px; margin-bottom: 4px;
-}
+.auth-box .logo-icon { font-size: 64px; margin-bottom: 8px; display: inline-block; animation: bounce 2s infinite ease-in-out; }
+.auth-box .logo h1 { font-size: calc(42px * var(--font-mult)); font-weight: 900; background: linear-gradient(135deg, #fff 0%, #fbbf24 50%, #f97316 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; margin-bottom: 4px; }
 .auth-box .logo p { color: var(--text-muted); font-size: calc(14px * var(--font-mult)); }
-.auth-tabs {
-display: flex; gap: 6px; margin-bottom: 24px;
-background: rgba(255,255,255,0.04); border-radius: 16px; padding: 5px;
-}
-.auth-tabs button {
-flex: 1; padding: 12px; border: none; border-radius: 12px;
-background: transparent; color: var(--text-muted);
-font-family: var(--font); font-size: calc(14px * var(--font-mult)); font-weight: 700;
-cursor: pointer; transition: all 0.3s;
-}
-.auth-tabs button.active {
-background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-color: #fff; box-shadow: 0 4px 15px rgba(249,115,22,0.4);
-}
+.auth-tabs { display: flex; gap: 6px; margin-bottom: 24px; background: rgba(255,255,255,0.04); border-radius: 16px; padding: 5px; }
+.auth-tabs button { flex: 1; padding: 12px; border: none; border-radius: 12px; background: transparent; color: var(--text-muted); font-family: var(--font); font-size: calc(14px * var(--font-mult)); font-weight: 700; cursor: pointer; transition: all 0.3s; }
+.auth-tabs button.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 15px rgba(249,115,22,0.4); }
 .auth-form { display: none; }
-.auth-form.active { display: block; animation: slideIn 0.4s; }
+.auth-form.active { display: block; }
 .auth-footer { text-align: center; margin-top: 18px; color: var(--text-muted); font-size: calc(13px * var(--font-mult)); }
 .auth-footer a { color: var(--primary); cursor: pointer; font-weight: 700; }
-.dashboard {
-min-height: 100vh; padding: 20px; max-width: 480px; margin: 0 auto;
-position: relative; z-index: 1;
-}
-.dash-header {
-display: flex; justify-content: space-between; align-items: center;
-padding: 14px 0 24px;
-}
-.dash-header h2 {
-font-size: calc(26px * var(--font-mult)); font-weight: 900;
-background: linear-gradient(90deg, var(--text), var(--primary));
--webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.dash-header p { font-size: calc(12px * var(--font-mult)); color: var(--text-muted); margin-top: 4px; }
-.dash-avatar {
-width: 48px; height: 48px; border-radius: 50%;
-background: linear-gradient(135deg, var(--primary), var(--accent));
-display: flex; align-items: center; justify-content: center;
-font-weight: 800; font-size: calc(20px * var(--font-mult)); color: #fff;
-box-shadow: 0 4px 15px rgba(249,115,22,0.4);
-cursor: pointer;
-}
-.welcome-card {
-background: linear-gradient(135deg, rgba(249,115,22,0.18), rgba(139,92,246,0.18));
-border: 1px solid rgba(249,115,22,0.3);
-border-radius: 24px; padding: 22px; margin-bottom: 20px;
-position: relative; overflow: hidden;
-box-shadow: 0 8px 32px rgba(249,115,22,0.15);
-}
-.welcome-card::before {
-content: '🌟'; position: absolute; top: -20px; left: -20px;
-font-size: 100px; opacity: 0.15; transform: rotate(-20deg);
-}
-.welcome-card .welcome-title {
-font-size: calc(20px * var(--font-mult)); font-weight: 800;
-background: linear-gradient(90deg, var(--text), #fbbf24);
--webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-margin-bottom: 8px; position: relative; z-index: 1;
-}
-.welcome-card .welcome-desc {
-font-size: calc(13px * var(--font-mult)); color: var(--text-muted);
-line-height: 1.7; position: relative; z-index: 1;
-}
-.apps-grid {
-display: grid; grid-template-columns: repeat(2, 1fr);
-gap: 12px; margin-bottom: 20px;
-}
-.app-tile {
-background: var(--glass);
-border: 1px solid var(--glass-border);
-border-radius: 18px; padding: 20px 12px;
-text-align: center; cursor: pointer;
-transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-text-decoration: none; color: var(--text); display: block;
-}
-.app-tile:hover { transform: translateY(-4px); border-color: rgba(249,115,22,0.4); }
-.app-tile .tile-icon {
-font-size: 42px; display: block; margin-bottom: 8px;
-filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
-}
-.app-tile .tile-name { font-size: calc(14px * var(--font-mult)); font-weight: 700; }
-.section-h {
-font-size: calc(14px * var(--font-mult)); font-weight: 700;
-color: var(--text-muted); margin: 20px 0 12px;
-display: flex; align-items: center; gap: 8px;
-}
-.section-h::after {
-content: ''; flex: 1; height: 1px;
-background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
-}
-.settings-row {
-display: flex; justify-content: space-between; align-items: center;
-padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.settings-row:last-child { border-bottom: none; }
-.switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider {
-position: absolute; cursor: pointer;
-top: 0; left: 0; right: 0; bottom: 0;
-background: rgba(255,255,255,0.15);
-transition: 0.3s; border-radius: 28px;
-}
-.slider:before {
-position: absolute; content: ""; height: 20px; width: 20px;
-left: 4px; bottom: 4px; background: white;
-transition: 0.3s; border-radius: 50%;
-}
-input:checked + .slider { background: var(--primary); }
-input:checked + .slider:before { transform: translateX(22px); }
-.modal-overlay {
-position: fixed; inset: 0;
-background: rgba(0,0,0,0.7);
-backdrop-filter: blur(10px);
-z-index: 999; display: none;
-align-items: center; justify-content: center; padding: 20px;
-}
-.modal-overlay.open { display: flex; }
-.modal-box {
-background: linear-gradient(135deg, rgba(30,27,75,0.98), rgba(20,15,50,0.98));
-backdrop-filter: blur(20px);
-border: 1px solid rgba(255,255,255,0.1);
-border-radius: 24px; padding: 28px 22px;
-max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto;
-box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-}
-.modal-box .modal-title { font-size: calc(20px * var(--font-mult)); font-weight: 800; margin-bottom: 12px; color: var(--text); }
-.modal-box .modal-body { color: var(--text-muted); font-size: calc(14px * var(--font-mult)); line-height: 1.7; }
-.modal-box .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-.modal-box .modal-actions .btn { flex: 1; }
-@media (max-width: 420px) {
-.auth-box { padding: 26px 20px; }
-.onboarding-icon { font-size: 72px; }
-}
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 </style>
 </head>
 <body>
-  <!-- Onboarding -->
-<div class="onboarding" id="onboarding">
-<div class="onboarding-slide active" data-slide="1">
-<div class="onboarding-icon">🌐</div>
-<div class="onboarding-title">خوش آمدید به چاره‌ساز</div>
-<div class="onboarding-desc">
-سوپر اپلیکیشن ملی ایران<br>
-بیش از ۲۵ اپلیکیشن در یک اپ<br>
-همه نیازهای روزمره شما
-</div>
-</div>
-
-<div class="onboarding-slide" data-slide="2">
-<div class="onboarding-icon">🎯</div>
-<div class="onboarding-title">نقش خود را انتخاب کنید</div>
-<div class="onboarding-desc">
-می‌خواهید خدمات بگیرید یا ارائه دهید؟<br>
-می‌توانید هر دو باشید!
-</div>
-</div>
-
-<div class="onboarding-slide" data-slide="3">
-<div class="onboarding-icon">⚙️</div>
-<div class="onboarding-title">شخصی‌سازی کنید</div>
-<div class="onboarding-desc">
-اندازه فونت، حالت نمایش<br>
-همه چیز مطابق سلیقه شما
-</div>
-</div>
-
-<div class="onboarding-slide" data-slide="4">
-<div class="onboarding-icon">🚀</div>
-<div class="onboarding-title">آماده شروع هستید!</div>
-<div class="onboarding-desc">
-با یک کلیک وارد چاره‌ساز شوید<br>
-و از همه امکانات لذت ببرید
-</div>
-</div>
-
-<div class="onboarding-dots" id="onboardingDots">
-<div class="onboarding-dot active"></div>
-<div class="onboarding-dot"></div>
-<div class="onboarding-dot"></div>
-<div class="onboarding-dot"></div>
-</div>
-
-<div class="onboarding-buttons">
-<button class="btn btn-outline btn-sm" onclick="skipOnboarding()" style="width:auto; flex:0 0 auto;">رد کردن</button>
-<button class="btn btn-primary" id="onboardingNext" onclick="nextOnboarding()">بعدی</button>
-</div>
-</div>
-
-<!-- Toast -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay">
-<div class="modal-box">
-<div class="modal-title" id="modalTitle">تأیید</div>
-<div class="modal-body" id="modalBody">آیا مطمئن هستید؟</div>
-<div class="modal-actions">
-<button class="btn btn-outline btn-sm" onclick="closeModal()">انصراف</button>
-<button class="btn btn-primary btn-sm" id="modalConfirmBtn">تأیید</button>
-</div>
-</div>
-</div>
+  <div class="toast-container" id="toastContainer"></div>
 
 <!-- صفحه ورود -->
-<div class="auth-page" id="authPage" style="display:none;">
+<div class="auth-page" id="authPage">
 <div class="auth-box">
 <div class="logo">
 <div class="logo-icon">🌐</div>
@@ -541,14 +110,14 @@ box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 
 <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
 <div class="input-group">
-<label>شماره موبایل</label>
-<input type="tel" id="loginPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+<label>ایمیل (مدیر یا کاربر)</label>
+<input type="email" id="loginEmail" placeholder="example@mail.com" required>
 </div>
 <div class="input-group">
 <label>رمز عبور</label>
 <input type="password" id="loginPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
 </div>
-<button type="submit" class="btn btn-primary">ورود به چاره‌ساز</button>
+<button type="submit" class="btn btn-primary" id="loginBtn">ورود به چاره‌ساز</button>
 <div class="auth-footer">حساب ندارید؟ <a onclick="switchTab('register')">ثبت‌نام کنید</a></div>
 </form>
 
@@ -558,8 +127,8 @@ box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 <input type="text" id="registerName" placeholder="نام و نام خانوادگی" required>
 </div>
 <div class="input-group">
-<label>شماره موبایل</label>
-<input type="tel" id="registerPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+<label>ایمیل</label>
+<input type="email" id="registerEmail" placeholder="example@mail.com" required>
 </div>
 <div class="input-group">
 <label>رمز عبور</label>
@@ -569,7 +138,7 @@ box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 <label>تکرار رمز عبور</label>
 <input type="password" id="registerPasswordConfirm" placeholder="تکرار رمز" required>
 </div>
-<button type="submit" class="btn btn-success">ثبت‌نام</button>
+<button type="submit" class="btn btn-success" id="registerBtn">ثبت‌نام</button>
 <div class="auth-footer">قبلاً ثبت‌نام کردید؟ <a onclick="switchTab('login')">وارد شوید</a></div>
 </form>
 </div>
@@ -577,144 +146,69 @@ box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 
 <!-- صفحه انتخاب نقش -->
 <div class="auth-page" id="rolePage" style="display:none;">
-<div class="auth-box">
+<div class="auth-box glass">
 <div class="logo">
 <div class="logo-icon">🎯</div>
 <h1>نقش خود</h1>
 <p>را انتخاب کنید</p>
 </div>
 
-<div class="role-grid">
-<div class="role-card" data-role="customer" onclick="selectRoleCard('customer')">
-<span class="role-icon">🛒</span>
-<div class="role-name">مشتری</div>
-<div class="role-desc">خدمات بگیرید</div>
+<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:20px;">
+<div class="role-card" data-role="customer" onclick="selectRoleCard('customer')" style="background:rgba(255,255,255,0.05); border:2px solid rgba(255,255,255,0.1); border-radius:20px; padding:20px 12px; text-align:center; cursor:pointer;">
+<span style="font-size:40px; display:block; margin-bottom:8px;">🛒</span>
+<div style="font-size:15px; font-weight:700;">مشتری</div>
+<div style="font-size:11px; color:var(--text-muted); margin-top:4px;">خدمات بگیرید</div>
 </div>
-<div class="role-card" data-role="expert" onclick="selectRoleCard('expert')">
-<span class="role-icon">🔧</span>
-<div class="role-name">متخصص</div>
-<div class="role-desc">خدمات بدهید</div>
-</div>
-<div class="role-card" data-role="both" onclick="selectRoleCard('both')">
-<span class="role-icon">🌟</span>
-<div class="role-name">هر دو</div>
-<div class="role-desc">هر دو کار</div>
-</div>
-<div class="role-card" data-role="admin" onclick="selectRoleCard('admin')">
-<span class="role-icon">👑</span>
-<div class="role-name">مدیر</div>
-<div class="role-desc">نظارت</div>
+<div class="role-card" data-role="expert" onclick="selectRoleCard('expert')" style="background:rgba(255,255,255,0.05); border:2px solid rgba(255,255,255,0.1); border-radius:20px; padding:20px 12px; text-align:center; cursor:pointer;">
+<span style="font-size:40px; display:block; margin-bottom:8px;">🔧</span>
+<div style="font-size:15px; font-weight:700;">متخصص</div>
+<div style="font-size:11px; color:var(--text-muted); margin-top:4px;">خدمات بدهید</div>
 </div>
 </div>
-
 <button class="btn btn-primary" onclick="confirmRole()">تأیید و ادامه</button>
 </div>
 </div>
 
 <!-- داشبورد -->
-<div class="dashboard" id="dashboardPage" style="display:none;">
-<div class="dash-header">
+<div id="dashboardPage" style="display:none; padding:20px; max-width:480px; margin:0 auto;">
+<div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0 24px;">
 <div>
-<h2>چاره‌ساز</h2>
-<p id="dashGreeting">صبح بخیر 👋</p>
+<h2 style="font-size:26px; font-weight:900; background:linear-gradient(90deg, var(--text), var(--primary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">چاره‌ساز</h2>
+<p id="dashGreeting" style="font-size:12px; color:var(--text-muted); margin-top:4px;">خوش آمدید</p>
 </div>
-<div class="dash-avatar" id="dashAvatar" onclick="showQuickProfile()">ش</div>
+<div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent)); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px;" id="dashAvatar">م</div>
 </div>
 
-<div class="welcome-card">
-<div class="welcome-title" id="dashWelcome">خوش آمدید 👋</div>
-<div class="welcome-desc" id="dashDesc">
-عزیز، امروز آماده‌ای چه خدمتی بگیری؟
-</div>
+<div style="background:linear-gradient(135deg, rgba(249,115,22,0.18), rgba(139,92,246,0.18)); border:1px solid rgba(249,115,22,0.3); border-radius:24px; padding:22px; margin-bottom:20px;">
+<div style="font-size:20px; font-weight:800; color:var(--text);" id="dashWelcome">خوش آمدید</div>
+<div style="font-size:13px; color:var(--text-muted); margin-top:8px;" id="dashDesc">سیستم آماده است</div>
 </div>
 
-<div class="section-h">📱 پنل شما</div>
-<div class="apps-grid" id="mainApps">
-<!-- توسط JS پر می‌شود -->
-</div>
-
-<div class="section-h">⚡ دسترسی سریع</div>
-<div class="glass" style="margin-bottom:20px;">
-<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px;">
-<button class="btn btn-primary btn-sm" onclick="quickAction('reserve')">📅 رزرو سریع</button>
-<button class="btn btn-success btn-sm" onclick="quickAction('support')">💬 پشتیبانی</button>
-<button class="btn btn-gold btn-sm" onclick="quickAction('wallet')">💰 کیف پول</button>
-<button class="btn btn-outline btn-sm" onclick="quickAction('settings')">⚙️ تنظیمات</button>
-</div>
-</div>
-
-<div class="section-h">⚙️ تنظیمات سریع</div>
-<div class="glass" style="margin-bottom:20px;">
-<div class="settings-row">
-<div>
-<div style="font-size:calc(14px * var(--font-mult)); font-weight:600;">🌙 حالت شب</div>
-<div style="font-size:calc(11px * var(--font-mult)); color:var(--text-muted); margin-top:2px;">پس‌زمینه تیره</div>
-</div>
-<label class="switch">
-<input type="checkbox" id="darkToggle" onchange="toggleTheme()" checked>
-<span class="slider"></span>
-</label>
-</div>
-<div class="settings-row">
-<div>
-<div style="font-size:calc(14px * var(--font-mult)); font-weight:600;">🔤 اندازه فونت</div>
-<div style="font-size:calc(11px * var(--font-mult)); color:var(--text-muted); margin-top:2px;" id="fontLabel">متوسط</div>
-</div>
-<button class="btn btn-outline btn-xs" onclick="showFontSettings()">تغییر</button>
-</div>
-<div class="settings-row">
-<div>
-<div style="font-size:calc(14px * var(--font-mult)); font-weight:600;">🔔 اعلان‌ها</div>
-<div style="font-size:calc(11px * var(--font-mult)); color:var(--text-muted); margin-top:2px;">اطلاع‌رسانی</div>
-</div>
-<label class="switch">
-<input type="checkbox" checked>
-<span class="slider"></span>
-</label>
-</div>
-</div>
+<div style="font-size:14px; font-weight:700; color:var(--text-muted); margin-bottom:12px;">📱 پنل شما</div>
+<div id="mainApps" style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:20px;"></div>
 
 <button class="btn btn-outline" onclick="handleLogout()" style="margin-top:20px;">🚪 خروج از حساب</button>
 </div>
+
+<script>
+// ================================================================
+// پیکربندی Supabase
+// ================================================================
+const SUPABASE_URL = 'https://gdnvrlzpbnnulpncbyed.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbnZybHpwYm5udWxwbmNieWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyNjMzNzcsImV4cCI6MjEwNzgzOTM3N30.3nRUrAMjpyL937lM1wDVjWgDCDykkZYfCa8QKyFFUIY';
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let selectedRole = 'customer';
+</script>
 <script>
 // ================================================================
 // چاره‌ساز | هسته اصلی | JavaScript
 // ================================================================
 
-let currentOnboardingSlide = 1;
-let selectedRole = 'customer';
-let modalCallback = null;
-
 // ================================================================
-// LocalStorage
-// ================================================================
-function safeGet(key, def) {
-try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(def)); }
-catch (e) { return def; }
-}
-function safeSet(key, val) {
-try { localStorage.setItem(key, JSON.stringify(val)); return true; }
-catch (e) { return false; }
-}
-
-function getCustomers() { return safeGet('chare_customer_users', []); }
-function getExperts() { return safeGet('chare_expert_users', []); }
-function getCurrentUser() { return safeGet('chare_current_user', null); }
-function setCurrentUser(u) {
-if (u) safeSet('chare_current_user', u);
-else localStorage.removeItem('chare_current_user');
-}
-function getSettings() {
-return safeGet('chare_settings', {
-theme: 'dark',
-font: 'medium',
-onboardingDone: false
-});
-}
-function saveSettings(s) { safeSet('chare_settings', s); }
-
-// ================================================================
-// Toast و Modal
+// Toast
 // ================================================================
 function showToast(msg, type = 'info', duration = 3000) {
 const c = document.getElementById('toastContainer');
@@ -731,85 +225,9 @@ setTimeout(() => t.remove(), 300);
 }, duration);
 }
 
-function openModal(title, body, cb) {
-document.getElementById('modalTitle').textContent = title;
-document.getElementById('modalBody').textContent = body;
-document.getElementById('modalOverlay').classList.add('open');
-modalCallback = cb;
-}
-
-function closeModal() {
-document.getElementById('modalOverlay').classList.remove('open');
-modalCallback = null;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-const btn = document.getElementById('modalConfirmBtn');
-if (btn) btn.addEventListener('click', function() {
-if (modalCallback) modalCallback();
-closeModal();
-});
-const overlay = document.getElementById('modalOverlay');
-if (overlay) overlay.addEventListener('click', function(e) {
-if (e.target === this) closeModal();
-});
-});
-
 // ================================================================
-// Onboarding
+// مدیریت تب‌ها
 // ================================================================
-function nextOnboarding() {
-if (currentOnboardingSlide < 4) {
-currentOnboardingSlide++;
-updateOnboarding();
-} else {
-finishOnboarding();
-}
-}
-
-function updateOnboarding() {
-document.querySelectorAll('.onboarding-slide').forEach(s => s.classList.remove('active'));
-const slide = document.querySelector('.onboarding-slide[data-slide="' + currentOnboardingSlide + '"]');
-if (slide) slide.classList.add('active');
-
-document.querySelectorAll('.onboarding-dot').forEach((dot, i) => {
-dot.classList.toggle('active', i < currentOnboardingSlide);
-});
-
-const nextBtn = document.getElementById('onboardingNext');
-if (nextBtn) {
-nextBtn.textContent = currentOnboardingSlide === 4 ? 'شروع کنیم 🚀' : 'بعدی';
-}
-}
-
-function skipOnboarding() {
-finishOnboarding();
-}
-
-function finishOnboarding() {
-const settings = getSettings();
-settings.onboardingDone = true;
-saveSettings(settings);
-document.getElementById('onboarding').classList.add('hidden');
-const user = getCurrentUser();
-if (user) {
-showDashboard();
-} else {
-showAuthPage();
-}
-}
-
-// ================================================================
-// صفحه ورود
-// ================================================================
-function showAuthPage() {
-document.getElementById('onboarding').classList.add('hidden');
-document.getElementById('authPage').style.display = 'flex';
-document.getElementById('rolePage').style.display = 'none';
-document.getElementById('dashboardPage').style.display = 'none';
-switchTab('login');
-}
-
 function switchTab(tab) {
 document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
 const btn = document.querySelector('.auth-tabs button[data-tab="' + tab + '"]');
@@ -820,145 +238,178 @@ if (form) form.classList.add('active');
 }
 
 // ================================================================
-// ورود
+// ورود با Supabase
 // ================================================================
-function handleLogin(e) {
+async function handleLogin(e) {
 e.preventDefault();
-const phone = document.getElementById('loginPhone').value.trim();
+const email = document.getElementById('loginEmail').value.trim();
 const pass = document.getElementById('loginPassword').value;
+const btn = document.getElementById('loginBtn');
 
-if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
-if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
+if (!email || !pass) { showToast('ایمیل و رمز عبور الزامی است', 'error'); return; }
 
-if (phone === 'admin' && pass === 'admin123') {
+btn.textContent = 'در حال ورود...';
+btn.disabled = true;
+
+// ورود مدیر (با رمز خاص)
+if (email === 'admin@charesaz.com' && pass === '0371666961') {
 localStorage.setItem('chare_admin_session', '1');
-setCurrentUser({ name: 'مدیر کل', role: 'admin', phone: 'admin' });
-showToast('خوش آمدید مدیر 👑', 'success');
-showDashboard();
+showToast('خوش آمدید مدیر', 'success');
+showDashboard({ email: 'admin@charesaz.com', role: 'admin', name: 'مدیر کل' });
+btn.textContent = 'ورود به چاره‌ساز';
+btn.disabled = false;
 return;
 }
 
-const customers = getCustomers();
-const customer = customers.find(u => u.phone === phone && u.password === pass);
-if (customer) {
-setCurrentUser(customer);
-showToast('خوش آمدید ' + customer.name, 'success');
-showDashboard();
+try {
+const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+
+if (error) {
+showToast(error.message === 'Invalid login credentials' ? 'ایمیل یا رمز عبور اشتباه است' : error.message, 'error');
+btn.textContent = 'ورود به چاره‌ساز';
+btn.disabled = false;
 return;
 }
 
-const experts = getExperts();
-const expert = experts.find(u => u.phone === phone && u.password === pass);
-if (expert) {
-setCurrentUser(expert);
-showToast('خوش آمدید ' + expert.name, 'success');
-showDashboard();
+// دریافت اطلاعات کاربر از دیتابیس
+const { data: profile, error: profileError } = await db
+.from('profiles')
+.select('*')
+.eq('id', data.user.id)
+.single();
+
+if (profileError || !profile) {
+showToast('خطا در دریافت اطلاعات کاربر. لطفاً با پشتیبانی تماس بگیرید.', 'error');
+btn.textContent = 'ورود به چاره‌ساز';
+btn.disabled = false;
 return;
 }
 
-showToast('اطلاعات وارد شده صحیح نیست', 'error');
+// بررسی نقش و نمایش داشبورد
+localStorage.setItem('chare_user_session', JSON.stringify(profile));
+showToast('خوش آمدید ' + profile.name, 'success');
+showDashboard(profile);
+
+} catch (err) {
+console.error(err);
+showToast('خطای سیستمی. لطفاً دوباره تلاش کنید.', 'error');
+} finally {
+btn.textContent = 'ورود به چاره‌ساز';
+btn.disabled = false;
+}
 }
 
 // ================================================================
-// ثبت‌نام
+// ثبت‌نام با Supabase
 // ================================================================
-function handleRegister(e) {
+async function handleRegister(e) {
 e.preventDefault();
 const name = document.getElementById('registerName').value.trim();
-const phone = document.getElementById('registerPhone').value.trim();
+const email = document.getElementById('registerEmail').value.trim();
 const pass = document.getElementById('registerPassword').value;
 const confirm = document.getElementById('registerPasswordConfirm').value;
+const btn = document.getElementById('registerBtn');
 
-if (!name || name.length < 3) { showToast('نام کامل الزامی', 'error'); return; }
-if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
-if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
-if (pass !== confirm) { showToast('رمز مطابقت ندارد', 'error'); return; }
+if (!name || name.length < 3) { showToast('نام کامل الزامی است', 'error'); return; }
+if (!email) { showToast('ایمیل الزامی است', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز عبور حداقل ۶ کاراکتر است', 'error'); return; }
+if (pass !== confirm) { showToast('رمز عبور مطابقت ندارد', 'error'); return; }
 
-const customers = getCustomers();
-const experts = getExperts();
-if (customers.find(u => u.phone === phone) || experts.find(u => u.phone === phone)) {
-showToast('این شماره قبلاً ثبت شده', 'error');
+btn.textContent = 'در حال ثبت‌نام...';
+btn.disabled = true;
+
+try {
+// ثبت‌نام در سیستم احراز هویت
+const { data, error } = await db.auth.signUp({ email, password: pass });
+
+if (error) {
+showToast(error.message === 'User already registered' ? 'این ایمیل قبلاً ثبت شده است' : error.message, 'error');
+btn.textContent = 'ثبت‌نام';
+btn.disabled = false;
 return;
 }
 
-const tempUser = { id: 'u_' + Date.now(), name, phone, password: pass };
-window.__tempRegister = tempUser;
+// ذخیره موقت اطلاعات برای انتخاب نقش
+window.__tempRegister = { id: data.user.id, name, email };
 
-showToast('حالا نقش خود را انتخاب کنید', 'info');
+// نمایش صفحه انتخاب نقش
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('rolePage').style.display = 'flex';
+showToast('حالا نقش خود را انتخاب کنید', 'info');
+
+} catch (err) {
+console.error(err);
+showToast('خطای سیستمی. لطفاً دوباره تلاش کنید.', 'error');
+} finally {
+btn.textContent = 'ثبت‌نام';
+btn.disabled = false;
+}
 }
 
 // ================================================================
-// انتخاب نقش
+// انتخاب نقش و ذخیره در دیتابیس
 // ================================================================
 function selectRoleCard(role) {
 selectedRole = role;
 document.querySelectorAll('.role-card').forEach(c => {
-c.classList.toggle('selected', c.dataset.role === role);
+if (c.dataset.role === role) {
+c.style.border = '2px solid var(--primary)';
+c.style.background = 'linear-gradient(135deg, rgba(249,115,22,0.2), rgba(139,92,246,0.15))';
+} else {
+c.style.border = '2px solid rgba(255,255,255,0.1)';
+c.style.background = 'rgba(255,255,255,0.05)';
+}
 });
 }
 
-function confirmRole() {
-if (!selectedRole) { showToast('لطفاً یک نقش انتخاب کنید', 'error'); return; }
-
+async function confirmRole() {
 const temp = window.__tempRegister;
-if (temp) {
-const newUser = {
-...temp,
-role: selectedRole,
-wallet: 0,
-points: 0,
-level: 'برنز',
-badges: [],
-invitedFriends: 0,
-avatar: null,
-email: '',
-birthday: '',
-city: '',
-address: '',
-bio: '',
-createdAt: new Date().toISOString()
-};
-
-if (selectedRole === 'customer' || selectedRole === 'both') {
-const customers = getCustomers();
-customers.push(newUser);
-safeSet('chare_customer_users', customers);
-}
-if (selectedRole === 'expert' || selectedRole === 'both') {
-const experts = getExperts();
-experts.push({ ...newUser, id: 'e_' + Date.now(), industry: '', sub: '', price: 0, rating: 0 });
-safeSet('chare_expert_users', experts);
-}
-if (selectedRole === 'admin') {
-localStorage.setItem('chare_admin_session', '1');
+if (!temp) {
+showToast('خطا: اطلاعات ثبت‌نام یافت نشد', 'error');
+return;
 }
 
-setCurrentUser(newUser);
+if (!selectedRole) {
+showToast('لطفاً یک نقش انتخاب کنید', 'error');
+return;
+}
+
+try {
+// ذخیره پروفایل در دیتابیس
+const { error } = await db.from('profiles').insert([
+{ id: temp.id, name: temp.name, email: temp.email, role: selectedRole }
+]);
+
+if (error) {
+showToast('خطا در ذخیره اطلاعات: ' + error.message, 'error');
+return;
+}
+
+// ذخیره در LocalStorage
+const userProfile = { id: temp.id, name: temp.name, email: temp.email, role: selectedRole };
+localStorage.setItem('chare_user_session', JSON.stringify(userProfile));
 window.__tempRegister = null;
-showToast('ثبت‌نام موفق! خوش آمدید ' + newUser.name, 'success');
-showDashboard();
-} else {
-const user = getCurrentUser();
-if (user) {
-user.role = selectedRole;
-setCurrentUser(user);
-}
-showDashboard();
+
+showToast('ثبت‌نام موفق! خوش آمدید ' + temp.name, 'success');
+showDashboard(userProfile);
+
+} catch (err) {
+console.error(err);
+showToast('خطای سیستمی', 'error');
 }
 }
 
 // ================================================================
 // خروج
 // ================================================================
-function handleLogout() {
-openModal('خروج', 'آیا مطمئن هستید؟', function() {
-setCurrentUser(null);
+async function handleLogout() {
+try {
+await db.auth.signOut();
+} catch (e) {}
+localStorage.removeItem('chare_user_session');
 localStorage.removeItem('chare_admin_session');
 showToast('خارج شدید', 'info');
-showAuthPage();
-});
+location.reload();
 }
 </script>
 <script>
@@ -969,37 +420,29 @@ showAuthPage();
 // ================================================================
 // نمایش داشبورد
 // ================================================================
-function showDashboard() {
-const user = getCurrentUser();
-if (!user) { showAuthPage(); return; }
-
-document.getElementById('onboarding').classList.add('hidden');
+function showDashboard(user) {
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('rolePage').style.display = 'none';
 document.getElementById('dashboardPage').style.display = 'block';
 
-document.getElementById('dashGreeting').textContent = getGreeting();
+const hour = new Date().getHours();
+let greeting = 'سلام';
+if (hour < 12) greeting = 'صبح بخیر ☀️';
+else if (hour < 17) greeting = 'ظهر بخیر 🌤️';
+else if (hour < 20) greeting = 'عصر بخیر 🌆';
+else greeting = 'شب بخیر 🌙';
+
+document.getElementById('dashGreeting').textContent = greeting;
 document.getElementById('dashWelcome').textContent = 'خوش آمدید ' + user.name + ' 👋';
-document.getElementById('dashDesc').textContent = getWelcomeDesc(user);
 document.getElementById('dashAvatar').textContent = user.name.charAt(0);
 
+let desc = 'عزیز، امروز آماده دریافت چه خدمتی هستی؟';
+if (user.role === 'admin') desc = 'مدیر عزیز، امروز آماده نظارت هستید؟';
+else if (user.role === 'expert') desc = 'متخصص عزیز، امروز آماده خدمات هستید؟';
+else if (user.role === 'both') desc = 'هم مشتری، هم متخصص — امروز چه کاری داری؟';
+document.getElementById('dashDesc').textContent = desc;
+
 renderMainApps(user);
-applySettings();
-}
-
-function getGreeting() {
-const hour = new Date().getHours();
-if (hour < 12) return 'صبح بخیر ☀️';
-if (hour < 17) return 'ظهر بخیر 🌤️';
-if (hour < 20) return 'عصر بخیر 🌆';
-return 'شب بخیر 🌙';
-}
-
-function getWelcomeDesc(user) {
-if (user.role === 'admin') return 'مدیر عزیز، امروز آماده نظارت هستید؟';
-if (user.role === 'expert') return 'متخصص عزیز، امروز آماده خدمات هستید؟';
-if (user.role === 'both') return 'هم مشتری، هم متخصص — امروز چه کاری داری؟';
-return 'عزیز، امروز آماده دریافت چه خدمتی هستی؟';
 }
 
 // ================================================================
@@ -1031,162 +474,31 @@ apps = [
 }
 
 container.innerHTML = apps.map(a => `
-<a href="${a.url}" class="app-tile" style="text-decoration:none;">
-<span class="tile-icon">${a.icon}</span>
-<span class="tile-name">${a.name}</span>
+<a href="${a.url}" style="text-decoration:none; color:var(--text); background:var(--glass); border:1px solid var(--glass-border); border-radius:18px; padding:20px 12px; text-align:center; display:block; transition:all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+<div style="font-size:42px; margin-bottom:8px;">${a.icon}</div>
+<div style="font-size:14px; font-weight:700;">${a.name}</div>
 </a>
 `).join('');
 }
 
 // ================================================================
-// تنظیمات
-// ================================================================
-function applySettings() {
-const s = getSettings();
-document.documentElement.setAttribute('data-theme', s.theme || 'dark');
-document.documentElement.setAttribute('data-font', s.font || 'medium');
-
-const toggle = document.getElementById('darkToggle');
-if (toggle) toggle.checked = (s.theme !== 'light');
-
-const labels = { small: 'کوچک', medium: 'متوسط', large: 'بزرگ', xlarge: 'خیلی بزرگ' };
-const fontLabel = document.getElementById('fontLabel');
-if (fontLabel) fontLabel.textContent = labels[s.font] || 'متوسط';
-}
-
-function toggleTheme() {
-const s = getSettings();
-s.theme = s.theme === 'light' ? 'dark' : 'light';
-saveSettings(s);
-applySettings();
-showToast(s.theme === 'light' ? 'حالت روز فعال شد ☀️' : 'حالت شب فعال شد 🌙', 'info');
-}
-
-function showFontSettings() {
-const s = getSettings();
-const options = [
-{ id: 'small', label: 'کوچک', cls: 'small' },
-{ id: 'medium', label: 'متوسط', cls: 'medium' },
-{ id: 'large', label: 'بزرگ', cls: 'large' },
-{ id: 'xlarge', label: 'خیلی بزرگ', cls: 'xlarge' }
-];
-
-let html = '<div class="font-options">';
-options.forEach(o => {
-html += '<button class="font-btn ' + o.cls + ' ' + (s.font === o.id ? 'active' : '') + '" onclick="setFont(\'' + o.id + '\')">' + o.label + '</button>';
-});
-html += '</div>';
-html += '<p style="text-align:center; font-size:12px; color:var(--text-muted); margin-top:12px;">اندازه فونت بلافاصله تغییر می‌کند</p>';
-
-document.getElementById('modalTitle').textContent = '🔤 اندازه فونت';
-document.getElementById('modalBody').innerHTML = html;
-document.getElementById('modalOverlay').classList.add('open');
-modalCallback = null;
-}
-
-function setFont(fontId) {
-const s = getSettings();
-s.font = fontId;
-saveSettings(s);
-applySettings();
-closeModal();
-showToast('اندازه فونت تغییر کرد', 'success');
-}
-
-// ================================================================
-// دسترسی سریع
-// ================================================================
-function quickAction(action) {
-if (action === 'reserve') {
-window.location.href = 'moshtari.html';
-} else if (action === 'support') {
-showToast('در حال اتصال به پشتیبانی...', 'info');
-setTimeout(() => {
-openModal('💬 پشتیبانی', 'تیم پشتیبانی:\n📞 ۰۲۱-۱۲۳۴۵۶۷۸\n📧 support@charesaz.ir', function() {});
-}, 500);
-} else if (action === 'wallet') {
-window.location.href = 'moshtari.html';
-} else if (action === 'settings') {
-showSettingsPage();
-}
-}
-
-function showSettingsPage() {
-const s = getSettings();
-let html = '<div style="text-align:right; padding:10px 0;">';
-html += '<div class="input-group">';
-html += '<label>🌙 حالت نمایش</label>';
-html += '<div style="display:flex; gap:8px; margin-top:8px;">';
-html += '<button class="btn ' + (s.theme !== 'light' ? 'btn-primary' : 'btn-outline') + ' btn-sm" onclick="setTheme(\'dark\')">🌙 شب</button>';
-html += '<button class="btn ' + (s.theme === 'light' ? 'btn-primary' : 'btn-outline') + ' btn-sm" onclick="setTheme(\'light\')">☀️ روز</button>';
-html += '</div>';
-html += '</div>';
-html += '<div class="input-group" style="margin-top:16px;">';
-html += '<label>🔤 اندازه فونت</label>';
-html += '<button class="btn btn-outline btn-sm" onclick="closeModal(); setTimeout(showFontSettings, 300);">تغییر اندازه فونت</button>';
-html += '</div>';
-html += '</div>';
-
-document.getElementById('modalTitle').textContent = '⚙️ تنظیمات';
-document.getElementById('modalBody').innerHTML = html;
-document.getElementById('modalOverlay').classList.add('open');
-modalCallback = null;
-}
-
-function setTheme(theme) {
-const s = getSettings();
-s.theme = theme;
-saveSettings(s);
-applySettings();
-closeModal();
-showToast(theme === 'light' ? 'حالت روز فعال شد ☀️' : 'حالت شب فعال شد 🌙', 'info');
-}
-
-// ================================================================
-// پروفایل سریع
-// ================================================================
-function showQuickProfile() {
-const user = getCurrentUser();
-if (!user) return;
-const roleNames = { customer: '🛒 مشتری', expert: '🔧 متخصص', both: '🌟 هر دو', admin: '👑 مدیر' };
-const html = `
-<div style="text-align:center; padding:16px 0;">
-<div style="width:80px; height:80px; border-radius:50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:32px; font-weight:800;">${user.name.charAt(0)}</div>
-<div style="font-size:18px; font-weight:800; margin-bottom:4px;">${user.name}</div>
-<div style="font-size:13px; color:var(--text-muted);">${user.phone || ''}</div>
-<div style="display:inline-block; margin-top:8px; padding:4px 14px; background: rgba(249,115,22,0.15); border-radius:20px; font-size:12px;">${roleNames[user.role] || 'کاربر'}</div>
-</div>
-<div class="glass" style="padding:12px; margin-bottom:10px;">
-<div style="display:flex; justify-content:space-between; font-size:13px;">
-<span>💰 کیف پول:</span>
-<strong style="color: var(--gold);">${(user.wallet || 0).toLocaleString()} تومان</strong>
-</div>
-</div>
-<button class="btn btn-primary btn-sm" onclick="closeModal(); window.location.href='moshtari.html';">مشاهده پروفایل کامل</button>
-<button class="btn btn-danger btn-sm" onclick="closeModal(); handleLogout();" style="margin-top:8px;">🚪 خروج</button>
-`;
-document.getElementById('modalTitle').textContent = '👤 پروفایل';
-document.getElementById('modalBody').innerHTML = html;
-document.getElementById('modalOverlay').classList.add('open');
-modalCallback = null;
-}
-
-// ================================================================
 // راه‌اندازی
 // ================================================================
-document.addEventListener('DOMContentLoaded', function() {
-const settings = getSettings();
-applySettings();
+window.addEventListener('DOMContentLoaded', () => {
+// بررسی نشست مدیر
+if (localStorage.getItem('chare_admin_session')) {
+showDashboard({ name: 'مدیر کل', role: 'admin', email: 'admin@charesaz.com' });
+return;
+}
 
-if (!settings.onboardingDone) {
-const onboarding = document.getElementById('onboarding');
-if (onboarding) onboarding.classList.remove('hidden');
-} else {
-const user = getCurrentUser();
-if (user) {
-showDashboard();
-} else {
-showAuthPage();
+// بررسی نشست کاربر
+const userSession = localStorage.getItem('chare_user_session');
+if (userSession) {
+try {
+const user = JSON.parse(userSession);
+showDashboard(user);
+} catch (e) {
+localStorage.removeItem('chare_user_session');
 }
 }
 });
