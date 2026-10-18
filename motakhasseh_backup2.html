@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>چاره‌ساز | پنل متخصص</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -56,7 +55,7 @@ width: 100%; color: #fff; transition: all 0.3s;
 }
 .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16,185,129,0.5); }
-.btn-success { background: linear-gradient(135deg, var(--green), #059669); }
+.btn-success { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
 .btn-danger { background: linear-gradient(135deg, var(--red), #dc2626); }
 .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: var(--text); }
 .btn-sm { padding: 9px 16px; font-size: calc(13px * var(--font-mult)); }
@@ -90,7 +89,6 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 .auth-footer { text-align: center; margin-top: 18px; color: var(--text-muted); font-size: calc(13px * var(--font-mult)); }
 .auth-footer a { color: var(--primary); cursor: pointer; font-weight: 700; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-/* استایل داشبورد */
 .dashboard { min-height: 100vh; padding: 20px; max-width: 480px; margin: 0 auto; position: relative; z-index: 1; }
 .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 24px; }
 .dash-header h2 { font-size: calc(26px * var(--font-mult)); font-weight: 900; background: linear-gradient(90deg, var(--text), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -103,12 +101,11 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 .stat-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 16px; text-align: center; }
 .stat-value { font-size: calc(22px * var(--font-mult)); font-weight: 800; color: var(--gold); }
 .stat-label { font-size: calc(11px * var(--font-mult)); color: var(--text-muted); margin-top: 4px; }
-/* گالری و آپلود */
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
 .gallery-item { aspect-ratio: 1; border-radius: 12px; overflow: hidden; position: relative; background: rgba(255,255,255,0.05); }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 .gallery-item .delete-btn { position: absolute; top: 4px; right: 4px; background: rgba(239,68,68,0.9); color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
-.upload-box { border: 2px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+.upload-box { border: 2px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; margin-top: 10px; display: block; }
 .upload-box:hover { border-color: var(--primary); background: rgba(16,185,129,0.05); }
 .upload-box input { display: none; }
 </style>
@@ -209,7 +206,7 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 <div class="gallery-grid" id="galleryGrid">
 <!-- عکس‌ها اینجا لود می‌شوند -->
 </div>
-<label class="upload-box" for="galleryUpload" style="margin-top:12px; display:block;">
+<label class="upload-box" for="galleryUpload" style="margin-top:12px;">
 <div style="font-size:24px; margin-bottom:6px;">📷</div>
 <div style="font-size:13px;">برای افزودن عکس کلیک کنید</div>
 <input type="file" id="galleryUpload" accept="image/*" onchange="uploadGalleryImage(event)" style="display:none;">
@@ -220,7 +217,7 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 <div class="glass" style="margin-bottom:20px;">
 <h3 style="font-size:15px; margin-bottom:10px;">🎬 فیلم تیزر</h3>
 <div id="videoPreview" style="margin-bottom:10px;"></div>
-<label class="upload-box" for="videoUpload" style="display:block;">
+<label class="upload-box" for="videoUpload">
 <div style="font-size:24px; margin-bottom:6px;">🎥</div>
 <div style="font-size:13px;">برای آپلود ویدیو کوتاه کلیک کنید</div>
 <input type="file" id="videoUpload" accept="video/*" onchange="uploadTeaserVideo(event)" style="display:none;">
@@ -231,9 +228,10 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 </div>
 <script>
 // ================================================================
-// چاره‌ساز | پنل متخصص | JavaScript
+// چاره‌ساز | پنل متخصص | بخش ۳: منطق اصلی
 // ================================================================
 
+// تنظیمات اتصال به Supabase
 const SUPABASE_URL = 'https://gdnvrlzpbnnulpncbyed.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbnZybHpwYm5udWxwbmNieWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyNjMzNzcsImV4cCI6MjEwNzgzOTM3N30.3nRUrAMjpyL937lM1wDVjWgDCDykkZYfCa8QKyFFUIY';
 
@@ -243,7 +241,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let currentUser = null;
 
 // ================================================================
-// Toast
+// سیستم پیام (Toast)
 // ================================================================
 function showToast(msg, type = 'info', duration = 3000) {
 const c = document.getElementById('toastContainer');
@@ -261,7 +259,7 @@ setTimeout(() => t.remove(), 300);
 }
 
 // ================================================================
-// مدیریت تب‌ها
+// مدیریت تب‌های ورود و ثبت‌نام
 // ================================================================
 function switchTab(tab) {
 document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
@@ -296,7 +294,6 @@ btn.disabled = false;
 return;
 }
 
-// دریافت اطلاعات پروفایل
 const { data: profile, error: profileError } = await db
 .from('profiles')
 .select('*')
@@ -319,6 +316,7 @@ return;
 }
 
 currentUser = profile;
+showToast('خوش آمدید ' + currentUser.name, 'success');
 showDashboard();
 
 } catch (err) {
@@ -358,7 +356,6 @@ btn.disabled = false;
 return;
 }
 
-// ذخیره پروفایل در دیتابیس
 const { error: insertError } = await db.from('profiles').insert([
 { 
 id: data.user.id, 
@@ -393,7 +390,7 @@ btn.disabled = false;
 }
 
 // ================================================================
-// خروج
+// خروج از حساب
 // ================================================================
 async function handleLogout() {
 try { await db.auth.signOut(); } catch (e) {}
@@ -403,7 +400,7 @@ location.reload();
 }
 
 // ================================================================
-// نمایش داشبورد
+// نمایش داشبورد (با رفع باگ)
 // ================================================================
 function showDashboard() {
 document.getElementById('authPage').style.display = 'none';
@@ -420,14 +417,14 @@ document.getElementById('greetingText').textContent = greeting;
 document.getElementById('welcomeName').textContent = 'خوش آمدید ' + currentUser.name;
 document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
 
+// رندر کردن گالری و فیلم (این خطوط باگ قبلی رو رفع می‌کنند)
 renderGallery();
 renderVideo();
-// (تابع آمار و سفارش‌ها در بخش ۴ اضافه می‌شود)
 }
-</script>)
-  <script>
+</script>
+<script>
 // ================================================================
-// بخش ۴: آپلود گالری و فیلم + راه‌اندازی
+// چاره‌ساز | پنل متخصص | بخش ۴: گالری، فیلم و راه‌اندازی
 // ================================================================
 
 // ================================================================
@@ -437,10 +434,12 @@ function renderGallery() {
 const container = document.getElementById('galleryGrid');
 if (!container) return;
 const gallery = currentUser.gallery || [];
+
 if (gallery.length === 0) {
 container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:16px; color:var(--text-muted); font-size:12px;">هنوز عکسی آپلود نکردید</div>`;
 return;
 }
+
 container.innerHTML = gallery.map((url, i) => `
 <div class="gallery-item">
 <img src="${url}" alt="نمونه‌کار">
@@ -456,7 +455,6 @@ async function uploadGalleryImage(event) {
 const file = event.target.files[0];
 if (!file) return;
 
-// بررسی حجم (حداکثر ۲ مگابایت)
 if (file.size > 2 * 1024 * 1024) {
 showToast('حجم عکس باید کمتر از ۲ مگابایت باشد', 'error');
 return;
@@ -534,10 +532,12 @@ showToast('عکس حذف شد', 'info');
 function renderVideo() {
 const container = document.getElementById('videoPreview');
 if (!container) return;
+
 if (!currentUser.teaser_video_url) {
 container.innerHTML = '';
 return;
 }
+
 container.innerHTML = `
 <video controls style="width:100%; border-radius:12px; max-height:200px;">
 <source src="${currentUser.teaser_video_url}" type="video/mp4">
@@ -553,7 +553,6 @@ async function uploadTeaserVideo(event) {
 const file = event.target.files[0];
 if (!file) return;
 
-// بررسی حجم (حداکثر ۱۰ مگابایت برای فیلم کوتاه)
 if (file.size > 10 * 1024 * 1024) {
 showToast('حجم فیلم باید کمتر از ۱۰ مگابایت باشد', 'error');
 return;
@@ -597,10 +596,11 @@ showToast('خطای سیستمی', 'error');
 }
 
 // ================================================================
-// راه‌اندازی اولیه (بررسی نشست)
+// راه‌اندازی اولیه و بررسی نشست
 // ================================================================
 async function init() {
 const { data: { session } } = await db.auth.getSession();
+
 if (session) {
 const { data: profile } = await db.from('profiles').select('*').eq('id', session.user.id).single();
 if (profile && (profile.role === 'expert' || profile.role === 'both')) {
@@ -616,6 +616,7 @@ document.getElementById('dashboardPage').style.display = 'none';
 }
 }
 
+// اجرای اولیه
 init();
 </script>
 </body>
