@@ -5,353 +5,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>چاره‌ساز | پنل متخصص</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
---primary-green: #2b7a4b;
---primary-orange: #f97316;
---primary-blue: #3b82f6;
---primary-gold: #f59e0b;
---primary-red: #dc3545;
---glass-bg: rgba(255,255,255,0.08);
---glass-border: rgba(255,255,255,0.12);
---glass-shadow: 0 8px 30px rgba(0,0,0,0.3);
---glass-radius: 20px;
---glass-blur: 12px;
---text-muted: rgba(255,255,255,0.6);
+--primary: #10b981;
+--primary-dark: #059669;
+--accent: #14b8a6;
+--gold: #f59e0b;
+--red: #ef4444;
+--bg1: #04140a;
+--bg2: #0a2618;
+--bg3: #0f1f1a;
+--glass: rgba(255,255,255,0.06);
+--glass-border: rgba(255,255,255,0.1);
+--text: #ffffff;
+--text-muted: rgba(255,255,255,0.55);
 --font: 'Vazirmatn', sans-serif;
---transition: all 0.25s ease;
+--font-mult: 1;
 }
+html[data-theme="light"] {
+--bg1: #f0fdf4; --bg2: #dcfce7; --bg3: #f0f4ff;
+--glass: rgba(255,255,255,0.75); --glass-border: rgba(0,0,0,0.08);
+--text: #1a1a2e; --text-muted: rgba(26,26,46,0.6);
+}
+html[data-font="small"] { --font-mult: 0.85; }
+html[data-font="medium"] { --font-mult: 1; }
+html[data-font="large"] { --font-mult: 1.15; }
+html[data-font="xlarge"] { --font-mult: 1.35; }
 html, body {
 font-family: var(--font);
-background: linear-gradient(145deg, #0a1f15, #1e3a2f, #24243e);
-min-height: 100vh;
-color: #fff;
-direction: rtl;
-}
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: var(--primary-green); border-radius: 10px; }
-.app-wrapper {
-max-width: 480px;
-margin: 0 auto;
-padding: 16px 14px 90px;
-min-height: 100vh;
+font-size: calc(15px * var(--font-mult));
+background: radial-gradient(circle at 20% 0%, #064e3b 0%, transparent 50%),
+radial-gradient(circle at 80% 100%, #065f46 0%, transparent 50%),
+linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+background-attachment: fixed; min-height: 100vh; color: var(--text);
+direction: rtl; overflow-x: hidden; position: relative; transition: background 0.4s, color 0.4s;
 }
 .glass {
-background: var(--glass-bg);
-backdrop-filter: blur(var(--glass-blur));
-border: 1px solid var(--glass-border);
-border-radius: var(--glass-radius);
-box-shadow: var(--glass-shadow);
-padding: 18px;
-transition: var(--transition);
+background: var(--glass); backdrop-filter: blur(20px);
+border: 1px solid var(--glass-border); border-radius: 20px;
+box-shadow: 0 8px 32px rgba(0,0,0,0.3); padding: 18px; transition: all 0.35s;
 }
-.glass:hover { transform: translateY(-3px); }
 .btn {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-padding: 12px 20px;
-border: none;
-border-radius: 12px;
-font-family: var(--font);
-font-size: 15px;
-font-weight: 600;
-cursor: pointer;
-transition: var(--transition);
-width: 100%;
-color: #fff;
+display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+padding: 13px 22px; border: none; border-radius: 14px; font-family: var(--font);
+font-size: calc(15px * var(--font-mult)); font-weight: 700; cursor: pointer;
+width: 100%; color: #fff; transition: all 0.3s;
 }
-.btn-primary { background: var(--primary-green); }
-.btn-primary:hover { background: #1f5a38; transform: scale(1.02); }
-.btn-orange { background: var(--primary-orange); }
-.btn-danger { background: var(--primary-red); }
-.btn-success { background: var(--primary-green); }
-.btn-outline {
-background: transparent;
-border: 2px solid rgba(255,255,255,0.2);
-color: #fff;
-}
-.btn-gold { background: var(--primary-gold); color: #000; }
-.btn-sm { padding: 8px 14px; font-size: 13px; }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16,185,129,0.5); }
+.btn-success { background: linear-gradient(135deg, var(--green), #059669); }
+.btn-danger { background: linear-gradient(135deg, var(--red), #dc2626); }
+.btn-outline { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: var(--text); }
+.btn-sm { padding: 9px 16px; font-size: calc(13px * var(--font-mult)); }
 .input-group { margin-bottom: 16px; }
-.input-group label {
-display: block;
-font-size: 14px;
-font-weight: 500;
-color: var(--text-muted);
-margin-bottom: 5px;
-}
+.input-group label { display: block; font-size: calc(13px * var(--font-mult)); font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
 .input-group input, .input-group select, .input-group textarea {
-width: 100%;
-padding: 11px 14px;
-border: 1px solid rgba(255,255,255,0.15);
-border-radius: 12px;
-background: rgba(255,255,255,0.06);
-color: #fff;
-font-family: var(--font);
-font-size: 15px;
-outline: none;
+width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.12);
+border-radius: 14px; background: rgba(255,255,255,0.05); color: var(--text);
+font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: none; transition: all 0.3s;
 }
-.input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-border-color: var(--primary-green);
-box-shadow: 0 0 0 3px rgba(43,122,75,0.15);
-}
-.input-group input::placeholder { color: rgba(255,255,255,0.35); }
-.toast-container {
-position: fixed;
-top: 20px;
-left: 50%;
-transform: translateX(-50%);
-z-index: 9999;
-display: flex;
-flex-direction: column;
-gap: 10px;
-max-width: 460px;
-width: 92%;
-pointer-events: none;
-}
-.toast {
-padding: 12px 18px;
-border-radius: 14px;
-color: #fff;
-font-size: 14px;
-font-weight: 500;
-backdrop-filter: blur(12px);
-box-shadow: 0 6px 24px rgba(0,0,0,0.4);
-animation: slideDown 0.35s ease forwards;
-pointer-events: auto;
-display: flex;
-align-items: center;
-gap: 10px;
-}
-.toast-success { background: rgba(43,122,75,0.92); }
-.toast-error { background: rgba(220,53,69,0.92); }
-.toast-warning { background: rgba(245,158,11,0.92); }
-.toast-info { background: rgba(59,130,246,0.92); }
-@keyframes slideDown {
-0% { opacity: 0; transform: translateY(-30px); }
-100% { opacity: 1; transform: translateY(0); }
-}
-.toast.hide { animation: slideUp 0.3s ease forwards; }
-@keyframes slideUp {
-100% { opacity: 0; transform: translateY(-30px); }
-}
-.modal-overlay {
-position: fixed;
-inset: 0;
-background: rgba(0,0,0,0.6);
-backdrop-filter: blur(8px);
-z-index: 999;
-display: none;
-align-items: center;
-justify-content: center;
-padding: 20px;
-}
-.modal-overlay.open { display: flex; }
-.modal-box {
-background: rgba(30,27,75,0.96);
-border-radius: 24px;
-padding: 28px 22px;
-max-width: 400px;
-width: 100%;
-max-height: 90vh;
-overflow-y: auto;
-}
-.modal-box .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-.modal-box .modal-body { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
-.modal-box .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-.modal-box .modal-actions .btn { flex: 1; }
-.page { display: none; }
-.page.active { display: block; }
-.page-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px 0 16px;
-}
-.page-header h2 { font-size: 22px; font-weight: 700; }
-.page-header .user-badge {
-display: flex;
-align-items: center;
-gap: 10px;
-color: var(--text-muted);
-font-size: 13px;
-}
-.page-header .user-badge .avatar {
-width: 38px;
-height: 38px;
-border-radius: 50%;
-background: var(--primary-green);
-display: flex;
-align-items: center;
-justify-content: center;
-font-weight: 700;
-font-size: 16px;
-}
-.section-title {
-color: var(--text-muted);
-font-size: 13px;
-font-weight: 600;
-margin: 22px 0 8px;
-}
-.stats-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 12px;
-margin-bottom: 12px;
-}
-.stat-card {
-background: rgba(255,255,255,0.05);
-border: 1px solid rgba(255,255,255,0.06);
-border-radius: 16px;
-padding: 14px;
-text-align: center;
-}
-.stat-card .stat-value { font-size: 22px; font-weight: 700; color: var(--primary-gold); }
-.stat-card .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.order-card {
-background: rgba(255,255,255,0.04);
-border: 1px solid rgba(255,255,255,0.06);
-border-radius: 16px;
-padding: 14px;
-margin-bottom: 12px;
-}
-.order-card .order-header { display: flex; justify-content: space-between; align-items: center; }
-.order-card .order-status {
-font-size: 12px;
-padding: 4px 12px;
-border-radius: 30px;
-font-weight: 600;
-}
-.order-card .order-status.pending { background: rgba(245,158,11,0.2); color: var(--primary-gold); }
-.order-card .order-status.confirmed { background: rgba(59,130,246,0.2); color: var(--primary-blue); }
-.order-card .order-status.done { background: rgba(43,122,75,0.2); color: var(--primary-green); }
-.order-card .order-status.cancelled { background: rgba(220,53,69,0.2); color: var(--primary-red); }
-.order-card .order-detail { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
-.order-card .order-actions { display: flex; gap: 8px; margin-top: 10px; }
-.order-card .order-actions .btn { flex: 1; font-size: 13px; padding: 8px; }
-.back-btn {
-background: rgba(255,255,255,0.06);
-border: 1px solid rgba(255,255,255,0.08);
-border-radius: 12px;
-color: #fff;
-padding: 6px 14px;
-font-family: var(--font);
-font-size: 13px;
-cursor: pointer;
-display: inline-flex;
-align-items: center;
-gap: 6px;
-}
-.page-header-with-back {
-display: flex;
-align-items: center;
-gap: 12px;
-padding: 8px 0 16px;
-}
-.page-header-with-back h2 { font-size: 20px; font-weight: 700; flex: 1; }
-.empty-state { text-align: center; padding: 40px 10px; color: var(--text-muted); }
-.empty-state .empty-icon { font-size: 44px; margin-bottom: 12px; }
-.bottom-nav {
-position: fixed;
-bottom: 0;
-left: 50%;
-transform: translateX(-50%);
-max-width: 480px;
-width: 100%;
-background: rgba(0,0,0,0.4);
-backdrop-filter: blur(18px);
-border-top: 1px solid rgba(255,255,255,0.06);
-display: flex;
-justify-content: space-around;
-padding: 6px 0 12px;
-z-index: 100;
-border-radius: 28px 28px 0 0;
-}
-.bottom-nav .nav-item {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 2px;
-background: none;
-border: none;
-color: rgba(255,255,255,0.35);
-font-family: var(--font);
-font-size: 10px;
-cursor: pointer;
-padding: 4px 10px;
-}
-.bottom-nav .nav-item .nav-icon { font-size: 22px; }
-.bottom-nav .nav-item.active { color: var(--primary-green); }
-.auth-page {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-min-height: 100vh;
-padding: 20px;
-}
-.auth-box { width: 100%; max-width: 400px; }
-.auth-box .logo { text-align: center; margin-bottom: 28px; }
-.auth-box .logo h1 { font-size: 32px; font-weight: 800; }
-.auth-box .logo h1 span { color: var(--primary-green); }
-.auth-box .logo p { color: var(--text-muted); font-size: 14px; }
-.auth-tabs {
-display: flex;
-gap: 6px;
-margin-bottom: 20px;
-background: rgba(255,255,255,0.04);
-border-radius: 14px;
-padding: 4px;
-}
-.auth-tabs button {
-flex: 1;
-padding: 10px;
-border: none;
-border-radius: 11px;
-background: transparent;
-color: var(--text-muted);
-font-family: var(--font);
-font-size: 14px;
-font-weight: 600;
-cursor: pointer;
-}
-.auth-tabs button.active { background: rgba(43,122,75,0.25); color: #fff; }
+.input-group input:focus, .input-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(16,185,129,0.15); }
+.input-group textarea { resize: vertical; min-height: 80px; }
+.toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; max-width: 460px; width: 92%; pointer-events: none; }
+.toast { padding: 14px 20px; border-radius: 16px; color: #fff; font-size: calc(14px * var(--font-mult)); font-weight: 600; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); pointer-events: auto; display: flex; align-items: center; gap: 10px; animation: slideDown 0.4s; border: 1px solid rgba(255,255,255,0.15); }
+.toast-success { background: rgba(16,185,129,0.95); }
+.toast-error { background: rgba(239,68,68,0.95); }
+.toast-warning { background: rgba(245,158,11,0.95); }
+.toast-info { background: rgba(59,130,246,0.95); }
+@keyframes slideDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
+.auth-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; position: relative; z-index: 1; }
+.auth-box { width: 100%; max-width: 420px; background: var(--glass); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); padding: 32px 26px; }
+.auth-box .logo { text-align: center; margin-bottom: 32px; }
+.auth-box .logo-icon { font-size: 64px; margin-bottom: 8px; display: inline-block; animation: bounce 2s infinite ease-in-out; }
+.auth-box .logo h1 { font-size: calc(42px * var(--font-mult)); font-weight: 900; background: linear-gradient(135deg, #fff 0%, #34d399 50%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; margin-bottom: 4px; }
+.auth-box .logo p { color: var(--text-muted); font-size: calc(14px * var(--font-mult)); }
+.auth-tabs { display: flex; gap: 6px; margin-bottom: 24px; background: rgba(255,255,255,0.04); border-radius: 16px; padding: 5px; }
+.auth-tabs button { flex: 1; padding: 12px; border: none; border-radius: 12px; background: transparent; color: var(--text-muted); font-family: var(--font); font-size: calc(14px * var(--font-mult)); font-weight: 700; cursor: pointer; transition: all 0.3s; }
+.auth-tabs button.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
 .auth-form { display: none; }
 .auth-form.active { display: block; }
-.auth-footer {
-text-align: center;
-margin-top: 16px;
-color: var(--text-muted);
-font-size: 13px;
-}
-.auth-footer a { color: var(--primary-green); cursor: pointer; }
+.auth-footer { text-align: center; margin-top: 18px; color: var(--text-muted); font-size: calc(13px * var(--font-mult)); }
+.auth-footer a { color: var(--primary); cursor: pointer; font-weight: 700; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+/* استایل داشبورد */
+.dashboard { min-height: 100vh; padding: 20px; max-width: 480px; margin: 0 auto; position: relative; z-index: 1; }
+.dash-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 24px; }
+.dash-header h2 { font-size: calc(26px * var(--font-mult)); font-weight: 900; background: linear-gradient(90deg, var(--text), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.dash-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: calc(20px * var(--font-mult)); color: #fff; box-shadow: 0 4px 15px rgba(16,185,129,0.4); cursor: pointer; }
+.welcome-card { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(20,184,166,0.15)); border: 1px solid rgba(16,185,129,0.25); border-radius: 24px; padding: 22px; margin-bottom: 20px; position: relative; overflow: hidden; }
+.welcome-card::before { content: '🔧'; position: absolute; top: -20px; left: -20px; font-size: 100px; opacity: 0.15; transform: rotate(-20deg); }
+.welcome-card h3 { font-size: calc(18px * var(--font-mult)); font-weight: 800; color: #fff; margin-bottom: 6px; }
+.welcome-card p { font-size: calc(13px * var(--font-mult)); color: var(--text-muted); }
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+.stat-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 16px; text-align: center; }
+.stat-value { font-size: calc(22px * var(--font-mult)); font-weight: 800; color: var(--gold); }
+.stat-label { font-size: calc(11px * var(--font-mult)); color: var(--text-muted); margin-top: 4px; }
+/* گالری و آپلود */
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.gallery-item { aspect-ratio: 1; border-radius: 12px; overflow: hidden; position: relative; background: rgba(255,255,255,0.05); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-item .delete-btn { position: absolute; top: 4px; right: 4px; background: rgba(239,68,68,0.9); color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+.upload-box { border: 2px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+.upload-box:hover { border-color: var(--primary); background: rgba(16,185,129,0.05); }
+.upload-box input { display: none; }
 </style>
 </head>
 <body>
-<div class="toast-container" id="toastContainer"></div>
+  <div class="toast-container" id="toastContainer"></div>
 
-<div class="modal-overlay" id="modalOverlay">
-<div class="modal-box">
-<div class="modal-title" id="modalTitle">تأیید</div>
-<div class="modal-body" id="modalBody">آیا مطمئن هستید؟</div>
-<div class="modal-actions">
-<button class="btn btn-outline btn-sm" onclick="closeModal()">انصراف</button>
-<button class="btn btn-primary btn-sm" id="modalConfirmBtn">تأیید</button>
-</div>
-</div>
-</div>
-
-<div class="app-wrapper" id="app">
-
+<!-- صفحه ورود / ثبت‌نام -->
 <div class="auth-page" id="authPage">
 <div class="auth-box glass">
 <div class="logo">
-<h1>چاره‌<span>ساز</span></h1>
-<p>پنل متخصص</p>
+<div class="logo-icon">🔧</div>
+<h1>پنل متخصص</h1>
+<p>چاره‌ساز</p>
 </div>
+
 <div class="auth-tabs">
 <button class="active" data-tab="login" onclick="switchTab('login')">ورود</button>
 <button data-tab="register" onclick="switchTab('register')">ثبت‌نام</button>
@@ -359,25 +132,25 @@ font-size: 13px;
 
 <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
 <div class="input-group">
-<label>شماره موبایل</label>
-<input type="tel" id="loginPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+<label>ایمیل</label>
+<input type="email" id="loginEmail" placeholder="example@mail.com" required>
 </div>
 <div class="input-group">
 <label>رمز عبور</label>
 <input type="password" id="loginPassword" placeholder="حداقل ۶ کاراکتر" required minlength="6">
 </div>
-<button type="submit" class="btn btn-primary">ورود متخصص</button>
+<button type="submit" class="btn btn-primary" id="loginBtn">ورود به پنل</button>
 <div class="auth-footer">حساب ندارید؟ <a onclick="switchTab('register')">ثبت‌نام کنید</a></div>
 </form>
 
 <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
 <div class="input-group">
-<label>نام کامل</label>
-<input type="text" id="registerName" placeholder="نام و نام خانوادگی" required>
+<label>نام و نام خانوادگی</label>
+<input type="text" id="registerName" placeholder="مثلاً فریبا خلیلی" required>
 </div>
 <div class="input-group">
-<label>شماره موبایل</label>
-<input type="tel" id="registerPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+<label>ایمیل</label>
+<input type="email" id="registerEmail" placeholder="example@mail.com" required>
 </div>
 <div class="input-group">
 <label>رمز عبور</label>
@@ -387,57 +160,27 @@ font-size: 13px;
 <label>تکرار رمز عبور</label>
 <input type="password" id="registerPasswordConfirm" placeholder="تکرار رمز" required>
 </div>
-<div class="input-group">
-<label>صنف</label>
-<select id="registerIndustry" required>
-<option value="">انتخاب کنید</option>
-<option value="آرایشگری">آرایشگری</option>
-<option value="تعمیرات">تعمیرات</option>
-<option value="ساختمان">ساختمان</option>
-<option value="خودرو">خودرو</option>
-<option value="نظافت">نظافت</option>
-<option value="آموزش">آموزش</option>
-<option value="پزشکی">پزشکی</option>
-<option value="املاک">املاک</option>
-<option value="حقوقی">حقوقی</option>
-</select>
-</div>
-<div class="input-group">
-<label>تخصص</label>
-<input type="text" id="registerSub" placeholder="مثلاً تعمیرات موبایل" required>
-</div>
-<div class="input-group">
-<label>قیمت خدمات (تومان)</label>
-<input type="number" id="registerPrice" placeholder="مثلاً ۲۵۰۰۰۰" required>
-</div>
-<div class="input-group">
-<label>شهر</label>
-<input type="text" id="registerLocation" placeholder="تهران" required>
-</div>
-<button type="submit" class="btn btn-primary">ثبت‌نام متخصص</button>
+<button type="submit" class="btn btn-success" id="registerBtn">ثبت‌نام</button>
 <div class="auth-footer">قبلاً ثبت‌نام کردید؟ <a onclick="switchTab('login')">وارد شوید</a></div>
 </form>
 </div>
 </div>
 
-<div class="page" id="dashboardPage" style="display:none;">
-<div class="page-header">
-<h2>🔧 پنل متخصص</h2>
-<div class="user-badge">
-<span id="userNameDisplay">متخصص</span>
-<div class="avatar" id="userAvatar">م</div>
+<!-- داشبورد متخصص -->
+<div class="dashboard" id="dashboardPage" style="display:none;">
+<div class="dash-header">
+<div>
+<h2>پنل متخصص</h2>
+<p id="greetingText" style="font-size:12px; color:var(--text-muted);">خوش آمدید</p>
 </div>
-</div>
-
-<div class="glass" style="margin-bottom:16px;">
-<p style="font-size:14px; opacity:0.8;">👋 خوش آمدید <strong id="welcomeName" style="color:#fff;">متخصص</strong></p>
-<p style="font-size:12px; opacity:0.4; margin-top:4px;" id="welcomeInfo">امروز چه کاری داری؟</p>
+<div class="dash-avatar" id="userAvatar" onclick="showProfileModal()">م</div>
 </div>
 
-<div class="section-title">🔔 اعلان‌ها</div>
-<div id="notificationsList"></div>
+<div class="welcome-card">
+<h3 id="welcomeName">خوش آمدید</h3>
+<p>مدیریت سفارش‌ها و نمونه‌کارها</p>
+</div>
 
-<div class="section-title">📊 آمار من</div>
 <div class="stats-grid">
 <div class="stat-card">
 <div class="stat-value" id="statPending">۰</div>
@@ -448,453 +191,432 @@ font-size: 13px;
 <div class="stat-label">درآمد (تومان)</div>
 </div>
 <div class="stat-card">
-<div class="stat-value" id="statRating">-</div>
-<div class="stat-label">امتیاز</div>
-</div>
-<div class="stat-card">
 <div class="stat-value" id="statDone">۰</div>
 <div class="stat-label">انجام‌شده</div>
 </div>
-</div>
-
-<div class="section-title">📋 سفارش‌های جدید</div>
-<div id="pendingOrders"></div>
-
-<div class="section-title">🔧 در حال انجام</div>
-<div id="activeOrders"></div>
-
-<div class="section-title">✅ انجام‌شده</div>
-<div id="doneOrders"></div>
-
-<div style="margin-top:24px;">
-<button class="btn btn-danger" onclick="handleLogout()">🚪 خروج</button>
+<div class="stat-card">
+<div class="stat-value" id="statRating">-</div>
+<div class="stat-label">امتیاز</div>
 </div>
 </div>
 
-<div id="appPagesContainer"></div>
-
+<!-- گالری نمونه‌کار -->
+<div class="glass" style="margin-bottom:20px;">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+<h3 style="font-size:15px;">🖼️ گالری نمونه‌کار</h3>
+<span style="font-size:11px; color:var(--text-muted);">(حداکثر ۶ عکس)</span>
+</div>
+<div class="gallery-grid" id="galleryGrid">
+<!-- عکس‌ها اینجا لود می‌شوند -->
+</div>
+<label class="upload-box" for="galleryUpload" style="margin-top:12px; display:block;">
+<div style="font-size:24px; margin-bottom:6px;">📷</div>
+<div style="font-size:13px;">برای افزودن عکس کلیک کنید</div>
+<input type="file" id="galleryUpload" accept="image/*" onchange="uploadGalleryImage(event)" style="display:none;">
+</label>
 </div>
 
-<nav class="bottom-nav" id="bottomNav" style="display:none;">
-<button class="nav-item active" data-page="dashboard" onclick="navTo('dashboard')">
-<span class="nav-icon">🏠</span><span class="nav-label">خانه</span>
-</button>
-<button class="nav-item" data-page="orders" onclick="navTo('orders')">
-<span class="nav-icon">📋</span><span class="nav-label">سفارش‌ها</span>
-</button>
-<button class="nav-item" data-page="income" onclick="navTo('income')">
-<span class="nav-icon">💰</span><span class="nav-label">درآمد</span>
-</button>
-<button class="nav-item" data-page="reviews" onclick="navTo('reviews')">
-<span class="nav-icon">⭐</span><span class="nav-label">نظرات</span>
-</button>
-<button class="nav-item" data-page="profile" onclick="navTo('profile')">
-<span class="nav-icon">👤</span><span class="nav-label">پروفایل</span>
-</button>
-</nav>
-<script src="shared.js"></script>
+<!-- فیلم تیزر -->
+<div class="glass" style="margin-bottom:20px;">
+<h3 style="font-size:15px; margin-bottom:10px;">🎬 فیلم تیزر</h3>
+<div id="videoPreview" style="margin-bottom:10px;"></div>
+<label class="upload-box" for="videoUpload" style="display:block;">
+<div style="font-size:24px; margin-bottom:6px;">🎥</div>
+<div style="font-size:13px;">برای آپلود ویدیو کوتاه کلیک کنید</div>
+<input type="file" id="videoUpload" accept="video/*" onchange="uploadTeaserVideo(event)" style="display:none;">
+</label>
+</div>
+
+<button class="btn btn-outline" onclick="handleLogout()" style="margin-top:20px;">🚪 خروج از حساب</button>
+</div>
 <script>
 // ================================================================
-// چاره‌ساز | پنل متخصص | متصل به shared.js
+// چاره‌ساز | پنل متخصص | JavaScript
 // ================================================================
 
-let modalCallback = null;
+const SUPABASE_URL = 'https://gdnvrlzpbnnulpncbyed.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbnZybHpwYm5udWxwbmNieWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyNjMzNzcsImV4cCI6MjEwNzgzOTM3N30.3nRUrAMjpyL937lM1wDVjWgDCDykkZYfCa8QKyFFUIY';
 
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+
+// ================================================================
+// Toast
+// ================================================================
 function showToast(msg, type = 'info', duration = 3000) {
 const c = document.getElementById('toastContainer');
+if (!c) return;
 const t = document.createElement('div');
-t.className = `toast toast-${type}`;
+t.className = 'toast toast-' + type;
 const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-t.innerHTML = `${icons[type] || 'ℹ️'} ${msg}`;
+t.innerHTML = (icons[type] || 'ℹ️') + ' ' + msg;
 c.appendChild(t);
-setTimeout(() => { t.classList.add('hide'); setTimeout(() => t.remove(), 300); }, duration);
+setTimeout(() => {
+t.style.opacity = '0';
+t.style.transform = 'translateY(-20px)';
+setTimeout(() => t.remove(), 300);
+}, duration);
 }
 
-function openModal(title, body, cb) {
-document.getElementById('modalTitle').textContent = title;
-document.getElementById('modalBody').textContent = body;
-document.getElementById('modalOverlay').classList.add('open');
-modalCallback = cb;
-}
-
-function closeModal() {
-document.getElementById('modalOverlay').classList.remove('open');
-modalCallback = null;
-}
-
-document.getElementById('modalConfirmBtn').addEventListener('click', function() {
-if (modalCallback) modalCallback();
-closeModal();
-});
-
-document.getElementById('modalOverlay').addEventListener('click', function(e) {
-if (e.target === this) closeModal();
-});
-
+// ================================================================
+// مدیریت تب‌ها
+// ================================================================
 function switchTab(tab) {
 document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
-document.querySelector(`.auth-tabs button[data-tab="${tab}"]`).classList.add('active');
+const btn = document.querySelector('.auth-tabs button[data-tab="' + tab + '"]');
+if (btn) btn.classList.add('active');
 document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+const form = document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm');
+if (form) form.classList.add('active');
 }
 
 // ================================================================
-// احراز هویت
+// ورود متخصص
 // ================================================================
-function handleLogin(e) {
+async function handleLogin(e) {
 e.preventDefault();
-const phone = document.getElementById('loginPhone').value.trim();
+const email = document.getElementById('loginEmail').value.trim();
 const pass = document.getElementById('loginPassword').value;
-if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
-if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
-const expert = findExpertByPhone(phone);
-if (!expert || expert.password !== pass) { showToast('اطلاعات صحیح نیست', 'error'); return; }
-setCurrentExpert(expert);
-showToast(`خوش آمدید ${expert.name}`, 'success');
-showDashboard();
+const btn = document.getElementById('loginBtn');
+
+if (!email || !pass) { showToast('ایمیل و رمز عبور الزامی است', 'error'); return; }
+
+btn.textContent = 'در حال ورود...';
+btn.disabled = true;
+
+try {
+const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+
+if (error) {
+showToast('ایمیل یا رمز عبور اشتباه است', 'error');
+btn.textContent = 'ورود به پنل';
+btn.disabled = false;
+return;
 }
 
-function handleRegister(e) {
+// دریافت اطلاعات پروفایل
+const { data: profile, error: profileError } = await db
+.from('profiles')
+.select('*')
+.eq('id', data.user.id)
+.single();
+
+if (profileError || !profile) {
+showToast('خطا در دریافت اطلاعات پروفایل', 'error');
+btn.textContent = 'ورود به پنل';
+btn.disabled = false;
+return;
+}
+
+if (profile.role !== 'expert' && profile.role !== 'both') {
+showToast('شما دسترسی به پنل متخصص ندارید', 'error');
+await db.auth.signOut();
+btn.textContent = 'ورود به پنل';
+btn.disabled = false;
+return;
+}
+
+currentUser = profile;
+showDashboard();
+
+} catch (err) {
+console.error(err);
+showToast('خطای سیستمی. لطفاً دوباره تلاش کنید.', 'error');
+} finally {
+btn.textContent = 'ورود به پنل';
+btn.disabled = false;
+}
+}
+
+// ================================================================
+// ثبت‌نام متخصص
+// ================================================================
+async function handleRegister(e) {
 e.preventDefault();
 const name = document.getElementById('registerName').value.trim();
-const phone = document.getElementById('registerPhone').value.trim();
+const email = document.getElementById('registerEmail').value.trim();
 const pass = document.getElementById('registerPassword').value;
 const confirm = document.getElementById('registerPasswordConfirm').value;
-const industry = document.getElementById('registerIndustry').value;
-const sub = document.getElementById('registerSub').value.trim();
-const price = parseInt(document.getElementById('registerPrice').value);
-const location = document.getElementById('registerLocation').value.trim();
+const btn = document.getElementById('registerBtn');
 
-if (!name || name.length < 3) { showToast('نام کامل الزامی', 'error'); return; }
-if (!phone || phone.length < 11) { showToast('شماره معتبر نیست', 'error'); return; }
-if (!pass || pass.length < 6) { showToast('رمز حداقل ۶ کاراکتر', 'error'); return; }
-if (pass !== confirm) { showToast('رمز مطابقت ندارد', 'error'); return; }
-if (!industry) { showToast('صنف را انتخاب کنید', 'error'); return; }
-if (!sub) { showToast('تخصص را وارد کنید', 'error'); return; }
-if (!price || price < 1000) { showToast('قیمت معتبر وارد کنید', 'error'); return; }
-if (!location) { showToast('شهر را وارد کنید', 'error'); return; }
+if (!name || name.length < 3) { showToast('نام کامل الزامی است', 'error'); return; }
+if (!pass || pass.length < 6) { showToast('رمز عبور حداقل ۶ کاراکتر است', 'error'); return; }
+if (pass !== confirm) { showToast('رمز عبور مطابقت ندارد', 'error'); return; }
 
-const result = addExpert({
-name, phone, password: pass,
-industry, sub, price, location,
-image: '🔧', desc: sub, wallet: 0
-});
+btn.textContent = 'در حال ثبت‌نام...';
+btn.disabled = true;
 
-if (!result.success) { showToast(result.error, 'error'); return; }
+try {
+const { data, error } = await db.auth.signUp({ email, password: pass });
 
-setCurrentExpert(result.expert);
-showToast(`ثبت‌نام موفق! خوش آمدید ${name}`, 'success');
+if (error) {
+showToast(error.message === 'User already registered' ? 'این ایمیل قبلاً ثبت شده است' : error.message, 'error');
+btn.textContent = 'ثبت‌نام';
+btn.disabled = false;
+return;
+}
+
+// ذخیره پروفایل در دیتابیس
+const { error: insertError } = await db.from('profiles').insert([
+{ 
+id: data.user.id, 
+name: name, 
+email: email, 
+role: 'expert',
+gallery: [],
+teaser_video_url: null
+}
+]);
+
+if (insertError) {
+showToast('خطا در ذخیره اطلاعات: ' + insertError.message, 'error');
+btn.textContent = 'ثبت‌نام';
+btn.disabled = false;
+return;
+}
+
+const { data: profile } = await db.from('profiles').select('*').eq('id', data.user.id).single();
+currentUser = profile;
+
+showToast('ثبت‌نام موفق! خوش آمدید ' + name, 'success');
 showDashboard();
+
+} catch (err) {
+console.error(err);
+showToast('خطای سیستمی', 'error');
+} finally {
+btn.textContent = 'ثبت‌نام';
+btn.disabled = false;
+}
 }
 
-function handleLogout() {
-openModal('خروج', 'آیا مطمئن هستید؟', function() {
-setCurrentExpert(null);
+// ================================================================
+// خروج
+// ================================================================
+async function handleLogout() {
+try { await db.auth.signOut(); } catch (e) {}
+currentUser = null;
 showToast('خارج شدید', 'info');
-showAuthPage();
-});
+location.reload();
 }
 
-function showAuthPage() {
-document.getElementById('authPage').style.display = 'flex';
-document.getElementById('dashboardPage').style.display = 'none';
-document.getElementById('bottomNav').style.display = 'none';
-document.getElementById('appPagesContainer').innerHTML = '';
-switchTab('login');
-}
-
+// ================================================================
+// نمایش داشبورد
+// ================================================================
 function showDashboard() {
-const user = getCurrentExpert();
-if (!user) { showAuthPage(); return; }
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('dashboardPage').style.display = 'block';
-document.getElementById('bottomNav').style.display = 'flex';
-document.getElementById('appPagesContainer').innerHTML = '';
 
-document.getElementById('userNameDisplay').textContent = user.name;
-document.getElementById('welcomeName').textContent = user.name;
-document.getElementById('userAvatar').textContent = user.name.charAt(0);
-document.getElementById('welcomeInfo').textContent = `${user.industry} • ${user.sub}`;
+const hour = new Date().getHours();
+let greeting = 'سلام';
+if (hour < 12) greeting = 'صبح بخیر ☀️';
+else if (hour < 17) greeting = 'ظهر بخیر 🌤️';
+else if (hour < 20) greeting = 'عصر بخیر 🌆';
+else greeting = 'شب بخیر 🌙';
 
-renderStats();
-renderNotifications();
-renderOrders();
+document.getElementById('greetingText').textContent = greeting;
+document.getElementById('welcomeName').textContent = 'خوش آمدید ' + currentUser.name;
+document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
 
-document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
-document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
+renderGallery();
+renderVideo();
+// (تابع آمار و سفارش‌ها در بخش ۴ اضافه می‌شود)
 }
+</script>)
+  <script>
+// ================================================================
+// بخش ۴: آپلود گالری و فیلم + راه‌اندازی
+// ================================================================
 
 // ================================================================
-// آمار
+// نمایش گالری از دیتابیس
 // ================================================================
-function renderStats() {
-const user = getCurrentExpert();
-if (!user) return;
-const orders = getOrdersByExpert(user.id);
-const pending = orders.filter(o => o.status === 'pending').length;
-const done = orders.filter(o => o.status === 'done').length;
-const income = orders.filter(o => o.status === 'done').reduce((s, o) => s + (o.price || 0), 0);
-
-document.getElementById('statPending').textContent = pending;
-document.getElementById('statIncome').textContent = income.toLocaleString();
-document.getElementById('statRating').textContent = user.rating || '-';
-document.getElementById('statDone').textContent = done;
+function renderGallery() {
+const container = document.getElementById('galleryGrid');
+if (!container) return;
+const gallery = currentUser.gallery || [];
+if (gallery.length === 0) {
+container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:16px; color:var(--text-muted); font-size:12px;">هنوز عکسی آپلود نکردید</div>`;
+return;
 }
-
-function renderNotifications() {
-const user = getCurrentExpert();
-if (!user) return;
-const notifications = getNotificationsFor(user.id).filter(n => !n.read).slice(0, 3);
-const c = document.getElementById('notificationsList');
-if (!notifications.length) { c.innerHTML = ''; return; }
-c.innerHTML = notifications.map(n => `
-<div class="glass" style="margin-bottom:8px; padding:12px; border-right:3px solid var(--primary-green);">
-<div style="font-size:13px; font-weight:600;">${n.title}</div>
-<div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${n.message}</div>
+container.innerHTML = gallery.map((url, i) => `
+<div class="gallery-item">
+<img src="${url}" alt="نمونه‌کار">
+<button class="delete-btn" onclick="deleteGalleryImage(${i})">✕</button>
 </div>
 `).join('');
 }
 
 // ================================================================
-// سفارش‌ها
+// آپلود عکس به Storage
 // ================================================================
-function renderOrders() {
-const user = getCurrentExpert();
-if (!user) return;
-const orders = getOrdersByExpert(user.id);
-const pending = orders.filter(o => o.status === 'pending');
-const active = orders.filter(o => o.status === 'confirmed');
-const done = orders.filter(o => o.status === 'done');
+async function uploadGalleryImage(event) {
+const file = event.target.files[0];
+if (!file) return;
 
-const pendingC = document.getElementById('pendingOrders');
-if (!pending.length) {
-pendingC.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div>سفارش جدیدی نیست</div></div>`;
-} else {
-pendingC.innerHTML = pending.map(o => `
-<div class="order-card">
-<div class="order-header">
-<span style="font-weight:600;">👤 ${o.customerName || 'مشتری'}</span>
-<span class="order-status pending">در انتظار</span>
-</div>
-<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
-<div class="order-detail">📅 ${formatDate(o.date)}</div>
-<div class="order-detail">🔒 مبلغ در امانت</div>
-<div class="order-actions">
-<button class="btn btn-success btn-sm" onclick="acceptOrder('${o.id}')">✅ قبول</button>
-<button class="btn btn-danger btn-sm" onclick="rejectOrder('${o.id}')">❌ رد</button>
-</div>
-</div>
-`).join('');
+// بررسی حجم (حداکثر ۲ مگابایت)
+if (file.size > 2 * 1024 * 1024) {
+showToast('حجم عکس باید کمتر از ۲ مگابایت باشد', 'error');
+return;
 }
 
-const activeC = document.getElementById('activeOrders');
-if (!active.length) {
-activeC.innerHTML = `<div class="empty-state"><div class="empty-icon">🔧</div><div>سفارشی در حال انجام نیست</div></div>`;
-} else {
-activeC.innerHTML = active.map(o => `
-<div class="order-card">
-<div class="order-header">
-<span style="font-weight:600;">👤 ${o.customerName || 'مشتری'}</span>
-<span class="order-status confirmed">در حال انجام</span>
-</div>
-<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
-<div class="order-actions">
-<button class="btn btn-primary btn-sm" onclick="completeOrder('${o.id}')">🏁 اتمام کار</button>
-</div>
-</div>
-`).join('');
+const gallery = currentUser.gallery || [];
+if (gallery.length >= 6) {
+showToast('حداکثر ۶ عکس می‌توانید آپلود کنید', 'warning');
+return;
 }
 
-const doneC = document.getElementById('doneOrders');
-if (!done.length) {
-doneC.innerHTML = `<div class="empty-state"><div class="empty-icon">✅</div><div>سفارش انجام‌شده‌ای نیست</div></div>`;
-} else {
-doneC.innerHTML = done.slice(-5).reverse().map(o => `
-<div class="order-card">
-<div class="order-header">
-<span style="font-weight:600;">👤 ${o.customerName || 'مشتری'}</span>
-<span class="order-status done">${o.escrowReleased ? 'پرداخت شد' : 'در انتظار تأیید مشتری'}</span>
-</div>
-<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() + ' تومان' : 'رایگان'}</div>
-</div>
-`).join('');
+showToast('در حال آپلود عکس...', 'info');
+
+try {
+const fileExt = file.name.split('.').pop();
+const fileName = `${currentUser.id}/${Date.now()}.${fileExt}`;
+
+const { data, error } = await db.storage
+.from('avatars')
+.upload(fileName, file);
+
+if (error) {
+showToast('خطا در آپلود: ' + error.message, 'error');
+return;
+}
+
+const { data: urlData } = db.storage.from('avatars').getPublicUrl(fileName);
+const newGallery = [...gallery, urlData.publicUrl];
+
+const { error: updateError } = await db
+.from('profiles')
+.update({ gallery: newGallery })
+.eq('id', currentUser.id);
+
+if (updateError) {
+showToast('خطا در ذخیره اطلاعات', 'error');
+return;
+}
+
+currentUser.gallery = newGallery;
+renderGallery();
+showToast('عکس با موفقیت آپلود شد', 'success');
+
+} catch (err) {
+console.error(err);
+showToast('خطای سیستمی', 'error');
 }
 }
 
 // ================================================================
-// اقدامات متخصص (اتصال به مشتری)
+// حذف عکس از گالری
 // ================================================================
-function acceptOrder(id) {
-openModal('قبول سفارش', 'آیا سفارش را قبول می‌کنید؟', function() {
-const result = updateOrderStatus(id, 'confirmed');
-if (result.success) {
-showToast('سفارش قبول شد', 'success');
-renderOrders();
-renderStats();
-}
-});
+async function deleteGalleryImage(index) {
+const gallery = currentUser.gallery || [];
+const newGallery = gallery.filter((_, i) => i !== index);
+
+const { error } = await db
+.from('profiles')
+.update({ gallery: newGallery })
+.eq('id', currentUser.id);
+
+if (error) {
+showToast('خطا در حذف', 'error');
+return;
 }
 
-function rejectOrder(id) {
-openModal('رد سفارش', 'آیا مطمئن هستید؟', function() {
-const result = updateOrderStatus(id, 'cancelled');
-if (result.success) {
-showToast('سفارش رد شد', 'warning');
-renderOrders();
-renderStats();
-}
-});
-}
-
-function completeOrder(id) {
-openModal('اتمام کار', 'آیا کار تمام شده؟ پس از تأیید مشتری، پول به کیف پول شما واریز می‌شود.', function() {
-const result = updateOrderStatus(id, 'done');
-if (result.success) {
-showToast('کار تمام شد. در انتظار تأیید مشتری', 'success');
-renderOrders();
-renderStats();
-}
-});
+currentUser.gallery = newGallery;
+renderGallery();
+showToast('عکس حذف شد', 'info');
 }
 
 // ================================================================
-// ناوبری
+// نمایش فیلم
 // ================================================================
-function navTo(page) {
-const user = getCurrentExpert();
-if (!user) { showAuthPage(); return; }
-document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
-const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
-if (navBtn) navBtn.classList.add('active');
-
-if (page === 'dashboard') { closeApp(); return; }
-
-const titles = { orders: '📋 سفارش‌ها', income: '💰 درآمد', reviews: '⭐ نظرات', profile: '👤 پروفایل' };
-let content = '';
-
-if (page === 'orders') {
-const orders = getOrdersByExpert(user.id);
-if (!orders.length) {
-content = `<div class="empty-state"><div class="empty-icon">📭</div><div>سفارشی ندارید</div></div>`;
-} else {
-const statusMap = { pending: 'در انتظار', confirmed: 'در حال انجام', done: 'انجام شده', cancelled: 'لغو شده' };
-const statusClass = { pending: 'pending', confirmed: 'confirmed', done: 'done', cancelled: 'cancelled' };
-content = orders.map(o => `
-<div class="order-card">
-<div class="order-header">
-<span style="font-weight:600;">${o.customerName}</span>
-<span class="order-status ${statusClass[o.status]}">${statusMap[o.status]}</span>
-</div>
-<div class="order-detail">💰 ${o.price ? o.price.toLocaleString() : 'رایگان'}</div>
-<div class="order-detail">📅 ${formatDate(o.date)}</div>
-</div>
-`).join('');
+function renderVideo() {
+const container = document.getElementById('videoPreview');
+if (!container) return;
+if (!currentUser.teaser_video_url) {
+container.innerHTML = '';
+return;
 }
-} else if (page === 'income') {
-const orders = getOrdersByExpert(user.id).filter(o => o.status === 'done' && o.escrowReleased);
-const total = orders.reduce((s, o) => s + (o.price || 0), 0);
-const wallet = user.wallet || 0;
-content = `
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-value">${total.toLocaleString()}</div><div class="stat-label">کل درآمد</div></div>
-<div class="stat-card"><div class="stat-value">${wallet.toLocaleString()}</div><div class="stat-label">موجودی کیف پول</div></div>
-</div>
-<div class="glass" style="margin-top:12px;">
-<button class="btn btn-primary" onclick="requestSettlement()">💸 درخواست تسویه</button>
-</div>
-`;
-} else if (page === 'reviews') {
-const reviews = getReviewsByExpert(user.id);
-if (!reviews.length) {
-content = `<div class="empty-state"><div class="empty-icon">⭐</div><div>هنوز نظری ثبت نشده</div></div>`;
-} else {
-content = reviews.map(r => `
-<div class="order-card">
-<div class="order-header">
-<span style="font-weight:600;">${r.customerName}</span>
-<span style="color: var(--primary-gold);">${'⭐'.repeat(r.rating)}</span>
-</div>
-<div class="order-detail">${r.text}</div>
-<div class="order-detail">📅 ${formatDate(r.createdAt)}</div>
-</div>
-`).join('');
-}
-} else if (page === 'profile') {
-content = `
-<div class="input-group"><label>نام</label><input type="text" value="${user.name}" id="profileName"></div>
-<div class="input-group"><label>شماره</label><input type="text" value="${user.phone}" disabled></div>
-<div class="input-group"><label>صنف</label><input type="text" value="${user.industry}" disabled></div>
-<div class="input-group"><label>تخصص</label><input type="text" value="${user.sub}" disabled></div>
-<div class="input-group"><label>قیمت</label><input type="number" value="${user.price}" id="profilePrice"></div>
-<div class="input-group"><label>شهر</label><input type="text" value="${user.location || ''}" id="profileLocation"></div>
-<button class="btn btn-primary" onclick="updateProfile()">ذخیره</button>
-`;
-}
-
-const container = document.getElementById('appPagesContainer');
 container.innerHTML = `
-<div class="page active">
-<div class="page-header-with-back">
-<button class="back-btn" onclick="navTo('dashboard')">← بازگشت</button>
-<h2>${titles[page]}</h2>
-</div>
-<div class="glass">${content}</div>
-</div>
+<video controls style="width:100%; border-radius:12px; max-height:200px;">
+<source src="${currentUser.teaser_video_url}" type="video/mp4">
+مرورگر شما از ویدیو پشتیبانی نمی‌کند
+</video>
 `;
+}
+
+// ================================================================
+// آپلود فیلم تیزر
+// ================================================================
+async function uploadTeaserVideo(event) {
+const file = event.target.files[0];
+if (!file) return;
+
+// بررسی حجم (حداکثر ۱۰ مگابایت برای فیلم کوتاه)
+if (file.size > 10 * 1024 * 1024) {
+showToast('حجم فیلم باید کمتر از ۱۰ مگابایت باشد', 'error');
+return;
+}
+
+showToast('در حال آپلود فیلم... لطفاً صبر کنید', 'info');
+
+try {
+const fileExt = file.name.split('.').pop();
+const fileName = `${currentUser.id}/teaser_${Date.now()}.${fileExt}`;
+
+const { data, error } = await db.storage
+.from('videos')
+.upload(fileName, file);
+
+if (error) {
+showToast('خطا در آپلود: ' + error.message, 'error');
+return;
+}
+
+const { data: urlData } = db.storage.from('videos').getPublicUrl(fileName);
+
+const { error: updateError } = await db
+.from('profiles')
+.update({ teaser_video_url: urlData.publicUrl })
+.eq('id', currentUser.id);
+
+if (updateError) {
+showToast('خطا در ذخیره اطلاعات', 'error');
+return;
+}
+
+currentUser.teaser_video_url = urlData.publicUrl;
+renderVideo();
+showToast('فیلم با موفقیت آپلود شد', 'success');
+
+} catch (err) {
+console.error(err);
+showToast('خطای سیستمی', 'error');
+}
+}
+
+// ================================================================
+// راه‌اندازی اولیه (بررسی نشست)
+// ================================================================
+async function init() {
+const { data: { session } } = await db.auth.getSession();
+if (session) {
+const { data: profile } = await db.from('profiles').select('*').eq('id', session.user.id).single();
+if (profile && (profile.role === 'expert' || profile.role === 'both')) {
+currentUser = profile;
+showDashboard();
+} else {
+document.getElementById('authPage').style.display = 'flex';
 document.getElementById('dashboardPage').style.display = 'none';
 }
-
-function closeApp() {
-document.getElementById('appPagesContainer').innerHTML = '';
-document.getElementById('dashboardPage').style.display = 'block';
-document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
-document.querySelector('.bottom-nav .nav-item[data-page="dashboard"]').classList.add('active');
+} else {
+document.getElementById('authPage').style.display = 'flex';
+document.getElementById('dashboardPage').style.display = 'none';
+}
 }
 
-function updateProfile() {
-const name = document.getElementById('profileName').value.trim();
-const price = parseInt(document.getElementById('profilePrice').value);
-const location = document.getElementById('profileLocation').value.trim();
-if (!name) { showToast('نام الزامیست', 'error'); return; }
-const user = getCurrentExpert();
-const experts = getAllExperts();
-const idx = experts.findIndex(e => e.id === user.id);
-if (idx === -1) return;
-experts[idx].name = name;
-if (price) experts[idx].price = price;
-if (location) experts[idx].location = location;
-saveAllExperts(experts);
-setCurrentExpert(experts[idx]);
-showToast('پروفایل به‌روز شد', 'success');
-navTo('profile');
-}
-
-function requestSettlement() {
-openModal('تسویه', 'درخواست تسویه ارسال شد. بعد از تأیید مدیریت، مبلغ به حساب شما واریز می‌شود.', function() {
-showToast('درخواست تسویه ثبت شد', 'success');
-});
-}
-
-// ================================================================
-// راه‌اندازی
-// ================================================================
-(function init() {
-const user = getCurrentExpert();
-if (user) { showDashboard(); } else { showAuthPage(); }
-})();
-
-// گوش دادن به تغییرات از پنل مشتری
-window.addEventListener('chare_data_changed', function() {
-const user = getCurrentExpert();
-if (user && document.getElementById('dashboardPage').style.display !== 'none') {
-renderOrders();
-renderStats();
-renderNotifications();
-}
-});
-
-console.log('🔧 پنل متخصص (متصل) بارگذاری شد.');
+init();
 </script>
 </body>
 </html>
-
