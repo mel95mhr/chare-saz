@@ -3,20 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>چاره‌ساز | پنل متخصص</title>
+<title>چاره‌ساز | پنل مشتری</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
---primary: #10b981;
---primary-dark: #059669;
---accent: #14b8a6;
+--primary: #f97316;
+--primary-dark: #ea580c;
+--accent: #8b5cf6;
 --gold: #f59e0b;
+--green: #10b981;
 --red: #ef4444;
---bg1: #04140a;
---bg2: #0a2618;
---bg3: #0f1f1a;
+--bg1: #0a0612;
+--bg2: #1a0f2e;
+--bg3: #0f1a3d;
 --glass: rgba(255,255,255,0.06);
 --glass-border: rgba(255,255,255,0.1);
 --text: #ffffff;
@@ -25,7 +27,7 @@
 --font-mult: 1;
 }
 html[data-theme="light"] {
---bg1: #f0fdf4; --bg2: #dcfce7; --bg3: #f0f4ff;
+--bg1: #f5f7fa; --bg2: #e0e7ff; --bg3: #f0f4ff;
 --glass: rgba(255,255,255,0.75); --glass-border: rgba(0,0,0,0.08);
 --text: #1a1a2e; --text-muted: rgba(26,26,46,0.6);
 }
@@ -36,8 +38,8 @@ html[data-font="xlarge"] { --font-mult: 1.35; }
 html, body {
 font-family: var(--font);
 font-size: calc(15px * var(--font-mult));
-background: radial-gradient(circle at 20% 0%, #064e3b 0%, transparent 50%),
-radial-gradient(circle at 80% 100%, #065f46 0%, transparent 50%),
+background: radial-gradient(circle at 20% 0%, #2a0a4a 0%, transparent 50%),
+radial-gradient(circle at 80% 100%, #0f1a5d 0%, transparent 50%),
 linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
 background-attachment: fixed; min-height: 100vh; color: var(--text);
 direction: rtl; overflow-x: hidden; position: relative; transition: background 0.4s, color 0.4s;
@@ -54,20 +56,18 @@ font-size: calc(15px * var(--font-mult)); font-weight: 700; cursor: pointer;
 width: 100%; color: #fff; transition: all 0.3s;
 }
 .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16,185,129,0.5); }
-.btn-success { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
-.btn-danger { background: linear-gradient(135deg, var(--red), #dc2626); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(249,115,22,0.5); }
+.btn-success { background: linear-gradient(135deg, var(--green), #059669); }
 .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: var(--text); }
 .btn-sm { padding: 9px 16px; font-size: calc(13px * var(--font-mult)); }
 .input-group { margin-bottom: 16px; }
 .input-group label { display: block; font-size: calc(13px * var(--font-mult)); font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
-.input-group input, .input-group select, .input-group textarea {
+.input-group input {
 width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.12);
 border-radius: 14px; background: rgba(255,255,255,0.05); color: var(--text);
 font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: none; transition: all 0.3s;
 }
-.input-group input:focus, .input-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(16,185,129,0.15); }
-.input-group textarea { resize: vertical; min-height: 80px; }
+.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(249,115,22,0.15); }
 .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; max-width: 460px; width: 92%; pointer-events: none; }
 .toast { padding: 14px 20px; border-radius: 16px; color: #fff; font-size: calc(14px * var(--font-mult)); font-weight: 600; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); pointer-events: auto; display: flex; align-items: center; gap: 10px; animation: slideDown 0.4s; border: 1px solid rgba(255,255,255,0.15); }
 .toast-success { background: rgba(16,185,129,0.95); }
@@ -79,35 +79,38 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 .auth-box { width: 100%; max-width: 420px; background: var(--glass); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); padding: 32px 26px; }
 .auth-box .logo { text-align: center; margin-bottom: 32px; }
 .auth-box .logo-icon { font-size: 64px; margin-bottom: 8px; display: inline-block; animation: bounce 2s infinite ease-in-out; }
-.auth-box .logo h1 { font-size: calc(42px * var(--font-mult)); font-weight: 900; background: linear-gradient(135deg, #fff 0%, #34d399 50%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; margin-bottom: 4px; }
+.auth-box .logo h1 { font-size: calc(42px * var(--font-mult)); font-weight: 900; background: linear-gradient(135deg, #fff 0%, #fbbf24 50%, #f97316 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; margin-bottom: 4px; }
 .auth-box .logo p { color: var(--text-muted); font-size: calc(14px * var(--font-mult)); }
 .auth-tabs { display: flex; gap: 6px; margin-bottom: 24px; background: rgba(255,255,255,0.04); border-radius: 16px; padding: 5px; }
 .auth-tabs button { flex: 1; padding: 12px; border: none; border-radius: 12px; background: transparent; color: var(--text-muted); font-family: var(--font); font-size: calc(14px * var(--font-mult)); font-weight: 700; cursor: pointer; transition: all 0.3s; }
-.auth-tabs button.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+.auth-tabs button.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 15px rgba(249,115,22,0.4); }
 .auth-form { display: none; }
 .auth-form.active { display: block; }
 .auth-footer { text-align: center; margin-top: 18px; color: var(--text-muted); font-size: calc(13px * var(--font-mult)); }
 .auth-footer a { color: var(--primary); cursor: pointer; font-weight: 700; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+/* استایل داشبورد */
 .dashboard { min-height: 100vh; padding: 20px; max-width: 480px; margin: 0 auto; position: relative; z-index: 1; }
 .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 24px; }
 .dash-header h2 { font-size: calc(26px * var(--font-mult)); font-weight: 900; background: linear-gradient(90deg, var(--text), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.dash-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: calc(20px * var(--font-mult)); color: #fff; box-shadow: 0 4px 15px rgba(16,185,129,0.4); cursor: pointer; }
-.welcome-card { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(20,184,166,0.15)); border: 1px solid rgba(16,185,129,0.25); border-radius: 24px; padding: 22px; margin-bottom: 20px; position: relative; overflow: hidden; }
-.welcome-card::before { content: '🔧'; position: absolute; top: -20px; left: -20px; font-size: 100px; opacity: 0.15; transform: rotate(-20deg); }
+.dash-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: calc(20px * var(--font-mult)); color: #fff; box-shadow: 0 4px 15px rgba(249,115,22,0.4); cursor: pointer; }
+.welcome-card { background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(139,92,246,0.15)); border: 1px solid rgba(249,115,22,0.25); border-radius: 24px; padding: 22px; margin-bottom: 20px; }
 .welcome-card h3 { font-size: calc(18px * var(--font-mult)); font-weight: 800; color: #fff; margin-bottom: 6px; }
 .welcome-card p { font-size: calc(13px * var(--font-mult)); color: var(--text-muted); }
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-.stat-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 16px; text-align: center; }
-.stat-value { font-size: calc(22px * var(--font-mult)); font-weight: 800; color: var(--gold); }
-.stat-label { font-size: calc(11px * var(--font-mult)); color: var(--text-muted); margin-top: 4px; }
-.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-.gallery-item { aspect-ratio: 1; border-radius: 12px; overflow: hidden; position: relative; background: rgba(255,255,255,0.05); }
-.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-.gallery-item .delete-btn { position: absolute; top: 4px; right: 4px; background: rgba(239,68,68,0.9); color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
-.upload-box { border: 2px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; margin-top: 10px; display: block; }
-.upload-box:hover { border-color: var(--primary); background: rgba(16,185,129,0.05); }
-.upload-box input { display: none; }
+.section-title { font-size: calc(14px * var(--font-mult)); font-weight: 700; color: var(--text-muted); margin-bottom: 12px; }
+/* کارت متخصص */
+.expert-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; transition: all 0.3s; }
+.expert-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+.expert-avatar { width: 60px; height: 60px; border-radius: 16px; background: rgba(255,255,255,0.1); flex-shrink: 0; overflow: hidden; }
+.expert-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.expert-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.expert-name { font-size: calc(16px * var(--font-mult)); font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.expert-specialty { font-size: calc(12px * var(--font-mult)); color: var(--text-muted); margin-bottom: 6px; }
+.expert-rating { font-size: calc(12px * var(--font-mult)); color: var(--gold); font-weight: 700; }
+.expert-actions { display: flex; flex-direction: column; justify-content: center; }
+.btn-book { padding: 8px 16px; border-radius: 12px; background: var(--primary); color: #fff; font-family: var(--font); font-size: calc(13px * var(--font-mult)); font-weight: 700; border: none; cursor: pointer; transition: all 0.3s; }
+.btn-book:hover { background: var(--primary-dark); }
+.empty-state { text-align: center; padding: 40px 10px; color: var(--text-muted); }
 </style>
 </head>
 <body>
@@ -117,8 +120,8 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 <div class="auth-page" id="authPage">
 <div class="auth-box glass">
 <div class="logo">
-<div class="logo-icon">🔧</div>
-<h1>پنل متخصص</h1>
+<div class="logo-icon">🛒</div>
+<h1>پنل مشتری</h1>
 <p>چاره‌ساز</p>
 </div>
 
@@ -143,7 +146,7 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
 <div class="input-group">
 <label>نام و نام خانوادگی</label>
-<input type="text" id="registerName" placeholder="مثلاً فریبا خلیلی" required>
+<input type="text" id="registerName" placeholder="مثلاً علی رضایی" required>
 </div>
 <div class="input-group">
 <label>ایمیل</label>
@@ -163,75 +166,33 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 </div>
 </div>
 
-<!-- داشبورد متخصص -->
+<!-- داشبورد مشتری -->
 <div class="dashboard" id="dashboardPage" style="display:none;">
 <div class="dash-header">
 <div>
-<h2>پنل متخصص</h2>
+<h2>پنل مشتری</h2>
 <p id="greetingText" style="font-size:12px; color:var(--text-muted);">خوش آمدید</p>
 </div>
-<div class="dash-avatar" id="userAvatar" onclick="showProfileModal()">م</div>
+<div class="dash-avatar" id="userAvatar" onclick="handleLogout()">م</div>
 </div>
 
 <div class="welcome-card">
 <h3 id="welcomeName">خوش آمدید</h3>
-<p>مدیریت سفارش‌ها و نمونه‌کارها</p>
+<p>دنبال چه متخصصی می‌گردید؟</p>
 </div>
 
-<div class="stats-grid">
-<div class="stat-card">
-<div class="stat-value" id="statPending">۰</div>
-<div class="stat-label">سفارش جدید</div>
-</div>
-<div class="stat-card">
-<div class="stat-value" id="statIncome">۰</div>
-<div class="stat-label">درآمد (تومان)</div>
-</div>
-<div class="stat-card">
-<div class="stat-value" id="statDone">۰</div>
-<div class="stat-label">انجام‌شده</div>
-</div>
-<div class="stat-card">
-<div class="stat-value" id="statRating">-</div>
-<div class="stat-label">امتیاز</div>
-</div>
-</div>
-
-<!-- گالری نمونه‌کار -->
-<div class="glass" style="margin-bottom:20px;">
-<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-<h3 style="font-size:15px;">🖼️ گالری نمونه‌کار</h3>
-<span style="font-size:11px; color:var(--text-muted);">(حداکثر ۶ عکس)</span>
-</div>
-<div class="gallery-grid" id="galleryGrid">
-<!-- عکس‌ها اینجا لود می‌شوند -->
-</div>
-<label class="upload-box" for="galleryUpload" style="margin-top:12px;">
-<div style="font-size:24px; margin-bottom:6px;">📷</div>
-<div style="font-size:13px;">برای افزودن عکس کلیک کنید</div>
-<input type="file" id="galleryUpload" accept="image/*" onchange="uploadGalleryImage(event)" style="display:none;">
-</label>
-</div>
-
-<!-- فیلم تیزر -->
-<div class="glass" style="margin-bottom:20px;">
-<h3 style="font-size:15px; margin-bottom:10px;">🎬 فیلم تیزر</h3>
-<div id="videoPreview" style="margin-bottom:10px;"></div>
-<label class="upload-box" for="videoUpload">
-<div style="font-size:24px; margin-bottom:6px;">🎥</div>
-<div style="font-size:13px;">برای آپلود ویدیو کوتاه کلیک کنید</div>
-<input type="file" id="videoUpload" accept="video/*" onchange="uploadTeaserVideo(event)" style="display:none;">
-</label>
+<div class="section-title">🔍 متخصصین ما</div>
+<div id="expertsList">
+<!-- لیست متخصص‌ها اینجا لود می‌شود -->
 </div>
 
 <button class="btn btn-outline" onclick="handleLogout()" style="margin-top:20px;">🚪 خروج از حساب</button>
 </div>
 <script>
 // ================================================================
-// چاره‌ساز | پنل متخصص | بخش ۳: منطق اصلی
+// چاره‌ساز | پنل مشتری | بخش ۳
 // ================================================================
 
-// تنظیمات اتصال به Supabase
 const SUPABASE_URL = 'https://gdnvrlzpbnnulpncbyed.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbnZybHpwYm5udWxwbmNieWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyNjMzNzcsImV4cCI6MjEwNzgzOTM3N30.3nRUrAMjpyL937lM1wDVjWgDCDykkZYfCa8QKyFFUIY';
 
@@ -240,9 +201,6 @@ const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 
-// ================================================================
-// سیستم پیام (Toast)
-// ================================================================
 function showToast(msg, type = 'info', duration = 3000) {
 const c = document.getElementById('toastContainer');
 if (!c) return;
@@ -258,9 +216,6 @@ setTimeout(() => t.remove(), 300);
 }, duration);
 }
 
-// ================================================================
-// مدیریت تب‌های ورود و ثبت‌نام
-// ================================================================
 function switchTab(tab) {
 document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
 const btn = document.querySelector('.auth-tabs button[data-tab="' + tab + '"]');
@@ -271,7 +226,7 @@ if (form) form.classList.add('active');
 }
 
 // ================================================================
-// ورود متخصص
+// ورود مشتری
 // ================================================================
 async function handleLogin(e) {
 e.preventDefault();
@@ -307,8 +262,9 @@ btn.disabled = false;
 return;
 }
 
-if (profile.role !== 'expert' && profile.role !== 'both') {
-showToast('شما دسترسی به پنل متخصص ندارید', 'error');
+// بررسی نقش (مشتری یا هر دو)
+if (profile.role !== 'customer' && profile.role !== 'both') {
+showToast('شما دسترسی به پنل مشتری ندارید', 'error');
 await db.auth.signOut();
 btn.textContent = 'ورود به پنل';
 btn.disabled = false;
@@ -329,7 +285,7 @@ btn.disabled = false;
 }
 
 // ================================================================
-// ثبت‌نام متخصص
+// ثبت‌نام مشتری (با ورود فوری پس از ثبت‌نام)
 // ================================================================
 async function handleRegister(e) {
 e.preventDefault();
@@ -347,21 +303,30 @@ btn.textContent = 'در حال ثبت‌نام...';
 btn.disabled = true;
 
 try {
-const { data, error } = await db.auth.signUp({ email, password: pass });
+// ۱. ایجاد کاربر در Auth
+const { data: authData, error: authError } = await db.auth.signUp({ email, password: pass });
 
-if (error) {
-showToast(error.message === 'User already registered' ? 'این ایمیل قبلاً ثبت شده است' : error.message, 'error');
+if (authError) {
+showToast(authError.message === 'User already registered' ? 'این ایمیل قبلاً ثبت شده است' : authError.message, 'error');
 btn.textContent = 'ثبت‌نام';
 btn.disabled = false;
 return;
 }
 
+if (!authData.user) {
+showToast('خطا در ایجاد کاربر', 'error');
+btn.textContent = 'ثبت‌نام';
+btn.disabled = false;
+return;
+}
+
+// ۲. ذخیره اطلاعات در جدول profiles
 const { error: insertError } = await db.from('profiles').insert([
 { 
-id: data.user.id, 
+id: authData.user.id, 
 name: name, 
 email: email, 
-role: 'expert',
+role: 'customer',
 gallery: [],
 teaser_video_url: null
 }
@@ -374,7 +339,19 @@ btn.disabled = false;
 return;
 }
 
-const { data: profile } = await db.from('profiles').select('*').eq('id', data.user.id).single();
+// ۳. چون Confirm Email رو خاموش کردیم، بعد از ثبت‌نام به صورت خودکار لاگین می‌کنیم
+if (!authData.session) {
+const { error: loginError } = await db.auth.signInWithPassword({ email, password: pass });
+if (loginError) {
+showToast('ثبت‌نام انجام شد، اما ورود خودکار با مشکل مواجه شد', 'warning');
+btn.textContent = 'ثبت‌نام';
+btn.disabled = false;
+return;
+}
+}
+
+// ۴. دریافت پروفایل و نمایش داشبورد
+const { data: profile } = await db.from('profiles').select('*').eq('id', authData.user.id).single();
 currentUser = profile;
 
 showToast('ثبت‌نام موفق! خوش آمدید ' + name, 'success');
@@ -390,7 +367,7 @@ btn.disabled = false;
 }
 
 // ================================================================
-// خروج از حساب
+// خروج
 // ================================================================
 async function handleLogout() {
 try { await db.auth.signOut(); } catch (e) {}
@@ -400,7 +377,7 @@ location.reload();
 }
 
 // ================================================================
-// نمایش داشبورد (با رفع باگ)
+// نمایش داشبورد
 // ================================================================
 function showDashboard() {
 document.getElementById('authPage').style.display = 'none';
@@ -417,193 +394,96 @@ document.getElementById('greetingText').textContent = greeting;
 document.getElementById('welcomeName').textContent = 'خوش آمدید ' + currentUser.name;
 document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
 
-// رندر کردن گالری و فیلم (این خطوط باگ قبلی رو رفع می‌کنند)
-renderGallery();
-renderVideo();
+// لود کردن متخصص‌ها
+loadExperts();
 }
 </script>
 <script>
 // ================================================================
-// چاره‌ساز | پنل متخصص | بخش ۴: گالری، فیلم و راه‌اندازی
+// بخش ۴: لود کردن لیست متخصص‌ها و راه‌اندازی اولیه
 // ================================================================
 
 // ================================================================
-// نمایش گالری از دیتابیس
+// گرفتن لیست متخصص‌ها از دیتابیس
 // ================================================================
-function renderGallery() {
-const container = document.getElementById('galleryGrid');
+async function loadExperts() {
+const container = document.getElementById('expertsList');
 if (!container) return;
-const gallery = currentUser.gallery || [];
 
-if (gallery.length === 0) {
-container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:16px; color:var(--text-muted); font-size:12px;">هنوز عکسی آپلود نکردید</div>`;
+container.innerHTML = '<div class="empty-state">در حال لود کردن متخصصین...</div>';
+
+try {
+// گرفتن تمام کاربرانی که نقششان متخصص یا هر دو است
+const { data: experts, error } = await db
+.from('profiles')
+.select('*')
+.in('role', ['expert', 'both']);
+
+if (error) {
+console.error(error);
+container.innerHTML = '<div class="empty-state">خطا در لود کردن متخصصین</div>';
 return;
 }
 
-container.innerHTML = gallery.map((url, i) => `
-<div class="gallery-item">
-<img src="${url}" alt="نمونه‌کار">
-<button class="delete-btn" onclick="deleteGalleryImage(${i})">✕</button>
+if (!experts || experts.length === 0) {
+container.innerHTML = '<div class="empty-state">هنوز متخصصی ثبت‌نام نکرده است</div>';
+return;
+}
+
+// ساختن کارت برای هر متخصص
+container.innerHTML = experts.map(expert => {
+// گرفتن اولین عکس از گالری (اگر وجود داشت)
+const avatarUrl = (expert.gallery && expert.gallery.length > 0) 
+? expert.gallery[0] 
+: null;
+
+const avatarHtml = avatarUrl 
+? `<img src="${avatarUrl}" alt="${expert.name}">` 
+: `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--text-muted);">🔧</div>`;
+
+return `
+<div class="expert-card">
+<div class="expert-avatar">
+${avatarHtml}
 </div>
-`).join('');
-}
-
-// ================================================================
-// آپلود عکس به Storage
-// ================================================================
-async function uploadGalleryImage(event) {
-const file = event.target.files[0];
-if (!file) return;
-
-if (file.size > 2 * 1024 * 1024) {
-showToast('حجم عکس باید کمتر از ۲ مگابایت باشد', 'error');
-return;
-}
-
-const gallery = currentUser.gallery || [];
-if (gallery.length >= 6) {
-showToast('حداکثر ۶ عکس می‌توانید آپلود کنید', 'warning');
-return;
-}
-
-showToast('در حال آپلود عکس...', 'info');
-
-try {
-const fileExt = file.name.split('.').pop();
-const fileName = `${currentUser.id}/${Date.now()}.${fileExt}`;
-
-const { data, error } = await db.storage
-.from('avatars')
-.upload(fileName, file);
-
-if (error) {
-showToast('خطا در آپلود: ' + error.message, 'error');
-return;
-}
-
-const { data: urlData } = db.storage.from('avatars').getPublicUrl(fileName);
-const newGallery = [...gallery, urlData.publicUrl];
-
-const { error: updateError } = await db
-.from('profiles')
-.update({ gallery: newGallery })
-.eq('id', currentUser.id);
-
-if (updateError) {
-showToast('خطا در ذخیره اطلاعات', 'error');
-return;
-}
-
-currentUser.gallery = newGallery;
-renderGallery();
-showToast('عکس با موفقیت آپلود شد', 'success');
-
-} catch (err) {
-console.error(err);
-showToast('خطای سیستمی', 'error');
-}
-}
-
-// ================================================================
-// حذف عکس از گالری
-// ================================================================
-async function deleteGalleryImage(index) {
-const gallery = currentUser.gallery || [];
-const newGallery = gallery.filter((_, i) => i !== index);
-
-const { error } = await db
-.from('profiles')
-.update({ gallery: newGallery })
-.eq('id', currentUser.id);
-
-if (error) {
-showToast('خطا در حذف', 'error');
-return;
-}
-
-currentUser.gallery = newGallery;
-renderGallery();
-showToast('عکس حذف شد', 'info');
-}
-
-// ================================================================
-// نمایش فیلم
-// ================================================================
-function renderVideo() {
-const container = document.getElementById('videoPreview');
-if (!container) return;
-
-if (!currentUser.teaser_video_url) {
-container.innerHTML = '';
-return;
-}
-
-container.innerHTML = `
-<video controls style="width:100%; border-radius:12px; max-height:200px;">
-<source src="${currentUser.teaser_video_url}" type="video/mp4">
-مرورگر شما از ویدیو پشتیبانی نمی‌کند
-</video>
+<div class="expert-info">
+<div class="expert-name">${expert.name}</div>
+<div class="expert-specialty">متخصص چاره‌ساز</div>
+<div class="expert-rating">⭐ امتیاز جدید</div>
+</div>
+<div class="expert-actions">
+<button class="btn-book" onclick="bookExpert('${expert.id}', '${expert.name}')">رزرو</button>
+</div>
+</div>
 `;
-}
-
-// ================================================================
-// آپلود فیلم تیزر
-// ================================================================
-async function uploadTeaserVideo(event) {
-const file = event.target.files[0];
-if (!file) return;
-
-if (file.size > 10 * 1024 * 1024) {
-showToast('حجم فیلم باید کمتر از ۱۰ مگابایت باشد', 'error');
-return;
-}
-
-showToast('در حال آپلود فیلم... لطفاً صبر کنید', 'info');
-
-try {
-const fileExt = file.name.split('.').pop();
-const fileName = `${currentUser.id}/teaser_${Date.now()}.${fileExt}`;
-
-const { data, error } = await db.storage
-.from('videos')
-.upload(fileName, file);
-
-if (error) {
-showToast('خطا در آپلود: ' + error.message, 'error');
-return;
-}
-
-const { data: urlData } = db.storage.from('videos').getPublicUrl(fileName);
-
-const { error: updateError } = await db
-.from('profiles')
-.update({ teaser_video_url: urlData.publicUrl })
-.eq('id', currentUser.id);
-
-if (updateError) {
-showToast('خطا در ذخیره اطلاعات', 'error');
-return;
-}
-
-currentUser.teaser_video_url = urlData.publicUrl;
-renderVideo();
-showToast('فیلم با موفقیت آپلود شد', 'success');
+}).join('');
 
 } catch (err) {
 console.error(err);
-showToast('خطای سیستمی', 'error');
+container.innerHTML = '<div class="empty-state">خطای سیستمی</div>';
 }
 }
 
 // ================================================================
-// راه‌اندازی اولیه و بررسی نشست
+// رزرو متخصص (نمایشی برای تست)
+// ================================================================
+function bookExpert(expertId, expertName) {
+if (!currentUser) {
+showToast('لطفاً ابتدا وارد شوید', 'error');
+return;
+}
+showToast(`درخواست رزرو برای ${expertName} ثبت شد!`, 'success');
+}
+
+// ================================================================
+// راه‌اندازی اولیه (بررسی نشست)
 // ================================================================
 async function init() {
 const { data: { session } } = await db.auth.getSession();
 
 if (session) {
 const { data: profile } = await db.from('profiles').select('*').eq('id', session.user.id).single();
-if (profile && (profile.role === 'expert' || profile.role === 'both')) {
+if (profile && (profile.role === 'customer' || profile.role === 'both')) {
 currentUser = profile;
 showDashboard();
 } else {
@@ -616,7 +496,6 @@ document.getElementById('dashboardPage').style.display = 'none';
 }
 }
 
-// اجرای اولیه
 init();
 </script>
 </body>
