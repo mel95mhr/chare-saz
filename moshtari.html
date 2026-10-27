@@ -8,6 +8,9 @@
 <!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+/* ================================================================
+   متغیرها و تنظیمات پایه
+   ================================================================ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
 --primary: #f97316;
@@ -15,16 +18,20 @@
 --accent: #8b5cf6;
 --gold: #f59e0b;
 --green: #10b981;
+--blue: #3b82f6;
 --red: #ef4444;
 --bg1: #0a0612;
 --bg2: #1a0f2e;
 --bg3: #0f1a3d;
 --glass: rgba(255,255,255,0.06);
 --glass-border: rgba(255,255,255,0.1);
+--glass-hover: rgba(255,255,255,0.1);
 --text: #ffffff;
 --text-muted: rgba(255,255,255,0.55);
 --font: 'Vazirmatn', sans-serif;
 --font-mult: 1;
+--radius: 20px;
+--shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 html[data-theme="light"] {
 --bg1: #f5f7fa; --bg2: #e0e7ff; --bg3: #f0f4ff;
@@ -35,6 +42,7 @@ html[data-font="small"] { --font-mult: 0.85; }
 html[data-font="medium"] { --font-mult: 1; }
 html[data-font="large"] { --font-mult: 1.15; }
 html[data-font="xlarge"] { --font-mult: 1.35; }
+
 html, body {
 font-family: var(--font);
 font-size: calc(15px * var(--font-mult));
@@ -44,11 +52,20 @@ linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
 background-attachment: fixed; min-height: 100vh; color: var(--text);
 direction: rtl; overflow-x: hidden; position: relative; transition: background 0.4s, color 0.4s;
 }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary), var(--accent)); border-radius: 10px; }
+
+/* ================================================================
+   کارت‌های شیشه‌ای و دکمه‌ها
+   ================================================================ */
 .glass {
 background: var(--glass); backdrop-filter: blur(20px);
-border: 1px solid var(--glass-border); border-radius: 20px;
-box-shadow: 0 8px 32px rgba(0,0,0,0.3); padding: 18px; transition: all 0.35s;
+border: 1px solid var(--glass-border); border-radius: var(--radius);
+box-shadow: var(--shadow); padding: 18px; transition: all 0.35s;
 }
+.glass:hover { transform: translateY(-3px); border-color: rgba(249,115,22,0.3); }
+
 .btn {
 display: inline-flex; align-items: center; justify-content: center; gap: 8px;
 padding: 13px 22px; border: none; border-radius: 14px; font-family: var(--font);
@@ -58,16 +75,25 @@ width: 100%; color: #fff; transition: all 0.3s;
 .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(249,115,22,0.5); }
 .btn-success { background: linear-gradient(135deg, var(--green), #059669); }
+.btn-danger { background: linear-gradient(135deg, var(--red), #dc2626); }
 .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: var(--text); }
+.btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); color: #000; }
 .btn-sm { padding: 9px 16px; font-size: calc(13px * var(--font-mult)); }
+.btn-xs { padding: 6px 12px; font-size: calc(12px * var(--font-mult)); }
+
 .input-group { margin-bottom: 16px; }
 .input-group label { display: block; font-size: calc(13px * var(--font-mult)); font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
-.input-group input {
+.input-group input, .input-group textarea, .input-group select {
 width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.12);
 border-radius: 14px; background: rgba(255,255,255,0.05); color: var(--text);
 font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: none; transition: all 0.3s;
 }
-.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(249,115,22,0.15); }
+.input-group input:focus, .input-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(249,115,22,0.15); }
+.input-group textarea { resize: vertical; min-height: 80px; }
+
+/* ================================================================
+   Toast و Modal
+   ================================================================ */
 .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; max-width: 460px; width: 92%; pointer-events: none; }
 .toast { padding: 14px 20px; border-radius: 16px; color: #fff; font-size: calc(14px * var(--font-mult)); font-weight: 600; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.5); pointer-events: auto; display: flex; align-items: center; gap: 10px; animation: slideDown 0.4s; border: 1px solid rgba(255,255,255,0.15); }
 .toast-success { background: rgba(16,185,129,0.95); }
@@ -75,6 +101,17 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 .toast-warning { background: rgba(245,158,11,0.95); }
 .toast-info { background: rgba(59,130,246,0.95); }
 @keyframes slideDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 999; display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: linear-gradient(135deg, rgba(30,27,75,0.98), rgba(20,15,50,0.98)); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px 22px; max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.modal-title { font-size: calc(20px * var(--font-mult)); font-weight: 800; margin-bottom: 12px; }
+.modal-body { color: var(--text-muted); font-size: calc(14px * var(--font-mult)); line-height: 1.7; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.modal-actions .btn { flex: 1; }
+  /* ================================================================
+   صفحه ورود و ثبت‌نام
+   ================================================================ */
 .auth-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; position: relative; z-index: 1; }
 .auth-box { width: 100%; max-width: 420px; background: var(--glass); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); padding: 32px 26px; }
 .auth-box .logo { text-align: center; margin-bottom: 32px; }
@@ -89,7 +126,10 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 .auth-footer { text-align: center; margin-top: 18px; color: var(--text-muted); font-size: calc(13px * var(--font-mult)); }
 .auth-footer a { color: var(--primary); cursor: pointer; font-weight: 700; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-/* استایل داشبورد */
+
+/* ================================================================
+   استایل داشبورد
+   ================================================================ */
 .dashboard { min-height: 100vh; padding: 20px; max-width: 480px; margin: 0 auto; position: relative; z-index: 1; }
 .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 24px; }
 .dash-header h2 { font-size: calc(26px * var(--font-mult)); font-weight: 900; background: linear-gradient(90deg, var(--text), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -97,8 +137,12 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 .welcome-card { background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(139,92,246,0.15)); border: 1px solid rgba(249,115,22,0.25); border-radius: 24px; padding: 22px; margin-bottom: 20px; }
 .welcome-card h3 { font-size: calc(18px * var(--font-mult)); font-weight: 800; color: #fff; margin-bottom: 6px; }
 .welcome-card p { font-size: calc(13px * var(--font-mult)); color: var(--text-muted); }
+
 .section-title { font-size: calc(14px * var(--font-mult)); font-weight: 700; color: var(--text-muted); margin-bottom: 12px; }
-/* کارت متخصص */
+
+/* ================================================================
+   کارت متخصص
+   ================================================================ */
 .expert-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 16px; margin-bottom: 16px; display: flex; gap: 14px; transition: all 0.3s; }
 .expert-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
 .expert-avatar { width: 60px; height: 60px; border-radius: 16px; background: rgba(255,255,255,0.1); flex-shrink: 0; overflow: hidden; }
@@ -111,12 +155,51 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 .btn-book { padding: 8px 16px; border-radius: 12px; background: var(--primary); color: #fff; font-family: var(--font); font-size: calc(13px * var(--font-mult)); font-weight: 700; border: none; cursor: pointer; transition: all 0.3s; }
 .btn-book:hover { background: var(--primary-dark); }
 .empty-state { text-align: center; padding: 40px 10px; color: var(--text-muted); }
+
+/* ================================================================
+   منوی پایین (Bottom Navigation)
+   ================================================================ */
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); max-width: 480px; width: 100%; background: rgba(10,6,18,0.9); backdrop-filter: blur(24px); border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-around; padding: 10px 0 16px; z-index: 100; border-radius: 28px 28px 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,0.4); }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; color: rgba(255,255,255,0.35); font-family: var(--font); font-size: 10px; font-weight: 600; cursor: pointer; padding: 6px 12px; transition: all 0.3s; position: relative; border-radius: 12px; }
+.nav-item .nav-icon { font-size: 22px; transition: all 0.3s; }
+.nav-item.active { color: var(--primary); }
+.nav-item.active .nav-icon { transform: scale(1.15) translateY(-2px); filter: drop-shadow(0 4px 8px rgba(249,115,22,0.5)); }
+.nav-item.active::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 30px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 0 0 4px 4px; }
+  /* ================================================================
+   استایل منوهای کشویی و تنظیمات
+   ================================================================ */
+.settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.settings-row:last-child { border-bottom: none; }
+.switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.15); transition: 0.3s; border-radius: 28px; }
+.slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background: white; transition: 0.3s; border-radius: 50%; }
+input:checked + .slider { background: var(--primary); }
+input:checked + .slider:before { transform: translateX(22px); }
+
+/* آکاردئون منوها */
+.accordion { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; margin-bottom: 12px; overflow: hidden; }
+.accordion-header { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: calc(15px * var(--font-mult)); transition: all 0.3s; }
+.accordion-header:hover { background: rgba(255,255,255,0.06); }
+.accordion-body { display: none; padding: 0 16px 16px; }
+.accordion.open .accordion-body { display: block; animation: slideDown 0.3s; }
+.accordion.open .accordion-icon { transform: rotate(180deg); }
+
+/* صفحه پیگیری سفارش (استایل جدید) */
+.order-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 16px; margin-bottom: 12px; }
+.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.order-status { font-size: calc(12px * var(--font-mult)); padding: 4px 12px; border-radius: 30px; font-weight: 700; }
+.status-pending { background: rgba(245,158,11,0.2); color: var(--gold); border: 1px solid var(--gold); }
+.status-confirmed { background: rgba(59,130,246,0.2); color: var(--blue); border: 1px solid var(--blue); }
+.status-done { background: rgba(16,185,129,0.2); color: var(--green); border: 1px solid var(--green); }
+.status-cancelled { background: rgba(239,68,68,0.2); color: var(--red); border: 1px solid var(--red); }
 </style>
 </head>
 <body>
-  <div class="toast-container" id="toastContainer"></div>
 
-<!-- صفحه ورود / ثبت‌نام -->
+<!-- ================================================================
+     صفحه ورود و ثبت‌نام
+     ================================================================ -->
 <div class="auth-page" id="authPage">
 <div class="auth-box glass">
 <div class="logo">
@@ -165,32 +248,134 @@ font-family: var(--font); font-size: calc(15px * var(--font-mult)); outline: non
 </form>
 </div>
 </div>
-
-<!-- داشبورد مشتری -->
+<!-- ================================================================
+     داشبورد اصلی مشتری
+     ================================================================ -->
 <div class="dashboard" id="dashboardPage" style="display:none;">
+
+<!-- هدر داشبورد -->
 <div class="dash-header">
 <div>
 <h2>پنل مشتری</h2>
 <p id="greetingText" style="font-size:12px; color:var(--text-muted);">خوش آمدید</p>
 </div>
-<div class="dash-avatar" id="userAvatar" onclick="handleLogout()">م</div>
+<div class="dash-avatar" id="userAvatar" onclick="openProfileMenu()">م</div>
 </div>
 
+<!-- کارت خوش‌آمد -->
 <div class="welcome-card">
 <h3 id="welcomeName">خوش آمدید</h3>
-<p>دنبال چه متخصصی می‌گردید؟</p>
+<p>دنبال چه خدمتی می‌گردید؟</p>
 </div>
 
-<div class="section-title">🔍 متخصصین ما</div>
+<!-- ===== جستجو و فیلتر ===== -->
+<div class="glass" style="margin-bottom: 20px;">
+<div class="input-group" style="margin-bottom: 10px;">
+<input type="text" id="searchInput" placeholder="🔍 جستجوی متخصص، خدمت یا صنف..." oninput="filterExperts()">
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+<select id="filterCategory" onchange="filterExperts()">
+<option value="">همه دسته‌ها</option>
+<option value="آرایشگری">💇 آرایشگری</option>
+<option value="تعمیرات">🔧 تعمیرات</option>
+<option value="ساختمان">🏠 ساختمان</option>
+<option value="خودرو">🚗 خودرو</option>
+<option value="نظافت">🧹 نظافت</option>
+<option value="آموزش">📚 آموزش</option>
+<option value="پزشکی">👨‍⚕️ پزشکی</option>
+<option value="املاک">🏡 املاک</option>
+<option value="حقوقی">⚖️ حقوقی</option>
+</select>
+<select id="filterSort" onchange="filterExperts()">
+<option value="rating">⭐ بالاترین امتیاز</option>
+<option value="price_low">💰 ارزان‌ترین</option>
+<option value="price_high">💎 گران‌ترین</option>
+</select>
+</div>
+</div>
+
+<!-- ===== منوی اصلی (آکاردئون) ===== -->
+<div class="section-title">📋 منوی اصلی</div>
+
+<!-- بخش ۱: سفارش‌ها -->
+<div class="accordion" id="acc-orders">
+<div class="accordion-header" onclick="toggleAccordion('acc-orders')">
+<span>📦 سفارش‌های من</span>
+<span class="accordion-icon">▼</span>
+</div>
+<div class="accordion-body">
+<div id="ordersList">
+<div class="empty-state">در حال لود...</div>
+</div>
+</div>
+</div>
+
+<!-- بخش ۲: کیف پول -->
+<div class="accordion" id="acc-wallet">
+<div class="accordion-header" onclick="toggleAccordion('acc-wallet')">
+<span>💰 کیف پول</span>
+<span class="accordion-icon">▼</span>
+</div>
+<div class="accordion-body">
+<div class="glass" style="margin-bottom: 12px; padding: 14px;">
+<div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">موجودی فعلی</div>
+<div id="walletBalance" style="font-size: 24px; font-weight: 800; color: var(--gold);">۰ تومان</div>
+</div>
+<div class="input-group" style="display: flex; gap: 8px;">
+<input type="number" id="walletAmountInput" placeholder="مبلغ (تومان)" style="flex: 1;">
+<button class="btn btn-success btn-sm" onclick="chargeWallet()">شارژ</button>
+</div>
+<div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">درگاه پرداخت زرین‌پال/آیدی‌پی (بعداً)</div>
+</div>
+</div>
+
+<!-- بخش ۳: علاقه‌مندی‌ها -->
+<div class="accordion" id="acc-favs">
+<div class="accordion-header" onclick="toggleAccordion('acc-favs')">
+<span>❤️ علاقه‌مندی‌ها</span>
+<span class="accordion-icon">▼</span>
+</div>
+<div class="accordion-body">
+<div id="favoritesList">
+<div class="empty-state">هنوز متخصصی را ذخیره نکردید.</div>
+</div>
+</div>
+</div>
+
+<!-- ===== لیست متخصص‌ها ===== -->
+<div class="section-title" style="margin-top: 24px;">🔍 متخصصین ما</div>
 <div id="expertsList">
-<!-- لیست متخصص‌ها اینجا لود می‌شود -->
+<div class="empty-state">در حال لود متخصصین...</div>
 </div>
 
-<button class="btn btn-outline" onclick="handleLogout()" style="margin-top:20px;">🚪 خروج از حساب</button>
 </div>
+
+<!-- ================================================================
+     منوی پایین (Bottom Navigation)
+     ================================================================ -->
+<div class="bottom-nav" id="bottomNav" style="display:none;">
+<button class="nav-item active" onclick="showTab('home')">
+<span class="nav-icon">🏠</span><span>خانه</span>
+</button>
+<button class="nav-item" onclick="showTab('search')">
+<span class="nav-icon">🔍</span><span>جستجو</span>
+</button>
+<button class="nav-item" onclick="showTab('orders')">
+<span class="nav-icon">📦</span><span>سفارش‌ها</span>
+</button>
+<button class="nav-item" onclick="showTab('wallet')">
+<span class="nav-icon">💰</span><span>کیف پول</span>
+</button>
+<button class="nav-item" onclick="showTab('profile')">
+<span class="nav-icon">👤</span><span>پروفایل</span>
+</button>
+</div>
+
+<!-- کانتینر برای مودال‌ها -->
+<div id="modalContainer"></div>
 <script>
 // ================================================================
-// چاره‌ساز | پنل مشتری | JavaScript
+// چاره‌ساز | پنل مشتری | بخش ۵: منطق اصلی
 // ================================================================
 
 const SUPABASE_URL = 'https://gdnvrlzpbnnulpncbyed.supabase.co';
@@ -200,13 +385,13 @@ const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
+let allExperts = [];
 
 // ================================================================
-// Toast
+// توابع پایه
 // ================================================================
 function showToast(msg, type = 'info', duration = 3000) {
-const c = document.getElementById('toastContainer');
-if (!c) return;
+const c = document.getElementById('toastContainer') || createToastContainer();
 const t = document.createElement('div');
 t.className = 'toast toast-' + type;
 const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
@@ -219,9 +404,14 @@ setTimeout(() => t.remove(), 300);
 }, duration);
 }
 
-// ================================================================
-// مدیریت تب‌ها
-// ================================================================
+function createToastContainer() {
+const c = document.createElement('div');
+c.className = 'toast-container';
+c.id = 'toastContainer';
+document.body.appendChild(c);
+return c;
+}
+
 function switchTab(tab) {
 document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
 const btn = document.querySelector('.auth-tabs button[data-tab="' + tab + '"]');
@@ -232,7 +422,7 @@ if (form) form.classList.add('active');
 }
 
 // ================================================================
-// ورود مشتری
+// ورود
 // ================================================================
 async function handleLogin(e) {
 e.preventDefault();
@@ -250,29 +440,19 @@ const { data, error } = await db.auth.signInWithPassword({ email, password: pass
 
 if (error) {
 showToast('ایمیل یا رمز عبور اشتباه است', 'error');
-btn.textContent = 'ورود به پنل';
-btn.disabled = false;
 return;
 }
 
-const { data: profile, error: profileError } = await db
-.from('profiles')
-.select('*')
-.eq('id', data.user.id)
-.single();
+const { data: profile, error: profileError } = await db.from('profiles').select('*').eq('id', data.user.id).single();
 
 if (profileError || !profile) {
 showToast('خطا در دریافت اطلاعات پروفایل', 'error');
-btn.textContent = 'ورود به پنل';
-btn.disabled = false;
 return;
 }
 
 if (profile.role !== 'customer' && profile.role !== 'both') {
 showToast('شما دسترسی به پنل مشتری ندارید', 'error');
 await db.auth.signOut();
-btn.textContent = 'ورود به پنل';
-btn.disabled = false;
 return;
 }
 
@@ -282,7 +462,7 @@ showDashboard();
 
 } catch (err) {
 console.error(err);
-showToast('خطای سیستمی. لطفاً دوباره تلاش کنید.', 'error');
+showToast('خطای سیستمی', 'error');
 } finally {
 btn.textContent = 'ورود به پنل';
 btn.disabled = false;
@@ -290,7 +470,7 @@ btn.disabled = false;
 }
 
 // ================================================================
-// ثبت‌نام مشتری
+// ثبت‌نام (با ورود فوری)
 // ================================================================
 async function handleRegister(e) {
 e.preventDefault();
@@ -308,36 +488,31 @@ btn.textContent = 'در حال ثبت‌نام...';
 btn.disabled = true;
 
 try {
-const { data, error } = await db.auth.signUp({ email, password: pass });
+const { data: authData, error: authError } = await db.auth.signUp({ email, password: pass });
 
-if (error) {
-showToast(error.message === 'User already registered' ? 'این ایمیل قبلاً ثبت شده است' : error.message, 'error');
-btn.textContent = 'ثبت‌نام';
-btn.disabled = false;
+if (authError) {
+showToast(authError.message === 'User already registered' ? 'این ایمیل قبلاً ثبت شده است' : authError.message, 'error');
 return;
 }
 
-const { error: insertError } = await db.from('profiles').insert([
-{ 
-id: data.user.id, 
-name: name, 
-email: email, 
-role: 'customer',
-gallery: [],
-teaser_video_url: null
-}
-]);
+const { error: insertError } = await db.from('profiles').insert([{ 
+id: authData.user.id, 
+name, email, role: 'customer',
+gallery: [], teaser_video_url: null
+}]);
 
 if (insertError) {
-showToast('خطا در ذخیره اطلاعات: ' + insertError.message, 'error');
-btn.textContent = 'ثبت‌نام';
-btn.disabled = false;
+showToast('خطا در ذخیره اطلاعات', 'error');
 return;
 }
 
-const { data: profile } = await db.from('profiles').select('*').eq('id', data.user.id).single();
-currentUser = profile;
+// لاگین خودکار
+if (!authData.session) {
+await db.auth.signInWithPassword({ email, password: pass });
+}
 
+const { data: profile } = await db.from('profiles').select('*').eq('id', authData.user.id).single();
+currentUser = profile;
 showToast('ثبت‌نام موفق! خوش آمدید ' + name, 'success');
 showDashboard();
 
@@ -351,11 +526,22 @@ btn.disabled = false;
 }
 
 // ================================================================
-// نمایش داشبورد و لیست متخصص‌ها
+// خروج
+// ================================================================
+async function handleLogout() {
+try { await db.auth.signOut(); } catch (e) {}
+currentUser = null;
+showToast('خارج شدید', 'info');
+location.reload();
+}
+
+// ================================================================
+// نمایش داشبورد
 // ================================================================
 function showDashboard() {
 document.getElementById('authPage').style.display = 'none';
 document.getElementById('dashboardPage').style.display = 'block';
+document.getElementById('bottomNav').style.display = 'flex';
 
 const hour = new Date().getHours();
 let greeting = 'سلام';
@@ -367,28 +553,18 @@ else greeting = 'شب بخیر 🌙';
 document.getElementById('greetingText').textContent = greeting;
 document.getElementById('welcomeName').textContent = 'خوش آمدید ' + currentUser.name;
 document.getElementById('userAvatar').textContent = currentUser.name.charAt(0);
+document.getElementById('walletBalance').textContent = (currentUser.wallet || 0).toLocaleString() + ' تومان';
 
-// لود کردن متخصص‌ها
 loadExperts();
-}
-
-// ================================================================
-// خروج
-// ================================================================
-async function handleLogout() {
-try { await db.auth.signOut(); } catch (e) {}
-currentUser = null;
-showToast('خارج شدید', 'info');
-location.reload();
 }
 </script>
 <script>
 // ================================================================
-// بخش ۴: لود کردن لیست متخصص‌ها و راه‌اندازی
+// چاره‌ساز | پنل مشتری | بخش ۶: لود و فیلتر متخصص‌ها
 // ================================================================
 
 // ================================================================
-// گرفتن لیست متخصص‌ها از دیتابیس
+// لود کردن متخصص‌ها از دیتابیس
 // ================================================================
 async function loadExperts() {
 const container = document.getElementById('expertsList');
@@ -397,7 +573,6 @@ if (!container) return;
 container.innerHTML = '<div class="empty-state">در حال لود کردن متخصصین...</div>';
 
 try {
-// گرفتن تمام کاربرانی که نقششان متخصص یا هر دو است
 const { data: experts, error } = await db
 .from('profiles')
 .select('*')
@@ -409,38 +584,8 @@ container.innerHTML = '<div class="empty-state">خطا در لود کردن مت
 return;
 }
 
-if (!experts || experts.length === 0) {
-container.innerHTML = '<div class="empty-state">هنوز متخصصی ثبت‌نام نکرده است</div>';
-return;
-}
-
-// ساختن کارت برای هر متخصص
-container.innerHTML = experts.map(expert => {
-// گرفتن اولین عکس از گالری (اگر وجود داشت)
-const avatarUrl = (expert.gallery && expert.gallery.length > 0) 
-? expert.gallery[0] 
-: null;
-
-const avatarHtml = avatarUrl 
-? `<img src="${avatarUrl}" alt="${expert.name}">` 
-: `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--text-muted);">🔧</div>`;
-
-return `
-<div class="expert-card">
-<div class="expert-avatar">
-${avatarHtml}
-</div>
-<div class="expert-info">
-<div class="expert-name">${expert.name}</div>
-<div class="expert-specialty">متخصص چاره‌ساز</div>
-<div class="expert-rating">⭐ امتیاز جدید</div>
-</div>
-<div class="expert-actions">
-<button class="btn-book" onclick="bookExpert('${expert.id}', '${expert.name}')">رزرو</button>
-</div>
-</div>
-`;
-}).join('');
+allExperts = experts || [];
+renderExperts(allExperts);
 
 } catch (err) {
 console.error(err);
@@ -449,22 +594,255 @@ container.innerHTML = '<div class="empty-state">خطای سیستمی</div>';
 }
 
 // ================================================================
-// رزرو متخصص (نمایشی برای تست)
+// رندر کردن کارت‌های متخصص
+// ================================================================
+function renderExperts(experts) {
+const container = document.getElementById('expertsList');
+if (!container) return;
+
+if (!experts || experts.length === 0) {
+container.innerHTML = '<div class="empty-state">هیچ متخصصی یافت نشد</div>';
+return;
+}
+
+container.innerHTML = experts.map(expert => {
+const avatarUrl = (expert.gallery && expert.gallery.length > 0) ? expert.gallery[0] : null;
+const avatarHtml = avatarUrl 
+? `<img src="${avatarUrl}" alt="${expert.name}">` 
+: `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--text-muted);">🔧</div>`;
+
+return `
+<div class="expert-card" onclick="openExpertProfile('${expert.id}')">
+<div class="expert-avatar">${avatarHtml}</div>
+<div class="expert-info">
+<div class="expert-name">${expert.name}</div>
+<div class="expert-specialty">${expert.specialty || 'متخصص چاره‌ساز'}</div>
+<div class="expert-rating">⭐ ${expert.rating || 'جدید'}</div>
+</div>
+<div class="expert-actions">
+<button class="btn-book" onclick="event.stopPropagation(); bookExpert('${expert.id}', '${expert.name}')">رزرو</button>
+</div>
+</div>
+`;
+}).join('');
+}
+
+// ================================================================
+// فیلتر کردن متخصص‌ها
+// ================================================================
+function filterExperts() {
+const query = document.getElementById('searchInput').value.toLowerCase().trim();
+const category = document.getElementById('filterCategory').value;
+const sort = document.getElementById('filterSort').value;
+
+let filtered = allExperts.filter(expert => {
+const matchQuery = !query || 
+expert.name.toLowerCase().includes(query) || 
+(expert.specialty && expert.specialty.toLowerCase().includes(query));
+const matchCategory = !category || expert.category === category;
+return matchQuery && matchCategory;
+});
+
+// مرتب‌سازی
+if (sort === 'rating') {
+filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+} else if (sort === 'price_low') {
+filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+} else if (sort === 'price_high') {
+filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
+}
+
+renderExperts(filtered);
+}
+
+// ================================================================
+// باز کردن پروفایل متخصص (مودال)
+// ================================================================
+function openExpertProfile(expertId) {
+const expert = allExperts.find(e => e.id === expertId);
+if (!expert) return;
+
+const gallery = (expert.gallery || []).map(url => `<img src="${url}" style="width:100%; border-radius:12px; margin-bottom:8px;">`).join('');
+
+const html = `
+<div style="text-align:center; margin-bottom:16px;">
+<div style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent)); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:32px; font-weight:800; overflow:hidden;">
+${(expert.gallery && expert.gallery[0]) ? `<img src="${expert.gallery[0]}" style="width:100%; height:100%; object-fit:cover;">` : expert.name.charAt(0)}
+</div>
+<h3 style="font-size:20px; font-weight:800;">${expert.name}</h3>
+<p style="color:var(--text-muted); font-size:13px; margin-top:4px;">${expert.specialty || 'متخصص'}</p>
+<div style="margin-top:8px; color:var(--gold); font-weight:700;">⭐ ${expert.rating || 'جدید'}</div>
+</div>
+${expert.bio ? `<div class="glass" style="padding:12px; margin-bottom:12px; font-size:13px; line-height:1.7;">${expert.bio}</div>` : ''}
+${gallery ? `<div style="margin-bottom:12px;">${gallery}</div>` : ''}
+${expert.teaser_video_url ? `<video controls style="width:100%; border-radius:12px; margin-bottom:12px;"><source src="${expert.teaser_video_url}"></video>` : ''}
+<button class="btn btn-primary" onclick="closeModal(); bookExpert('${expert.id}', '${expert.name}')">📅 رزرو این متخصص</button>
+`;
+
+openModal('پروفایل متخصص', html);
+}
+
+// ================================================================
+// رزرو متخصص (نمایشی)
 // ================================================================
 function bookExpert(expertId, expertName) {
 if (!currentUser) {
 showToast('لطفاً ابتدا وارد شوید', 'error');
 return;
 }
-
 showToast(`درخواست رزرو برای ${expertName} ثبت شد!`, 'success');
-// در آینده اینجا کد ثبت سفارش در دیتابیس قرار می‌گیرد
+// TODO: در آینده اینجا کد ثبت سفارش در دیتابیس قرار می‌گیرد
+}
+</script>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۷: کیف پول، منوها و مودال‌ها
+// ================================================================
+
+// ================================================================
+// مدیریت مودال‌ها (باز کردن و بستن)
+// ================================================================
+function openModal(title, bodyHtml) {
+const container = document.getElementById('modalContainer');
+container.innerHTML = `
+<div class="modal-overlay open" id="activeModal" onclick="if(event.target===this)closeModal()">
+<div class="modal-box">
+<div class="modal-title">${title}</div>
+<div class="modal-body">${bodyHtml}</div>
+<div class="modal-actions">
+<button class="btn btn-outline btn-sm" onclick="closeModal()">بستن</button>
+</div>
+</div>
+</div>
+`;
+}
+
+function closeModal() {
+const modal = document.getElementById('activeModal');
+if (modal) modal.remove();
 }
 
 // ================================================================
-// راه‌اندازی اولیه
+// آکاردئون منوها
 // ================================================================
-async function init() {
+function toggleAccordion(id) {
+const acc = document.getElementById(id);
+if (acc) acc.classList.toggle('open');
+}
+
+// ================================================================
+// کیف پول
+// ================================================================
+async function chargeWallet() {
+const amountInput = document.getElementById('walletAmountInput');
+const amount = parseInt(amountInput.value);
+
+if (!amount || amount < 10000) {
+showToast('حداقل مبلغ شارژ ۱۰,۰۰۰ تومان است', 'error');
+return;
+}
+
+showToast('در حال اتصال به درگاه پرداخت...', 'info');
+
+// شبیه‌سازی موفقیت پرداخت برای تست
+setTimeout(async () => {
+const newBalance = (currentUser.wallet || 0) + amount;
+const { error } = await db.from('profiles').update({ wallet: newBalance }).eq('id', currentUser.id);
+if (!error) {
+currentUser.wallet = newBalance;
+document.getElementById('walletBalance').textContent = newBalance.toLocaleString() + ' تومان';
+amountInput.value = '';
+showToast(`${amount.toLocaleString()} تومان شارژ شد`, 'success');
+} else {
+showToast('خطا در ذخیره موجودی', 'error');
+}
+}, 1000);
+}
+
+// ================================================================
+// منوی پروفایل (کلیک روی آواتار)
+// ================================================================
+function openProfileMenu() {
+const html = `
+<div style="text-align:center; margin-bottom:16px;">
+<div style="width:70px; height:70px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent)); display:flex; align-items:center; justify-content:center; margin:0 auto 10px; font-size:28px; font-weight:800;">${currentUser.name.charAt(0)}</div>
+<div style="font-size:18px; font-weight:800;">${currentUser.name}</div>
+<div style="font-size:13px; color:var(--text-muted);">${currentUser.email}</div>
+</div>
+<div class="settings-row">
+<div>
+<div style="font-size:14px; font-weight:600;">🌙 حالت شب</div>
+</div>
+<label class="switch">
+<input type="checkbox" id="themeToggle" onchange="toggleTheme()" ${document.documentElement.getAttribute('data-theme') !== 'light' ? 'checked' : ''}>
+<span class="slider"></span>
+</label>
+</div>
+<div class="settings-row">
+<div>
+<div style="font-size:14px; font-weight:600;">🔤 اندازه فونت</div>
+</div>
+<button class="btn btn-outline btn-xs" onclick="showFontSettings()">تغییر</button>
+</div>
+<div class="settings-row">
+<div>
+<div style="font-size:14px; font-weight:600;">🚪 خروج از حساب</div>
+</div>
+<button class="btn btn-danger btn-xs" onclick="handleLogout()">خروج</button>
+</div>
+`;
+openModal('👤 پروفایل من', html);
+}
+
+// ================================================================
+// تنظیمات فونت و حالت شب
+// ================================================================
+function toggleTheme() {
+const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
+showToast(isLight ? 'حالت شب فعال شد 🌙' : 'حالت روز فعال شد ☀️', 'info');
+}
+
+function showFontSettings() {
+const current = document.documentElement.getAttribute('data-font') || 'medium';
+const html = `
+<div style="display:flex; flex-direction:column; gap:10px;">
+<button class="btn ${current === 'small' ? 'btn-primary' : 'btn-outline'}" onclick="setFont('small')">کوچک</button>
+<button class="btn ${current === 'medium' ? 'btn-primary' : 'btn-outline'}" onclick="setFont('medium')">متوسط</button>
+<button class="btn ${current === 'large' ? 'btn-primary' : 'btn-outline'}" onclick="setFont('large')">بزرگ</button>
+<button class="btn ${current === 'xlarge' ? 'btn-primary' : 'btn-outline'}" onclick="setFont('xlarge')">خیلی بزرگ</button>
+</div>
+`;
+openModal('🔤 اندازه فونت', html);
+}
+
+function setFont(size) {
+document.documentElement.setAttribute('data-font', size);
+showToast('اندازه فونت تغییر کرد', 'success');
+closeModal();
+}
+
+// ================================================================
+// تب‌های پایین صفحه (Bottom Nav)
+// ================================================================
+function showTab(tabName) {
+document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+// (برای سادگی، فعلاً فقط به داشبورد برمی‌گردیم)
+showToast('این بخش به زودی کامل می‌شود', 'info');
+if (tabName === 'home') {
+document.getElementById('dashboardPage').style.display = 'block';
+}
+}
+</script>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۸: راه‌اندازی و دستیار چار
+// ================================================================
+
+// ================================================================
+// راه‌اندازی اولیه (بررسی نشست کاربر)
+// ================================================================
+async function initApp() {
 const { data: { session } } = await db.auth.getSession();
 
 if (session) {
@@ -473,16 +851,241 @@ if (profile && (profile.role === 'customer' || profile.role === 'both')) {
 currentUser = profile;
 showDashboard();
 } else {
+// کاربر لاگین است ولی نقش مشتری ندارد
 document.getElementById('authPage').style.display = 'flex';
 document.getElementById('dashboardPage').style.display = 'none';
+document.getElementById('bottomNav').style.display = 'none';
 }
 } else {
+// کاربر لاگین نیست
 document.getElementById('authPage').style.display = 'flex';
 document.getElementById('dashboardPage').style.display = 'none';
+document.getElementById('bottomNav').style.display = 'none';
 }
 }
 
-init();
+// ================================================================
+// دستیار چار (چت‌بات)
+// ================================================================
+function openChat() {
+const html = `
+<div style="height: 300px; overflow-y: auto; margin-bottom: 12px; padding-right: 8px;" id="chatMessages">
+<div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; margin-bottom: 8px; font-size: 13px;">
+سلام! من دستیار چار هستم. چطور می‌تونم کمکت کنم؟
+</div>
+</div>
+<div style="display:flex; gap:8px;">
+<input type="text" id="chatInput" placeholder="پیام بنویسید..." style="flex:1; padding:10px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#fff; font-family:inherit; outline:none;" onkeypress="if(event.key==='Enter')sendMessage()">
+<button class="btn btn-primary btn-sm" onclick="sendMessage()" style="width:auto;">ارسال</button>
+</div>
+`;
+openModal('💬 دستیار چار', html);
+}
+
+function sendMessage() {
+const input = document.getElementById('chatInput');
+const msg = input.value.trim();
+if (!msg) return;
+const chat = document.getElementById('chatMessages');
+
+// پیام کاربر
+chat.innerHTML += `<div style="background: var(--primary); color: #fff; padding: 10px; border-radius: 12px; margin-bottom: 8px; font-size: 13px; align-self: flex-end; margin-left: 20%;">${msg}</div>`;
+input.value = '';
+chat.scrollTop = chat.scrollHeight;
+
+// پاسخ ربات (شبیه‌سازی)
+setTimeout(() => {
+let reply = "متوجه نشدم، می‌تونی واضح‌تر بگی؟";
+if (msg.includes('آرایش') || msg.includes('مو')) reply = "برای آرایشگری بهترین‌ها رو می‌تونی توی لیست ببینی. ⭐";
+if (msg.includes('تعمیر')) reply = "برای تعمیرات، رضا محمدی با امتیاز ۴.۸ عالیه. 🔧";
+if (msg.includes('سلام')) reply = "سلام! چطور می‌تونم کمکت کنم؟ 😊";
+if (msg.includes('قیمت')) reply = "قیمت‌ها بسته به متخصص متفاوته، ولی از ۲۰۰,۰۰۰ تومان شروع می‌شه. 💰";
+
+chat.innerHTML += `<div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; margin-bottom: 8px; font-size: 13px; margin-right: 20%;">${reply}</div>`;
+chat.scrollTop = chat.scrollHeight;
+}, 800);
+}
+
+// ================================================================
+// اجرای برنامه بعد از لود کامل صفحه
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+initApp();
+});
+</script>
+</body>
+</html>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۹: سفارش‌ها و پشتیبانی
+// ================================================================
+
+// ================================================================
+// لود کردن سفارش‌های مشتری
+// ================================================================
+async function loadOrders() {
+const container = document.getElementById('ordersList');
+if (!container || !currentUser) return;
+
+container.innerHTML = '<div class="empty-state">در حال لود...</div>';
+
+const { data: orders, error } = await db
+.from('orders')
+.select('*')
+.eq('customer_id', currentUser.id)
+.order('created_at', { ascending: false });
+
+if (error) {
+console.error(error);
+container.innerHTML = '<div class="empty-state">خطا در لود سفارش‌ها</div>';
+return;
+}
+
+if (!orders || orders.length === 0) {
+container.innerHTML = '<div class="empty-state">هنوز سفارشی ثبت نکرده‌اید</div>';
+return;
+}
+
+const statusMap = { pending: 'در انتظار', confirmed: 'تأیید شده', done: 'انجام شده', cancelled: 'لغو شده' };
+const statusClass = { pending: 'status-pending', confirmed: 'status-confirmed', done: 'status-done', cancelled: 'status-cancelled' };
+
+container.innerHTML = orders.map(o => `
+<div class="order-card">
+<div class="order-header">
+<span style="font-weight:700;">${o.expert_name || 'سفارش'}</span>
+<span class="order-status ${statusClass[o.status] || 'status-pending'}">${statusMap[o.status] || o.status}</span>
+</div>
+<div style="font-size:13px; color:var(--text-muted);">💰 ${(o.amount || 0).toLocaleString()} تومان</div>
+<div style="font-size:12px; color:var(--text-muted); margin-top:4px;">📅 ${new Date(o.created_at).toLocaleDateString('fa-IR')}</div>
+</div>
+`).join('');
+}
+
+// ================================================================
+// سیستم ثبت شکایت
+// ================================================================
+function showComplaintForm() {
+const html = `
+<div class="input-group">
+<label>موضوع شکایت</label>
+<select id="complaintType">
+<option value="quality">کیفیت پایین خدمات</option>
+<option value="delay">تأخیر در انجام کار</option>
+<option value="price">اختلاف قیمت</option>
+<option value="behavior">رفتار نامناسب</option>
+<option value="other">سایر</option>
+</select>
+</div>
+<div class="input-group">
+<label>توضیحات</label>
+<textarea id="complaintDesc" rows="3" placeholder="مشکل را شرح دهید..."></textarea>
+</div>
+<button class="btn btn-danger" onclick="submitComplaint()">ثبت شکایت</button>
+`;
+openModal('📝 ثبت شکایت', html);
+}
+
+async function submitComplaint() {
+const type = document.getElementById('complaintType').value;
+const desc = document.getElementById('complaintDesc').value.trim();
+if (!desc) { showToast('توضیحات الزامی است', 'error'); return; }
+
+const { error } = await db.from('complaints').insert([{
+user_id: currentUser.id,
+type: type,
+description: desc,
+status: 'pending'
+}]);
+
+if (error) {
+showToast('خطا در ثبت شکایت', 'error');
+} else {
+showToast('شکایت شما ثبت شد. تیم پشتیبانی بررسی می‌کند.', 'success');
+closeModal();
+}
+}
+
+// ================================================================
+// سیستم پشتیبانی (چت)
+// ================================================================
+function openSupport() {
+const html = `
+<div class="input-group">
+<label>موضوع</label>
+<input type="text" id="supportSubject" placeholder="مثلاً مشکل در پرداخت">
+</div>
+<div class="input-group">
+<label>پیام شما</label>
+<textarea id="supportMessage" rows="3" placeholder="توضیحات..."></textarea>
+</div>
+<button class="btn btn-primary" onclick="sendSupport()">ارسال به پشتیبانی</button>
+`;
+openModal('💬 پشتیبانی', html);
+}
+
+async function sendSupport() {
+const subject = document.getElementById('supportSubject').value.trim();
+const message = document.getElementById('supportMessage').value.trim();
+if (!subject || !message) { showToast('همه فیلدها الزامی است', 'error'); return; }
+
+const { error } = await db.from('support_tickets').insert([{
+user_id: currentUser.id,
+subject, message, status: 'open'
+}]);
+
+if (error) {
+showToast('خطا در ارسال پیام', 'error');
+} else {
+showToast('پیام شما به پشتیبانی ارسال شد', 'success');
+closeModal();
+}
+}
+</script>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۱۰: نهایی‌سازی
+// ================================================================
+
+// اضافه کردن دکمه‌های پشتیبانی و شکایت به داشبورد (به صورت داینامیک)
+function addActionButtons() {
+const welcomeCard = document.querySelector('.welcome-card');
+if (welcomeCard && !document.getElementById('actionButtons')) {
+const actionsDiv = document.createElement('div');
+actionsDiv.id = 'actionButtons';
+actionsDiv.style.display = 'grid';
+actionsDiv.style.gridTemplateColumns = 'repeat(2, 1fr)';
+actionsDiv.style.gap = '10px';
+actionsDiv.style.marginTop = '16px';
+actionsDiv.innerHTML = `
+<button class="btn btn-outline btn-sm" onclick="showComplaintForm()">📝 ثبت شکایت</button>
+<button class="btn btn-outline btn-sm" onclick="openSupport()">💬 پشتیبانی</button>
+`;
+welcomeCard.appendChild(actionsDiv);
+}
+}
+
+// دکمه شناور چت‌بات (دستیار چار)
+function addFloatingChat() {
+if (!document.getElementById('floatingChat')) {
+const btn = document.createElement('button');
+btn.id = 'floatingChat';
+btn.innerHTML = '🤖';
+btn.style.cssText = 'position:fixed; bottom:90px; left:20px; width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent)); color:#fff; border:none; font-size:24px; cursor:pointer; box-shadow:0 8px 24px rgba(249,115,22,0.5); z-index:99; transition:all 0.3s;';
+btn.onclick = openChat;
+document.body.appendChild(btn);
+}
+}
+
+// اجرا بعد از لود داشبورد
+const originalShowDashboard = showDashboard;
+showDashboard = function() {
+originalShowDashboard();
+loadOrders();
+addActionButtons();
+addFloatingChat();
+};
+
+console.log('🛒 پنل مشتری چاره‌ساز با موفقیت بارگذاری شد.');
 </script>
 </body>
 </html>
