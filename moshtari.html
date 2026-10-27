@@ -1089,3 +1089,107 @@ console.log('🛒 پنل مشتری چاره‌ساز با موفقیت بارگ
 </script>
 </body>
 </html>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۱۱: دکمه‌های اقدام سریع
+// ================================================================
+
+function openQuickAction() {
+const html = `
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+<button class="btn btn-primary" onclick="closeModal(); startOrder('urgent')">⚡ سفارش فوری</button>
+<button class="btn btn-success" onclick="closeModal(); startOrder('inquiry')">📋 استعلام قیمت</button>
+<button class="btn btn-gold" onclick="closeModal(); startOrder('budget')">💰 با بودجه من</button>
+<button class="btn btn-outline" onclick="closeModal(); startOrder('shop')">🛒 خرید + نصب</button>
+</div>
+`;
+openModal('⚡ چه نوع سفارشی می‌خواهید؟', html);
+}
+
+function startOrder(type) {
+let title = '';
+let desc = '';
+if (type === 'urgent') { title = '⚡ سفارش فوری'; desc = 'به نزدیک‌ترین متخصص آنلاین وصل می‌شوید.'; }
+if (type === 'inquiry') { title = '📋 استعلام قیمت'; desc = 'درخواست شما برای چند متخصص ارسال می‌شود.'; }
+if (type === 'budget') { title = '💰 با بودجه من'; desc = 'بودجه خود را اعلام کنید تا متخصصین پیشنهاد بدهند.'; }
+if (type === 'shop') { title = '🛒 خرید + نصب'; desc = 'کالا و خدمات نصب را همزمان رزرو کنید.'; }
+showToast(title + ' ثبت شد (نمایشی)', 'success');
+// TODO: در آینده اینجا کد ثبت سفارش در دیتابیس قرار می‌گیرد
+}
+</script>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۱۲: دستیار چار
+// ================================================================
+
+function openChat() {
+const html = `
+<div style="height: 350px; overflow-y: auto; margin-bottom: 12px; padding-right: 8px;" id="chatMessages">
+<div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; margin-bottom: 8px; font-size: 13px;">
+سلام! من دستیار چار هستم. چطور می‌تونم کمکت کنم؟
+</div>
+</div>
+<div style="display:flex; gap:8px;">
+<input type="text" id="chatInput" placeholder="پیام بنویسید..." style="flex:1; padding:10px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#fff; font-family:inherit; outline:none;" onkeypress="if(event.key==='Enter')sendMessage()">
+<button class="btn btn-primary btn-sm" onclick="sendMessage()" style="width:auto;">ارسال</button>
+</div>
+`;
+openModal('🤖 دستیار چار', html);
+}
+
+function sendMessage() {
+const input = document.getElementById('chatInput');
+const msg = input.value.trim();
+if (!msg) return;
+const chat = document.getElementById('chatMessages');
+
+// پیام کاربر
+chat.innerHTML += `<div style="background: var(--primary); color: #fff; padding: 10px; border-radius: 12px; margin-bottom: 8px; font-size: 13px; align-self: flex-end; margin-left: 20%;">${msg}</div>`;
+input.value = '';
+chat.scrollTop = chat.scrollHeight;
+
+// پاسخ ربات
+setTimeout(() => {
+let reply = "متوجه نشدم، می‌تونی واضح‌تر بگی؟";
+const lower = msg.toLowerCase();
+if (lower.includes('سلام') || lower.includes('درود')) reply = "سلام! چطور می‌تونم کمکت کنم؟ 😊";
+else if (lower.includes('آرایش') || lower.includes('مو')) reply = "برای آرایشگری، سارا حسینی با امتیاز ۴.۹ عالیه! می‌خوای پروفایلش رو ببینی؟ 💇";
+else if (lower.includes('تعمیر')) reply = "برای تعمیرات، رضا محمدی با امتیاز ۴.۸ و ۸ سال سابقه. 🔧";
+else if (lower.includes('قیمت')) reply = "قیمت‌ها از ۲۰۰,۰۰۰ تومان شروع می‌شه. 💰";
+else if (lower.includes('رزرو')) reply = "برای رزرو، روی دکمه 📅 رزرو روی کارت متخصص بزن.";
+else if (lower.includes('سفارش')) reply = "سفارش‌های شما در بخش 📦 سفارش‌ها قابل مشاهده است.";
+else if (lower.includes('پول') || lower.includes('کیف')) reply = "موجودی کیف پول شما در بخش 💰 کیف پول قابل مشاهده است.";
+else if (lower.includes('شکایت') || lower.includes('مشکل')) reply = "برای ثبت شکایت، از دکمه 📝 ثبت شکایت استفاده کن.";
+else if (lower.includes('پشتیبانی') || lower.includes('کمک')) reply = "تیم پشتیبانی چاره‌ساز ۲۴ ساعته آماده کمک است. 💬";
+else if (lower.includes('ممنون') || lower.includes('مرسی')) reply = "خواهش می‌کنم! 🌟";
+
+chat.innerHTML += `<div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; margin-bottom: 8px; font-size: 13px; margin-right: 20%;">${reply}</div>`;
+chat.scrollTop = chat.scrollHeight;
+}, 800);
+}
+</script>
+<script>
+// ================================================================
+// چاره‌ساز | پنل مشتری | بخش ۱۳: دکمه‌های شناور
+// ================================================================
+
+// بعد از لود کامل صفحه
+document.addEventListener('DOMContentLoaded', () => {
+// دکمه اقدام سریع (شناور راست)
+const actionBtn = document.createElement('button');
+actionBtn.innerHTML = '⚡';
+actionBtn.style.cssText = 'position:fixed; bottom:90px; right:20px; width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent)); color:#fff; border:none; font-size:24px; cursor:pointer; box-shadow:0 8px 24px rgba(249,115,22,0.5); z-index:99; transition:all 0.3s;';
+actionBtn.onclick = openQuickAction;
+document.body.appendChild(actionBtn);
+
+// دکمه چت (شناور چپ)
+const chatBtn = document.createElement('button');
+chatBtn.innerHTML = '🤖';
+chatBtn.style.cssText = 'position:fixed; bottom:90px; left:20px; width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, var(--accent), var(--primary)); color:#fff; border:none; font-size:24px; cursor:pointer; box-shadow:0 8px 24px rgba(139,92,246,0.5); z-index:99; transition:all 0.3s;';
+chatBtn.onclick = openChat;
+document.body.appendChild(chatBtn);
+});
+</script>
+<script>
+console.log('🛒 پنل مشتری چاره‌ساز با موفقیت بارگذاری شد.');
+</script>
