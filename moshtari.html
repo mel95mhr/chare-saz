@@ -1192,4 +1192,97 @@ document.body.appendChild(chatBtn);
 </script>
 <script>
 console.log('🛒 پنل مشتری چاره‌ساز با موفقیت بارگذاری شد.');
+  // ================= توابع رزرو واقعی =================
+
+// ۱. تابع باز کردن فرم رزرو
+function openBookingForm(expertId, expertName, amount = 0) {
+    document.getElementById('bookingModal').style.display = 'block';
+    document.getElementById('bookExpertName').innerText = expertName;
+    document.getElementById('bookExpertId').value = expertId;
+    document.getElementById('bookAmount').value = amount;
+}
+
+// ۲. تابع بستن فرم
+function closeBookingForm() {
+    document.getElementById('bookingModal').style.display = 'none';
+    document.getElementById('bookDate').value = '';
+    document.getElementById('bookTime').value = '';
+    document.getElementById('bookDescription').value = '';
+}
+
+// ۳. تابع ثبت نهایی سفارش در Supabase
+async function submitRealBooking() {
+    const expertId = document.getElementById('bookExpertId').value;
+    const expertName = document.getElementById('bookExpertName').innerText;
+    const amount = document.getElementById('bookAmount').value;
+    const date = document.getElementById('bookDate').value;
+    const time = document.getElementById('bookTime').value;
+    const description = document.getElementById('bookDescription').value;
+
+    if (!date || !time) {
+        alert("لطفاً تاریخ و ساعت را انتخاب کنید.");
+        return;
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+        alert("لطفاً ابتدا وارد حساب کاربری خود شوید.");
+        return;
+    }
+
+    const { data, error } = await supabase
+        .from('orders')
+        .insert([
+            {
+                customer_id: user.id,
+                expert_id: expertId,
+                expert_name: expertName,
+                amount: parseInt(amount) || 0,
+                status: 'pending',
+                order_type: 'booking',
+                booking_date: date,
+                booking_time: time,
+                description: description
+            }
+        ]);
+
+    if (error) {
+        console.error("خطا در ثبت رزرو:", error);
+        alert("مشکلی در ثبت رزرو پیش آمد: " + error.message);
+    } else {
+        alert("✅ رزرو شما با موفقیت ثبت شد!");
+        closeBookingForm();
+    }
+}
+// ================= پایان توابع رزرو =================
 </script>
+<!-- ================= فرم رزرو واقعی ================= -->
+<div id="bookingModal" class="glass" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; width: 90%; max-width: 400px; padding: 20px; background: rgba(30, 30, 30, 0.95); border-radius: 15px; border: 1px solid #444;">
+    <h3 style="margin-bottom: 15px; color: #F97316; text-align: center;">ثبت رزرو برای <span id="bookExpertName">متخصص</span></h3>
+    
+    <!-- فیلدهای مخفی -->
+    <input type="hidden" id="bookExpertId">
+    <input type="hidden" id="bookAmount" value="0">
+
+    <div style="margin-bottom: 10px;">
+        <label style="display: block; margin-bottom: 5px; color: white;">تاریخ رزرو:</label>
+        <input type="date" id="bookDate" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #555; background: #333; color: white;">
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label style="display: block; margin-bottom: 5px; color: white;">ساعت رزرو:</label>
+        <input type="time" id="bookTime" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #555; background: #333; color: white;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; color: white;">توضیحات (اختیاری):</label>
+        <textarea id="bookDescription" rows="3" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #555; background: #333; color: white;"></textarea>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <button onclick="submitRealBooking()" style="flex: 1; background: #2B7A4B; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">تایید و ثبت</button>
+        <button onclick="closeBookingForm()" style="flex: 1; background: #DC3545; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">انصراف</button>
+    </div>
+</div>
+<!-- ================= پایان فرم رزرو ================= -->
